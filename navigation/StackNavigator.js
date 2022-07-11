@@ -4,6 +4,7 @@ import HomeScreen from "../components/Home";
 import NotificationsScreen from "../components/Notifications";
 import AccountScreen from "../components/Account";
 import VisionBuilderScreen from "../components/VisionBuilder";
+import IntroSlidesScreen from "../components/IntroSlides";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="IntroSlides" component={IntroSlidesScreen} options={{ headerShown: true }} />
     </Stack.Navigator>
   );
 }

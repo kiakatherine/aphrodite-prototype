@@ -7,7 +7,7 @@ const VisionBuilder = ({ navigation }) => {
         <Text>Welcome!</Text>
         <Button
           title="Press"
-          onPress={() => alert('yay!')} // We added an onPress event which would navigate to the About screen
+          onPress={() => navigation.navigate("IntroSlides")}
         />
       </View>
     );
