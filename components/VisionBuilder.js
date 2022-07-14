@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
 import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import Styles from "../style.js";
 
 const selectedCards = [];
 
@@ -54,7 +55,7 @@ const VisionBuilder = ({ navigation }) => {
           />
         </ScrollView>
         <Button
-          style={styles.Button}
+          style={Styles.button}
           title="Save"
           onPress={() => navigation.navigate("MyVision", { selectedCards })} />
       </SafeAreaView>
@@ -93,12 +94,6 @@ const VisionBuilder = ({ navigation }) => {
     },
     PressableText: {
       fontSize: 20
-    },
-    Button: {
-      backgroundColor: '#000',
-      color: 'white',
-      width: '100%',
-      padding: 20
     }
   });
   

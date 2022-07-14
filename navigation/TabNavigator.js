@@ -2,6 +2,8 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MainStackNavigator } from "./StackNavigator";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import NotificationsScreen from "../components/Notifications";
+import AccountScreen from "../components/Account";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,8 +31,8 @@ const BottomTabNavigator = () => {
             tabBarInactiveTintColor: '#aaa',
         })}>
       <Tab.Screen name="Home" component={MainStackNavigator} options={{ headerShown: false }} />
-      <Tab.Screen name="Notifications" component={MainStackNavigator} options={{ headerShown: false }} />
-      <Tab.Screen name="Account" component={MainStackNavigator} options={{ headerShown: false }} />
+      <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
