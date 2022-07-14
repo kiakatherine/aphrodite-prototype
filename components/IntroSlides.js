@@ -12,7 +12,7 @@ const IntroSlides = ({ navigation }) => {
         setButtonText('Not to include');
         setButtonLabel("Let's begin");
       } else if(slideText == 'Not to include') {
-        return navigation.navigate('Home');
+        return navigation.navigate('VisionBuilder');
       }
     }
 

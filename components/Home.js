@@ -8,7 +8,7 @@ const Home = ({ navigation }) => {
         <Text>Welcome!</Text>
         <Button
           title="Let's begin"
-          onPress={() => navigation.navigate("VisionBuilder")}
+          onPress={() => navigation.navigate("IntroSlides")}
         />
       </View>
     );
