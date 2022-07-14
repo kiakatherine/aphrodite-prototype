@@ -5,7 +5,7 @@ import Styles from "../style.js";
 
 const Home = ({ navigation }) => {
     return (
-      <View style={styles.center}>
+      <View style={Styles.centerContainer}>
         <Text style={Styles.heading1}>Welcome!</Text>
         <TouchableOpacity
           style={Styles.button}
@@ -14,14 +14,5 @@ const Home = ({ navigation }) => {
       </View>
     );
   };
-  
-  const styles = StyleSheet.create({
-    center: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center",
-    },
-  });
   
   export default Home;

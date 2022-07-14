@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import Styles from "../style.js";
 
 const selectedCards = [];
 
@@ -36,11 +37,10 @@ const Card = (props) => {
 
 const ListItems = (props) => {
     let selectedCards = props.selectedCards;
-    alert(selectedCards);
 
     if(selectedCards.length) {
-        return selectedCards.map((card) => (
-           <Card text={card}></Card>));
+        return selectedCards.map((card, i) => (
+           <Card text={card} key={i}></Card>));
     } else {
         alert('none!')
         return null;
@@ -50,12 +50,15 @@ const ListItems = (props) => {
 const MyVision = ({ route }) => {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.heading}>My vision</Text>
-        <ListItems selectedCards={route.params.selectedCards} />
-        <Button
-          style={styles.Button}
-          title="Preview"
-          onPress={() => saveSelections()}></Button>
+        <Text style={Styles.heading1}>My vision</Text>
+        <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
+            <ListItems selectedCards={route.params.selectedCards} />
+            <TouchableOpacity
+                style={Styles.button}
+                onPress={() => alert('Preview.')}>
+                    <Text style={Styles.buttonText}>Preview</Text>
+            </TouchableOpacity>
+          </ScrollView>
       </SafeAreaView>
     );
   };
@@ -64,19 +67,6 @@ const MyVision = ({ route }) => {
     container: {
       flex: 1,
       margin: 30,
-    },
-    heading: {
-      fontSize: 24,
-      marginBottom: 20
-    },
-    scrollView: {
-      // justifyContent: "center",
-      // alignItems: "center",
-      // textAlign: "center",
-      paddingBottom: 75,
-      justifyContent: "space-around",
-      flexDirection:"row",
-      flexWrap: "wrap",
     },
     Pressable: {
       // flex: 1,
@@ -92,12 +82,6 @@ const MyVision = ({ route }) => {
     },
     PressableText: {
       fontSize: 20
-    },
-    Button: {
-      backgroundColor: '#000',
-      color: 'white',
-      width: '100%',
-      padding: 20
     }
   });
   

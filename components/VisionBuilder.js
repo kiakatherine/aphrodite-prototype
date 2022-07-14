@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Styles from "../style.js";
 
 const selectedCards = [];
@@ -8,25 +8,18 @@ const selectedCards = [];
 const Card = (props) => {
   const [isSelected, setIsSelected] = useState(false);
 
-  //  useEffect(() => {
-  //    const toggle = setInterval(() => {
-  //     setIsSelected(!isSelected);
-  //    }, 1000);
-
-  //    return () => clearInterval(toggle);
-  // })
-
-    if(isSelected) {
-      if(selectedCards.indexOf(props.text) === -1) {
-        // add to selectedCards
-        selectedCards.push(props.text);
-        alert(selectedCards)
-      }
-    } else {
-      // remove from selectedCards
-      selectedCards.splice(selectedCards.indexOf(props.text), 1);
-      alert('removed')
+  if(isSelected) {
+    if(selectedCards.indexOf(props.text) === -1) {
+      // add to selectedCards
+      selectedCards.push(props.text);
     }
+  } else {
+    // remove from selectedCards
+    if(selectedCards.length) {
+      selectedCards.splice(selectedCards.indexOf(props.text), 1);
+      alert('Selection removed.')
+    }
+  }
 
   return <Pressable
           style={[styles.Pressable, {borderColor: isSelected ? 'black' : '#F4ECDF'}]}
@@ -39,8 +32,8 @@ const Card = (props) => {
 const VisionBuilder = ({ navigation }) => {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.heading}>Tap the cards that speak to you.</Text>
-        <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <Text style={Styles.heading1}>Tap the cards that speak to you.</Text>
+        <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
           <Card
             text="My partner is kind."
           />
@@ -54,10 +47,11 @@ const VisionBuilder = ({ navigation }) => {
             text="We support each other."
           />
         </ScrollView>
-        <Button
+        <TouchableOpacity
           style={Styles.button}
-          title="Save"
-          onPress={() => navigation.navigate("MyVision", { selectedCards })} />
+          onPress={() => navigation.navigate("MyVision", { selectedCards })}>
+            <Text style={Styles.buttonText}>Save</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   };
