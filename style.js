@@ -27,7 +27,24 @@ module.exports = StyleSheet.create({
         },
     heading1: {
         fontSize: 24,
+        fontWeight: 'bold',
         marginBottom: 30
+    },
+    heading2: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 40
+    },
+    leftHeading1: {
+        textAlign: 'left',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20
+    },
+    leftHeading2: {
+        textAlign: 'left',
+        fontSize: 20,
+        marginBottom: 40
     },
     button: {
         backgroundColor: 'black',

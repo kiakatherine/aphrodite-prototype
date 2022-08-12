@@ -68,7 +68,7 @@ function VisionBuilder({ navigation }) {
     return (
       <SafeAreaView style={Styles.container}>
         <Text style={Styles.heading1}>Tap the cards that speak to you.</Text>
-        <Text style={Styles.heading1}>Selected cards: {selectedCards.length}</Text>
+        {/* <Text style={Styles.heading1}>Selected cards: {selectedCards.length}</Text> */}
         
         <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
           {cards.map(card => 
