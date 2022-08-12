@@ -1,9 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from "../components/Home";
-import VisionBuilderScreen from "../components/VisionBuilder";
-import MyVisionScreen from "../components/MyVision";
-import IntroSlidesScreen from "../components/IntroSlides";
+import HomeScreen from "../screens/Home";
+import VisionBuilderScreen from "../screens/VisionBuilder";
+import MyVisionScreen from "../screens/MyVision";
+import IntroSlidesScreen from "../screens/IntroSlides";
 
 const Stack = createNativeStackNavigator();
 

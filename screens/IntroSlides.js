@@ -3,7 +3,7 @@ import { Button, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-n
 import Styles from "../style.js";
 
 const IntroSlides = ({ navigation }) => {
-    let [buttonLabel, setButtonLabel] = useState('Next');
+    const [buttonLabel, setButtonLabel] = useState('Next');
     const [slideText, setButtonText] = useState('Dream relationship builder');
     
     function handleClick() {
