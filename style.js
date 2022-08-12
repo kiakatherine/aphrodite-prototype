@@ -60,6 +60,10 @@ module.exports = StyleSheet.create({
         alignItems: "center",
         textAlign: "center"
     },
+    buttonDisabled: {
+        backgroundColor: '#ddd',
+        color: 'gray'
+    },
     Card: {
         // flex: 1,
         justifyContent: "center",

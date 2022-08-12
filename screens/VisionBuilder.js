@@ -76,7 +76,8 @@ function VisionBuilder({ navigation }) {
         </ScrollView>
 
         <TouchableOpacity
-          style={Styles.button}
+          style={[Styles.button, selectedCards.length === 0 && Styles.buttonDisabled]}
+          disabled={selectedCards.length === 0}
           onPress={() => navigation.navigate("MyVision", {selectedCards})}>
             <Text style={Styles.buttonText}>Save</Text>
         </TouchableOpacity>
