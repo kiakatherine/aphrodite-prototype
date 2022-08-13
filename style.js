@@ -64,6 +64,29 @@ module.exports = StyleSheet.create({
         backgroundColor: '#ddd',
         color: 'gray'
     },
+    fullWidthButton: {
+        borderRadius: 0,
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    textInput: {
+        fontSize: 28,
+        marginBottom: 30
+    },
+    bottomDrawer: {
+        padding: 25
+    },
+    bottomDrawerHeader: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 25
+    },
+    bottomDrawerText: {
+        fontSize: 20,
+        marginBottom: 25
+    },
     Card: {
         // flex: 1,
         justifyContent: "center",

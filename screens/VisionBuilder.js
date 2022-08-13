@@ -10,59 +10,29 @@ function VisionBuilder({ navigation }) {
     const cards = [
       {
         id: 1,
-        text: "My partner is kind.",
-        // isSelected: false
+        text: "My partner is kind."
       },
       {
         id: 2,
-        text: "My partner sees me for who I am.",
-        // isSelected: false
+        text: "My partner sees me for who I am."
       },
       {
         id: 3,
-        text: "We are a power couple.",
-        // isSelected: false
+        text: "We are a power couple."
       },
       {
         id: 4,
-        text: "We support each other.",
-        // isSelected: false
+        text: "We support each other."
       }
     ];
 
-    // const selectedCards = cards.filter(card => card.isSelected == true);
-
     function selectCard(card) {
-      // alert('select')
-
       setSelectedCards([...selectedCards, card]);
-
-      // const newState = cards.map(c => {
-      //   if(c.text === card.text) {
-      //     return {...c, isSelected: true };
-      //   }
-      //   return c;
-      // })
-      // setCards(newState);
     }
 
     function unselectCard(card) {
-      // alert('unselect')
-
       const newState = selectedCards.filter(selectedCard => selectedCard.text !== card.text);
-
       setSelectedCards(newState);
-
-      // const newState = cards.map(c => {
-      //   console.log(c)
-      //   console.log(card)
-
-      //   if(c.text === card.text) {
-      //     return {...c, isSelected: false }
-      //   }
-      //   return card;
-      // })
-      // setCards(newState);
     }
 
     return (

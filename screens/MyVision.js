@@ -4,14 +4,18 @@ import { useState, useEffect } from 'react';
 import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
+import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 
 function MyVision({ route }) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [userInputs, setUserInputs] = useState([]);
   const refRBSheet = useRef();
 
   const ListItems = (props) => {
     let selectedCards = props.selectedCards;
+
+    selectedCards = [...selectedCards, userInputs];
 
     if(selectedCards.length) {
         return selectedCards.map((card, i) => (
@@ -22,28 +26,29 @@ function MyVision({ route }) {
     }
   };
 
-  function addCard() {
-    setIsDrawerOpen(true);
+  function openAddTextModal() {
+    setIsModalVisible(true);
+  }
+
+  function handleSaveText(newInput) {
+    const selectedCardsLength = route.params.selectedCards.length;
+    setUserInputs([...userInputs, newInput]);
+    console.log(newInput);
+    setIsModalVisible(false);
   }
 
     return (
       <SafeAreaView style={Styles.container}>
-        <Text style={Styles.heading1}>My vision</Text>
-        <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
-            {/* <Pressable
-                style={Styles.Card}
-                onPress={addCard}>
-                  <Text style={Styles.CardText}>+</Text>
-            </Pressable> */}
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#eee"
-              }}
-            >
-              <Button title="+" onPress={() => refRBSheet.current.open()} />
+        {isModalVisible && <AddTextModal onSave={handleSaveText} />}
+        {!isModalVisible && <View>
+          <Text style={Styles.heading1}>My vision</Text>
+          <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
+              <Pressable
+                  style={Styles.Card}
+                  onPress={() => refRBSheet.current.open()}>
+                    <Text style={Styles.CardText}>+</Text>
+              </Pressable>
+              
               <RBSheet
                 ref={refRBSheet}
                 closeOnDragDown={true}
@@ -55,20 +60,24 @@ function MyVision({ route }) {
                   draggableIcon: {
                     backgroundColor: "#000"
                   }
-                }}
-              >
-                <Text>hi</Text>
-              </RBSheet>
-            </View>
-            
-            <ListItems selectedCards={route.params.selectedCards} />
-            
-            <TouchableOpacity
-                style={Styles.button}
-                onPress={() => alert('Preview.')}>
-                  <Text style={Styles.buttonText}>Preview</Text>
-            </TouchableOpacity>
-          </ScrollView>
+                }}>
+                  <View style={Styles.bottomDrawer}>
+                    <Text style={Styles.bottomDrawerHeader}>New pin</Text>
+                    <Text style={Styles.bottomDrawerText}>Upload photo</Text>
+                    <Text style={Styles.bottomDrawerText} onPress={openAddTextModal}>Write text</Text>
+                    <Text style={Styles.bottomDrawerText}>Examples</Text>
+                  </View>
+                </RBSheet>
+              
+              <ListItems selectedCards={route.params.selectedCards} />
+              
+              <TouchableOpacity
+                  style={Styles.button}
+                  onPress={() => alert('Preview.')}>
+                    <Text style={Styles.buttonText}>Preview</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>}
       </SafeAreaView>
     );
   };
