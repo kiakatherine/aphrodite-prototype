@@ -105,5 +105,20 @@ module.exports = StyleSheet.create({
       },
       CardSelected: {
         borderColor: 'black'
+      },
+      RemovableCardButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        fontSize: 28,
+        padding: 10,
+        paddingRight: 14,
+        paddingLeft: 14,
+        backgroundColor: 'black',
+        borderRadius: 100
+      },
+      RemovableCardButtonText: {
+        color: 'white',
+        fontWeight: 'bold'
       }
 });

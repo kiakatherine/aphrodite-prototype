@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useRef } from "react";
-import { useState, useEffect } from 'react';
-import { Button, Pressable, View, Text, Image, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { Pressable, View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Styles from "../style.js";
-import Card from '../components/Card.js';
+import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 
 function MyVision({ route }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [myVisionCards, setMyVisionCards] = useState(route.params.selectedCards);
-  const [userInputs, setUserInputs] = useState([]);
-  const refRBSheet = useRef();
+  const refRBSheet = useRef(); // bottom drawer
 
   const ListItems = (props) => {
+    console.log('myVisionCards', myVisionCards);
     if(myVisionCards.length) {
       console.log('myVisionCards', myVisionCards);
       return myVisionCards.map((card, i) => (
-          <Card card={card} key={card.text} isMyVision={true}></Card>));
+          <RemovableCard key={card.text} card={card} onRemovableCardPress={handleRemovableCardPress}></RemovableCard>));
     } else {
         alert('none!')
         return null;
@@ -33,6 +33,14 @@ function MyVision({ route }) {
       text: newInput
     }]);
     setIsModalVisible(false);
+  }
+
+  function handleRemovableCardPress(card) {
+    console.log('card', card);
+    const updatedCards = myVisionCards.filter(visionCard => {
+      return visionCard !== card;
+    });
+    setMyVisionCards(updatedCards.length ? updatedCards : []);
   }
 
     return (
