@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { Image, View, Text, TouchableHighlight } from 'react-native';
 import Styles from "../style.js";
 
 function VisionView({ navigation, route }) {
@@ -29,7 +29,8 @@ function VisionView({ navigation, route }) {
     return (
       <View style={[Styles.centerContainer, Styles.VisionViewCard]}>
         {currentCard && <View>
-            <Text style={Styles.VisionViewCardText}>{currentCard.text}</Text>
+            {currentCard.text && <Text style={Styles.VisionViewCardText}>{currentCard.text}</Text>}
+            {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
         </View>}
 
         {currentCard !== myVisionCards[0] && <TouchableHighlight onPress={handleBackClick}>
