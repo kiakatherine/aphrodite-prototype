@@ -13,7 +13,6 @@ function VisionCustomizer({ navigation, route }) {
   const refRBSheet = useRef(); // bottom drawer
 
   const ListItems = (props) => {
-    console.log('myVisionCards', myVisionCards);
     if(myVisionCards.length) {
       console.log('myVisionCards', myVisionCards);
       return myVisionCards.map(card => 

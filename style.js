@@ -120,5 +120,12 @@ module.exports = StyleSheet.create({
       RemovableCardButtonText: {
         color: 'white',
         fontWeight: 'bold'
+      },
+      VisionViewCard: {
+        background: 'pink'
+      },
+      VisionViewCardText: {
+        fontSize: 36,
+        textAlign: 'center'
       }
 });

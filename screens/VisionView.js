@@ -1,24 +1,35 @@
 import React, { Component, useState } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import Styles from "../style.js";
-import FullScreenCard from '../components/FullScreenCard.js';
 
 function VisionView({ navigation, route }) {
     let myVisionCards = route.params.myVisionCards;
     const [currentCard, setCurrentCard] = useState(myVisionCards[0]);
 
     function handleNextClick() {
-        setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) + 1]);
+        let currentCardIndex = myVisionCards.indexOf(currentCard);
+
+        if(currentCardIndex < myVisionCards.length) {
+            setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) + 1]);
+        } else {
+            setCurrentCard(myVisionCards[myVisionCards.length - 1]);
+        }
     }
 
     function handleBackClick() {
-        setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) - 1]);
+        let currentCardIndex = myVisionCards.indexOf(currentCard);
+        
+        if(currentCardIndex > 0) {
+            setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) - 1]);
+        } else {
+            setCurrentCard(myVisionCards[0]);
+        }
     }
 
     return (
-      <View style={Styles.centerContainer}>
+      <View style={[Styles.centerContainer, Styles.VisionViewCard]}>
         {currentCard && <View>
-            <Text style={Styles.CardText}>{currentCard.text}</Text>
+            <Text style={Styles.VisionViewCardText}>{currentCard.text}</Text>
         </View>}
 
         {currentCard !== myVisionCards[0] && <TouchableHighlight onPress={handleBackClick}>
