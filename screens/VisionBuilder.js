@@ -9,19 +9,15 @@ function VisionBuilder({ navigation }) {
 
     const cards = [
       {
-        id: 1,
         text: "My partner is kind."
       },
       {
-        id: 2,
         text: "My partner sees me for who I am."
       },
       {
-        id: 3,
         text: "We are a power couple."
       },
       {
-        id: 4,
         text: "We support each other."
       }
     ];
@@ -42,7 +38,7 @@ function VisionBuilder({ navigation }) {
         
         <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
           {cards.map(card => 
-            <Card key={card.id} card={card} isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0} onCardPress={() => selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0 ? unselectCard(card) : selectCard(card)} />)}
+            <Card key={card.text} card={card} isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0} onCardPress={() => selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0 ? unselectCard(card) : selectCard(card)} />)}
         </ScrollView>
 
         <TouchableOpacity

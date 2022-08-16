@@ -9,17 +9,15 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 function MyVision({ route }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [myVisionCards, setMyVisionCards] = useState(route.params.selectedCards);
   const [userInputs, setUserInputs] = useState([]);
   const refRBSheet = useRef();
 
   const ListItems = (props) => {
-    let selectedCards = props.selectedCards;
-
-    selectedCards = [...selectedCards, userInputs];
-
-    if(selectedCards.length) {
-        return selectedCards.map((card, i) => (
-           <Card card={card} key={card.text} isMyVision={true}></Card>));
+    if(myVisionCards.length) {
+      console.log('myVisionCards', myVisionCards);
+      return myVisionCards.map((card, i) => (
+          <Card card={card} key={card.text} isMyVision={true}></Card>));
     } else {
         alert('none!')
         return null;
@@ -31,9 +29,9 @@ function MyVision({ route }) {
   }
 
   function handleSaveText(newInput) {
-    const selectedCardsLength = route.params.selectedCards.length;
-    setUserInputs([...userInputs, newInput]);
-    console.log(newInput);
+    setMyVisionCards(rest => [...rest, {
+      text: newInput
+    }]);
     setIsModalVisible(false);
   }
 
