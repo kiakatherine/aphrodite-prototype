@@ -107,6 +107,7 @@ module.exports = StyleSheet.create({
         borderColor: 'black'
       },
       RemovableCardButton: {
+        zIndex: 1,
         position: 'absolute',
         top: 10,
         right: 10,
@@ -127,5 +128,25 @@ module.exports = StyleSheet.create({
       VisionViewCardText: {
         fontSize: 36,
         textAlign: 'center'
+      },
+      CardWithImage: {
+        display: 'flex',
+        padding: 0
+      },
+      progressDotBar: {
+        display: 'flex',
+        flexDirection: 'row',
+        position: 'absolute',
+        bottom: 50
+      },
+      progressDot: {
+        // flex: 1,
+        fontSize: 48,
+        padding: 3,
+        color: '#aaa',
+        borderRadius: 100
+      },
+      progressDotSelected: {
+        color: 'black'
       }
 });

@@ -6,7 +6,7 @@ function RemovableCard(props) {
     console.log('image', props.card);
 
     return (
-        <View style={Styles.Card}>
+        <View style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']}>
             <Pressable
                 style={Styles.RemovableCardButton}
                 onPress={() => props.onRemovableCardPress(props.card)}>
@@ -15,7 +15,7 @@ function RemovableCard(props) {
 
             {props.card.text && <Text style={Styles.CardText}>{props.card.text}</Text>}
             
-            {!props.card.text && <Image source={{ uri: props.card.uri }} style={{ width: 200, height: 200 }} />}
+            {!props.card.text && <Image source={{ uri: props.card.uri }} style={{flex:1 , width: '100%', height: undefined}} />}
         </View>
     );
   }
