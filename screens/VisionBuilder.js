@@ -44,7 +44,7 @@ function VisionBuilder({ navigation }) {
         <TouchableOpacity
           style={[Styles.button, selectedCards.length === 0 && Styles.buttonDisabled]}
           disabled={selectedCards.length === 0}
-          onPress={() => navigation.navigate("MyVision", {selectedCards})}>
+          onPress={() => navigation.navigate("VisionCustomizer", {selectedCards})}>
             <Text style={Styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </SafeAreaView>

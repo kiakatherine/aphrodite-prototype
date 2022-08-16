@@ -7,7 +7,7 @@ import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 
-function MyVision({ route }) {
+function VisionCustomizer({ navigation, route }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [myVisionCards, setMyVisionCards] = useState(route.params.selectedCards);
   const refRBSheet = useRef(); // bottom drawer
@@ -16,8 +16,8 @@ function MyVision({ route }) {
     console.log('myVisionCards', myVisionCards);
     if(myVisionCards.length) {
       console.log('myVisionCards', myVisionCards);
-      return myVisionCards.map((card, i) => (
-          <RemovableCard key={card.text} card={card} onRemovableCardPress={handleRemovableCardPress}></RemovableCard>));
+      return myVisionCards.map(card => 
+          <RemovableCard key={card.text} card={card} onRemovableCardPress={handleRemovableCardPress}></RemovableCard>);
     } else {
         alert('none!')
         return null;
@@ -36,7 +36,6 @@ function MyVision({ route }) {
   }
 
   function handleRemovableCardPress(card) {
-    console.log('card', card);
     const updatedCards = myVisionCards.filter(visionCard => {
       return visionCard !== card;
     });
@@ -79,7 +78,7 @@ function MyVision({ route }) {
               
               <TouchableOpacity
                   style={Styles.button}
-                  onPress={() => alert('Preview.')}>
+                  onPress={() => navigation.navigate("VisionView", {myVisionCards})}>
                     <Text style={Styles.buttonText}>Preview</Text>
               </TouchableOpacity>
             </ScrollView>
@@ -88,4 +87,4 @@ function MyVision({ route }) {
     );
   };
   
-  export default MyVision;
+  export default VisionCustomizer;
