@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, Image, StyleSheet } from 'react-native';
+import { Button, View, Text, StyleSheet } from 'react-native';
 
 export default class AccountScreen extends Component {
   render() {

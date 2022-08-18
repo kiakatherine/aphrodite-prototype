@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text, Image, StyleSheet } from 'react-native';
+import { Button, View, Text, StyleSheet } from 'react-native';
 import Styles from "../style.js";
 
 export default class NotificationsScreen extends Component {

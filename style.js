@@ -3,19 +3,23 @@ import { StyleSheet } from 'react-native';
 module.exports = StyleSheet.create({
     centerContainer: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        padding: 30
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        padding: 30,
+        background: 'pink'
+    },
+    leftAligned: {
+        // display: 'flex',
+        // flexDirection: 'column',
+        // alignContent: 'flex-start',
+        // flexFlow: 'column wrap'
     },
     scrollView: {
-        // justifyContent: "center",
-        // alignItems: "center",
-        // textAlign: "center",
         paddingBottom: 75,
-        justifyContent: "space-around",
-        flexDirection:"row",
-        flexWrap: "wrap",
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
     container: {
         flex: 1,
@@ -46,29 +50,43 @@ module.exports = StyleSheet.create({
         fontSize: 20,
         marginBottom: 40
     },
+    displayFlex: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginLeft: 'auto'
+    },
+    flexOne: {
+        flex: '0 1 auto'
+    },
+    buttonFullWidth: {
+        width: '100%'
+    },
     button: {
         backgroundColor: 'black',
-        fontSize: 24,
         padding: 20,
-        width: '100%',
         borderRadius: 100
     },
     buttonText: {
         color: 'white',
+        fontWeight: 'bold',
         fontSize: 16,
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center"
+        textAlign: 'center'
     },
     buttonDisabled: {
         backgroundColor: '#ddd',
         color: 'gray'
     },
-    fullWidthButton: {
-        borderRadius: 0,
-        color: '#fff',
-        fontSize: 16,
+    buttonSmall: {
+        width: 100,
+        backgroundColor: 'black',
+        padding: 10,
+        borderRadius: 100
+    },
+    buttonSmallText: {
+        fontSize: 18,
+        color: 'white',
         fontWeight: 'bold',
+        fontSize: 16,
         textAlign: 'center'
     },
     textInput: {
@@ -88,14 +106,14 @@ module.exports = StyleSheet.create({
         marginBottom: 25
     },
     Card: {
-        // flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: 200,
+        flex: '0 1 auto',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        minHeight: 165,
         width: '45%',
         marginBottom: 20,
         padding: 25,
-        backgroundColor: '#F4ECDF',
+        backgroundColor: '#F2EDE4',
         borderWidth: 3,
         borderRadius: 10,
         borderColor: '#F4ECDF'

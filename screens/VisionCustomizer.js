@@ -1,14 +1,30 @@
 import React from 'react';
 import { useRef } from "react";
 import { useState } from 'react';
-import { Image, Pressable, View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Pressable, View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Styles from "../style.js";
 import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
+import AppLoading from 'expo-app-loading';
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
 
 function VisionCustomizer({ navigation, route }) {
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [myVisionCards, setMyVisionCards] = useState(route.params.selectedCards);
   const refRBSheet = useRef(); // bottom drawer
@@ -61,17 +77,29 @@ function VisionCustomizer({ navigation, route }) {
     setMyVisionCards(updatedCards.length ? updatedCards : []);
   }
 
+  if(!fontsLoaded) {
+    return <AppLoading />;
+  } else {
     return (
       <SafeAreaView style={Styles.container}>
         {isModalVisible && <AddTextModal onSave={handleSaveText} />}
         
         {!isModalVisible && <View>
-          <Text style={Styles.heading1}>My vision</Text>
-          <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
+            <View style={Styles.displayFlex}>
+              <TouchableOpacity
+                  style={[Styles.buttonSmall, Styles.flexOne]}
+                  onPress={() => navigation.navigate('VisionView', {myVisionCards})}>
+                    <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
+              </TouchableOpacity>
+            </View>
+
+          <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
+          
+          <ScrollView contentContainerStyle={[Styles.leftAligned, Styles.scrollView]} showsVerticalScrollIndicator={false}>
               <Pressable
                   style={Styles.Card}
                   onPress={() => refRBSheet.current.open()}>
-                    <Text style={Styles.CardText}>+</Text>
+                    <Text style={[Styles.CardText, {fontSize: 28, fontFamily: 'Poppins_500Medium'}]}>+</Text>
               </Pressable>
               
               <RBSheet
@@ -80,31 +108,25 @@ function VisionCustomizer({ navigation, route }) {
                 closeOnPressMask={false}
                 customStyles={{
                   wrapper: {
-                    backgroundColor: "transparent"
+                    backgroundColor: 'transparent'
                   },
                   draggableIcon: {
-                    backgroundColor: "#000"
+                    backgroundColor: '#000'
                   }
                 }}>
                   <View style={Styles.bottomDrawer}>
-                    <Text style={Styles.bottomDrawerHeader}>New pin</Text>
-                    <Text style={Styles.bottomDrawerText} onPress={pickImage}>Upload photo</Text>
-                    <Text style={Styles.bottomDrawerText} onPress={openAddTextModal}>Write text</Text>
-                    <Text style={Styles.bottomDrawerText}>Examples</Text>
+                    <Text style={[Styles.bottomDrawerHeader, , {fontFamily: 'Poppins_600SemiBold'}]}>New pin</Text>
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}>Upload photo</Text>
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}>Write text</Text>
                   </View>
                 </RBSheet>
               
               <ListItems selectedCards={route.params.selectedCards} />
-              
-              <TouchableOpacity
-                  style={Styles.button}
-                  onPress={() => navigation.navigate("VisionView", {myVisionCards})}>
-                    <Text style={Styles.buttonText}>Preview</Text>
-              </TouchableOpacity>
             </ScrollView>
           </View>}
       </SafeAreaView>
     );
+    }
   };
   
   export default VisionCustomizer;
