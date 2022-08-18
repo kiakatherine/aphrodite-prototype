@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
 import AppLoading from 'expo-app-loading';
@@ -52,19 +52,19 @@ function VisionBuilder({ navigation }) {
     } else {
       return (
         <SafeAreaView style={Styles.container}>
-          <Text style={[Styles.heading1, {fontFamily: 'Poppins_500Medium'}]}>Tap the cards that speak to you.</Text>
+          <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Tap the cards that speak to you.</Text>
           
           <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
             {cards.map(card => 
               <Card key={card.text} card={card} isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0} onCardPress={() => selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0 ? unselectCard(card) : selectCard(card)} />)}
           </ScrollView>
 
-          <TouchableOpacity
+          <Pressable
             style={[Styles.button, selectedCards.length === 0 && Styles.buttonDisabled]}
             disabled={selectedCards.length === 0}
             onPress={() => navigation.navigate("VisionCustomizer", {selectedCards})}>
               <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
-          </TouchableOpacity>
+          </Pressable>
         </SafeAreaView>
       );
     }

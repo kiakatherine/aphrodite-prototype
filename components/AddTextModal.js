@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
 
@@ -32,9 +32,9 @@ function AddTextModal(props) {
                     value={newText}
                     onChangeText={onChangeText}
                 />
-                <TouchableHighlight style={[Styles.button, Styles.buttonFullWidth]} onPress={() => props.onSave(newText)}>
+                <Pressable style={[Styles.button, Styles.buttonFullWidth]} onPress={() => props.onSave(newText)}>
                     <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
-                </TouchableHighlight>
+                </Pressable>
             </View>
         );
     }

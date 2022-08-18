@@ -1,23 +1,15 @@
-import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 
-export default class AccountScreen extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Account info goes here</Text>
-        <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-      </View>
-    )
-  }
-}
+function AccountScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Account info goes here</Text>
+      <Pressable onPress={() => navigation.navigate('Home')}>
+        <Text>Go to home</Text>
+      </Pressable>
+    </View>
+  );
+};
 
-const styles = StyleSheet.create({
-  icon: {
-    width: 24,
-    height: 24,
-  }
-});
+export default AccountScreen;

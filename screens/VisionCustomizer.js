@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef } from "react";
 import { useState } from 'react';
-import { Pressable, View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
@@ -86,11 +86,11 @@ function VisionCustomizer({ navigation, route }) {
         
         {!isModalVisible && <View>
             <View style={Styles.displayFlex}>
-              <TouchableOpacity
+              <Pressable
                   style={[Styles.buttonSmall, Styles.flexOne]}
                   onPress={() => navigation.navigate('VisionView', {myVisionCards})}>
                     <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
 
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>

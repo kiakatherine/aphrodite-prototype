@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, View, Text } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import AppLoading from 'expo-app-loading';

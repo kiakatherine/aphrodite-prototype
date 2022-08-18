@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
 
@@ -42,16 +42,16 @@ function IntroSlides({ navigation }) {
     } else {
       return (
           <View style={Styles.centerContainer}>
-            {slideHeader === 'Create Vision' && <Text style={[Styles.heading1, {fontFamily: 'Poppins_500Medium'}]}>{slideHeader}</Text>}
+            {slideHeader === 'Create Vision' && <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>{slideHeader}</Text>}
             {slideHeader === 'Create Vision' && <Text style={[Styles.heading2, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
 
-            {slideHeader !== 'Create Vision' && <Text style={[Styles.leftHeading1, {fontFamily: 'Poppins_500Medium'}]}>{slideHeader}</Text>}
+            {slideHeader !== 'Create Vision' && <Text style={[Styles.leftHeading1, {fontFamily: 'Poppins_600SemiBold'}]}>{slideHeader}</Text>}
             {slideHeader !== 'Create Vision' && <Text style={[Styles.leftHeading2, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
-            <TouchableOpacity
+            <Pressable
               style={[Styles.button, Styles.buttonFullWidth]}
               onPress={handleClick}>
                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>{buttonLabel}</Text>
-            </TouchableOpacity>
+            </Pressable>
             
           </View>
       );

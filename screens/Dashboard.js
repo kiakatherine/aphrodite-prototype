@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
 
@@ -24,11 +24,11 @@ function Dashboard({ navigation }) {
   } else {
     return (
       <View style={Styles.centerContainer}>
-        <Text style={[Styles.heading1, {fontFamily: 'Poppins_500Medium'}]}>Dashboard</Text>
-        <TouchableOpacity
+        <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Dashboard</Text>
+        <Pressable
           style={[Styles.button, Styles.buttonFullWidth]}
           onPress={() => navigation.navigate("IntroSlides")}
-        ><Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's go!</Text></TouchableOpacity>
+        ><Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's go!</Text></Pressable>
       </View>
     );}
   };
