@@ -9,12 +9,6 @@ module.exports = StyleSheet.create({
         padding: 30,
         background: 'pink'
     },
-    leftAligned: {
-        // display: 'flex',
-        // flexDirection: 'column',
-        // alignContent: 'flex-start',
-        // flexFlow: 'column wrap'
-    },
     scrollView: {
         paddingBottom: 75,
         justifyContent: 'space-around',
@@ -45,9 +39,9 @@ module.exports = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20
     },
-    leftHeading2: {
+    bodyText: {
         textAlign: 'left',
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 40
     },
     displayFlex: {
@@ -128,13 +122,7 @@ module.exports = StyleSheet.create({
         zIndex: 1,
         position: 'absolute',
         top: 10,
-        right: 10,
-        fontSize: 28,
-        padding: 10,
-        paddingRight: 14,
-        paddingLeft: 14,
-        backgroundColor: 'black',
-        borderRadius: 100
+        right: 10
       },
       RemovableCardButtonText: {
         color: 'white',

@@ -8,6 +8,7 @@ import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import {
   useFonts,
@@ -86,11 +87,12 @@ function VisionCustomizer({ navigation, route }) {
         
         {!isModalVisible && <View>
             <View style={Styles.displayFlex}>
-              <Pressable
+              {<Pressable
                   style={[Styles.buttonSmall, Styles.flexOne]}
+                  disabled={myVisionCards.length === 0}
                   onPress={() => navigation.navigate('VisionView', {myVisionCards})}>
                     <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
-              </Pressable>
+              </Pressable>}
             </View>
 
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
@@ -99,7 +101,7 @@ function VisionCustomizer({ navigation, route }) {
               <Pressable
                   style={Styles.Card}
                   onPress={() => refRBSheet.current.open()}>
-                    <Text style={[Styles.CardText, {fontSize: 28, fontFamily: 'Poppins_500Medium'}]}>+</Text>
+                    <Text style={[Styles.CardText, {fontFamily: 'Poppins_500Medium'}]}><Ionicons name='add' size={32} /></Text>
               </Pressable>
               
               <RBSheet
@@ -116,8 +118,10 @@ function VisionCustomizer({ navigation, route }) {
                 }}>
                   <View style={Styles.bottomDrawer}>
                     <Text style={[Styles.bottomDrawerHeader, , {fontFamily: 'Poppins_600SemiBold'}]}>New pin</Text>
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}>Upload photo</Text>
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}>Write text</Text>
+                    
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
+                    
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='pencil' size={20} />  Write text</Text>
                   </View>
                 </RBSheet>
               

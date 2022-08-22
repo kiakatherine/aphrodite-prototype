@@ -1,6 +1,7 @@
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import {
   useFonts,
@@ -26,7 +27,7 @@ function RemovableCard(props) {
                 <Pressable
                     style={Styles.RemovableCardButton}
                     onPress={() => props.onRemovableCardPress(props.card)}>
-                        <Text style={[Styles.RemovableCardButtonText, {fontFamily: 'Poppins_500Medium'}]}>X</Text>
+                        <Text><Ionicons name='trash' size={28} /></Text>
                 </Pressable>
 
                 {props.card.text && <Text style={[Styles.CardText, {fontFamily: 'Poppins_400Regular'}]}>{props.card.text}</Text>}

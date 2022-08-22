@@ -43,10 +43,10 @@ function IntroSlides({ navigation }) {
       return (
           <View style={Styles.centerContainer}>
             {slideHeader === 'Create Vision' && <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>{slideHeader}</Text>}
-            {slideHeader === 'Create Vision' && <Text style={[Styles.heading2, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
+            {slideHeader === 'Create Vision' && <Text style={[Styles.bodyText, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
 
             {slideHeader !== 'Create Vision' && <Text style={[Styles.leftHeading1, {fontFamily: 'Poppins_600SemiBold'}]}>{slideHeader}</Text>}
-            {slideHeader !== 'Create Vision' && <Text style={[Styles.leftHeading2, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
+            {slideHeader !== 'Create Vision' && <Text style={[Styles.bodyText, {fontFamily: 'Poppins_400Regular'}]}>{slideText}</Text>}
             <Pressable
               style={[Styles.button, Styles.buttonFullWidth]}
               onPress={handleClick}>
