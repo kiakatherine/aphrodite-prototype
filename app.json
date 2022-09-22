@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kia.aphrodite.my-app"
     },
     "android": {
       "adaptiveIcon": {

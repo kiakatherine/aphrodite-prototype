@@ -24,7 +24,6 @@ function Dashboard({ navigation }) {
 
   function storeFirstThing() {
     const db = getDatabase();
-    debugger
     const reference = ref(db, 'users/' + 'Alexa');
     set(reference, {
       highscore: 10,

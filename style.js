@@ -39,6 +39,12 @@ module.exports = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20
     },
+    allCapsHeading: {
+      textTransform: 'uppercase',
+      fontSize: 18,
+      fontWeight: 'bold',
+      letterSpacing: 1
+    },
     bodyText: {
         textAlign: 'left',
         fontSize: 18,
@@ -50,7 +56,7 @@ module.exports = StyleSheet.create({
         marginLeft: 'auto'
     },
     flexOne: {
-        flex: '0 1 auto'
+        flex: 1
     },
     buttonFullWidth: {
         width: '100%'
@@ -65,6 +71,19 @@ module.exports = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center'
+    },
+    buttonInverted: {
+        background: 'white',
+        borderWidth: 2,
+        borderColor: 'black',
+        padding: 20,
+        borderRadius: 100
+    },
+    buttonInvertedText: {
+      color: 'black',
+      fontWeight: 'bold',
+      fontSize: 16,
+      textAlign: 'center'
     },
     buttonDisabled: {
         backgroundColor: '#ddd',
@@ -85,7 +104,9 @@ module.exports = StyleSheet.create({
     },
     textInput: {
         fontSize: 28,
-        marginBottom: 30
+        marginBottom: 30,
+        borderBottomColor: '#8A8C9B',
+        borderBottomWidth: 1
     },
     bottomDrawer: {
         padding: 25
@@ -98,6 +119,11 @@ module.exports = StyleSheet.create({
     bottomDrawerText: {
         fontSize: 20,
         marginBottom: 25
+    },
+    validationCodeInput: {
+      marginRight: 15,
+      borderBottomColor: '#D8D8D8',
+      borderBottomWidth: 2
     },
     Card: {
         flex: '0 1 auto',

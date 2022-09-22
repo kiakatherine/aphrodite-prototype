@@ -1,6 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashboardScreen from "../screens/Dashboard";
+import FirstScreenScreen from "../screens/FirstScreen";
+import NewUserScreen from "../screens/NewUser";
+import SigninScreen from "../screens/Signin";
 import IntroSlidesScreen from "../screens/IntroSlides";
 import VisionBuilderScreen from "../screens/VisionBuilder";
 import VisionCustomizerScreen from "../screens/VisionCustomizer";
@@ -11,6 +14,9 @@ const Stack = createNativeStackNavigator();
 const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: true }} />
       <Stack.Screen name="IntroSlides" component={IntroSlidesScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: true }} />
