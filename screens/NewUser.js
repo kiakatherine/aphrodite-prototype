@@ -221,7 +221,7 @@ function NewUser({ navigation }) {
                                         keyboardType="numeric" />
 
                                     <Pressable
-                                        style={[Styles.button, Styles.buttonFullWidth]}
+                                        style={Styles.button}
                                         onPress={verifyCode}>
                                             <Text style={Styles.buttonText}>Verify</Text>
                                     </Pressable>
@@ -244,7 +244,7 @@ function NewUser({ navigation }) {
                             maxLength={4}/>
                     </View>
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -259,7 +259,7 @@ function NewUser({ navigation }) {
                             onChangeFirstName(text);
                         }} />
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -274,7 +274,7 @@ function NewUser({ navigation }) {
                             onChangeLastName(text);
                         }} />
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -313,7 +313,7 @@ function NewUser({ navigation }) {
                             maxLength={4}/>
                     </View>
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -329,7 +329,7 @@ function NewUser({ navigation }) {
                             onChangeEmail(text);
                         }} />
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -339,7 +339,7 @@ function NewUser({ navigation }) {
                 <SafeAreaView>
                     <Text style={Styles.leftHeading1}>What pronouns do you use?</Text>
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('she/her/hers');
                             handleNextClick();
@@ -348,7 +348,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('he/him/his');
                             handleNextClick();
@@ -357,7 +357,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('they/them/theirs');
                             handleNextClick();
@@ -366,7 +366,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('ze/hir/hirs');
                             handleNextClick();
@@ -375,7 +375,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('noPreference');
                             handleNextClick();
@@ -384,7 +384,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('notListed');
                             handleNextClick();
@@ -393,7 +393,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangePronouns('preferNotToSay');
                             handleNextClick();
@@ -406,7 +406,7 @@ function NewUser({ navigation }) {
                 <SafeAreaView>
                     <Text style={Styles.leftHeading1}>I identify as</Text>
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangeIdentity('heterosexual');
                             handleNextClick();
@@ -415,7 +415,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangeIdentity('gayOrLesbian');
                             handleNextClick();
@@ -424,7 +424,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangeIdentity('bisexual');
                             handleNextClick();
@@ -433,7 +433,7 @@ function NewUser({ navigation }) {
                     </Pressable>
 
                     <Pressable
-                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        style={Styles.buttonInverted}
                         onPress={() => {
                             onChangeIdentity('preferNotToAnswer');
                             handleNextClick();
@@ -447,7 +447,7 @@ function NewUser({ navigation }) {
                     <Text style={Styles.leftHeading1}>Terms & Conditions</Text>
                     <Text style={Styles.bodyText}>Text here</Text>
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>I agree</Text>
                     </Pressable>
@@ -457,7 +457,7 @@ function NewUser({ navigation }) {
                 <SafeAreaView>
                     <Text style={Styles.allCapsHeading}>Creating account</Text>
                     <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
+                        style={Styles.button}
                         onPress={createUser}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>

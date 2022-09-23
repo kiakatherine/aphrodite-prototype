@@ -11,6 +11,7 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function AddTextModal(props) {
     let [fontsLoaded] = useFonts({
@@ -26,19 +27,25 @@ function AddTextModal(props) {
         return <AppLoading />;
     } else {
         return (
-            <View style={Styles.container}>
-                <Pressable onPress={() => props.onCancel()}><Ionicons name="close-outline" size={48}></Ionicons></Pressable>
+            <SafeAreaView style={Styles.fullScreen}>
+                <Pressable
+                    style={Styles.topRightCloseButton}
+                    onPress={() => props.onCancel()}>
+                        <Ionicons name="close-outline" size={48}></Ionicons>
+                </Pressable>
 
                 <TextInput
-                    style={[Styles.modalTextInput, {fontFamily: 'Poppins_400Regular'}]}
+                    style={[Styles.modalTextInput, {fontFamily: 'Poppins_600SemiBold'}]}
                     placeholder="Type here"
                     value={newText}
-                    onChangeText={onChangeText}
-                />
-                <Pressable style={[Styles.button, Styles.buttonFullWidth, Styles.buttonModalBottom]} onPress={() => props.onSave(newText)}>
-                    <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
+                    onChangeText={onChangeText} />
+
+                <Pressable
+                    style={Styles.modalBottomButton}
+                    onPress={() => props.onSave(newText)}>
+                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
                 </Pressable>
-            </View>
+            </SafeAreaView>
         );
     }
   }

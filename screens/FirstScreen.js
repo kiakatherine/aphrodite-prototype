@@ -1,6 +1,6 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { Pressable, SafeAreaView, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 
 import {
@@ -23,20 +23,20 @@ function FirstScreen({ navigation }) {
         return <AppLoading />;
       } else {
         return (
-            <SafeAreaView style={Styles.centerContainer}>
-                <Text style={[Styles.heading1, , {fontFamily: 'Poppins_600SemiBold'}]}>Aphrodite</Text>
-                <Text style={Styles.heading2}>Manifest your dream relationship.</Text>
+            <View style={Styles.centerContainer}>
+                <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Aphrodite</Text>
+                <Text style={[Styles.heading2, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Manifest your dream relationship.</Text>
                 <Pressable
-                    style={[Styles.button, Styles.buttonFullWidth, {marginBottom: 20}]}
+                    style={[Styles.button, {marginBottom: 20}]}
                     onPress={() => navigation.navigate('NewUser')}>
                         <Text style={Styles.buttonText}>New user</Text>
                 </Pressable>
                 <Pressable
-                    style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                    style={Styles.buttonInverted}
                     onPress={() => navigation.navigate('Signin')}>
                         <Text style={Styles.buttonInvertedText}>Sign in</Text>
                 </Pressable>
-            </SafeAreaView>
+            </View>
         )
     }
 };

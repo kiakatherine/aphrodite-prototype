@@ -42,7 +42,7 @@ function AccountScreen({ navigation }) {
       setCurrentUser(snapshot.val());
       setFirstName(snapshot.val().firstName);
       setLastName(snapshot.val().lastName);
-      setPhone(snapshot.val().phone);
+      // setPhone(snapshot.val().phone);
       setEmail(snapshot.val().email);
       setBirthdayDay(snapshot.val().birthdayMonth);
       setBirthdayMonth(snapshot.val().birthdayDay);
@@ -78,11 +78,12 @@ function AccountScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={Styles.container}>
-      {isModalVisible && <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
+    <View style={Styles.container}>
+      {isModalVisible &&
+          <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible && (
-        <View style={{ flex: 1, alignItems: 'left', justifyContent: 'center', margin: 40 }}>
+        <View>
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>
@@ -112,14 +113,14 @@ function AccountScreen({ navigation }) {
               </Pressable>
           </View>
 
-          <View style={Styles.accountInfoLine}>
+          {/* <View style={Styles.accountInfoLine}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{phone}</Text>
             <Pressable
               style={Styles.accountInfoButton}
               onPress={() => handleEditClick('phone', phone)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
-          </View>
+          </View> */}
 
           <View style={Styles.accountInfoLine}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{birthday}</Text>
@@ -150,7 +151,7 @@ function AccountScreen({ navigation }) {
         </View>
     )}
 
-    </SafeAreaView>
+    </View>
   );
 };
 

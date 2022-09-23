@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import AppLoading from 'expo-app-loading';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import {
   useFonts,
@@ -52,12 +53,18 @@ function VisionView({ navigation, route }) {
       } else {
         return (
         <View style={[Styles.centerContainer, Styles.VisionViewContainer, Styles.VisionViewCard]}>
-            {currentCard && <GestureRecognizer
-                onSwipeLeft={handleNextClick}
-                onSwipeRight={handleBackClick}
-                config={config}>
-                    {currentCard.text && <Text style={[Styles.VisionViewCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
-                    {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
+            <Pressable
+                style={Styles.topRightCloseButton}
+                onPress={() => navigation.navigate('VisionCustomizer', {myVisionCards})}>
+                    <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
+            </Pressable>
+            {currentCard &&
+                <GestureRecognizer
+                    onSwipeLeft={handleNextClick}
+                    onSwipeRight={handleBackClick}
+                    config={config}>
+                        {currentCard.text && <Text style={[Styles.VisionViewCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
+                        {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
                 </GestureRecognizer>}
 
                 <View style={Styles.progressDotBar}>

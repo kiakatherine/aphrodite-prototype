@@ -4,14 +4,13 @@ import Styles from "../style.js";
 
 function Signin({ navigation }) {
   return (
-    <SafeAreaView style={Styles.centerContainer}>
-      <Pressable onPress={() => navigation.navigate('Home')}>
-        <Text>Aphrodite</Text>
-        <Text>Manifest your dream relationship.</Text>
-        <Pressable style={[Styles.button, Styles.buttonFullWidth]} onPress={() => navigation.navigate('Dashboard')}>
-            <Text style={Styles.buttonText}>Sign in</Text></Pressable>
-      </Pressable>
-    </SafeAreaView>
+    <View style={Styles.centerContainer}>
+        <Text style={[Styles.heading1, Styles.textAlignCenter]}>[ input phone number ]</Text>
+        <Text style={[Styles.heading2, Styles.textAlignCenter]}>[ input validation code]</Text>
+        <Pressable style={Styles.button} onPress={() => navigation.navigate('Dashboard')}>
+            <Text style={Styles.buttonText}>Sign in</Text>
+        </Pressable>
+    </View>
   );
 };
 

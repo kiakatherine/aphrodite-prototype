@@ -4,14 +4,17 @@ module.exports = StyleSheet.create({
     centerContainer: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
+      // alignItems: 'center',
       textAlign: 'center',
-      padding: 30,
-      background: 'pink'
+      padding: 30
     },
     container: {
-      flex: 1,
-      margin: 10,
+      paddingTop: 100,
+      padding: 25
+    },
+    fullScreen: {
+      display: 'flex',
+      flexDirection: 'column',
     },
     scrollView: {
       paddingBottom: 75,
@@ -29,9 +32,14 @@ module.exports = StyleSheet.create({
       marginBottom: 30
     },
     heading2: {
-      fontSize: 20,
-      textAlign: 'center',
+      fontSize: 18,
       marginBottom: 40
+    },
+    textAlignCenter: {
+      textAlign: 'center'
+    },
+    textAlignLeft: {
+      textAlign: 'left'
     },
     leftHeading1: {
       textAlign: 'left',
@@ -58,9 +66,6 @@ module.exports = StyleSheet.create({
     flexOne: {
         flex: 1
     },
-    buttonFullWidth: {
-        width: '100%'
-    },
     button: {
         backgroundColor: 'black',
         padding: 20,
@@ -85,11 +90,6 @@ module.exports = StyleSheet.create({
       fontSize: 16,
       textAlign: 'center'
     },
-    buttonModalBottom: {
-      backgroundColor: 'black',
-      padding: 20,
-      justifyContent: 'flex-end'
-    },
     buttonDisabled: {
         backgroundColor: '#ddd',
         color: 'gray'
@@ -113,9 +113,24 @@ module.exports = StyleSheet.create({
         borderBottomColor: '#8A8C9B',
         borderBottomWidth: 1
     },
+    topRightCloseButton: {
+      position: 'absolute',
+      top: 30,
+      right: 30
+    },
     modalTextInput: {
+      flexGrow: 1,
       fontSize: 28,
+      marginTop: 100,
       marginBottom: 30
+    },
+    modalBottomButton: {
+      backgroundColor: 'black',
+      padding: 20,
+      borderRadius: 0,
+      marginLeft: -25,
+      marginRight: -25,
+      // justifyContent: 'flex-end'
     },
     bottomDrawer: {
         padding: 25
@@ -167,7 +182,12 @@ module.exports = StyleSheet.create({
         background: '#2E2F36'
       },
       VisionViewCard: {
-        background: 'pink'
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        padding: 30,
+        backgroundColor: '#2E2F36'
       },
       VisionViewCardText: {
         fontSize: 36,
@@ -185,15 +205,14 @@ module.exports = StyleSheet.create({
         bottom: 50
       },
       progressDot: {
-        // flex: 1,
         fontSize: 48,
-        padding: 3,
         color: 'white',
         opacity: 0.3,
         borderRadius: 100
       },
       progressDotSelected: {
-        color: 'white'
+        color: 'white',
+        opacity: 1
       },
       accountInfoLine: {
         display: 'flex',

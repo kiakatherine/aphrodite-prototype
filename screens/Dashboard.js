@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
@@ -23,7 +23,7 @@ function Dashboard({ navigation }) {
   });
 
   // FIX
-  let firstTimeUser = false;
+  let firstTimeUser = true;
 
   // function storeFirstThing() {
   //   const db = getDatabase();
@@ -32,18 +32,22 @@ function Dashboard({ navigation }) {
   //     highscore: 10,
   //   });
   // }
-  
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
       <View style={Styles.centerContainer}>
         {firstTimeUser &&
-            <Pressable
-            style={[Styles.button, Styles.buttonFullWidth]}
-            onPress={() => navigation.navigate("IntroSlides")}>
-            <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's go!</Text>
-          </Pressable>
+            <View>
+              <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
+              <Text style={[Styles.bodyText, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
+              <Pressable
+                style={Styles.button}
+                onPress={() => navigation.navigate('VisionBuilder')}>
+                  <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's begin</Text>
+              </Pressable>
+          </View>
         }
 
         {!firstTimeUser &&

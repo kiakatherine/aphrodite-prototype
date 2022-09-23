@@ -53,7 +53,7 @@ function VisionCustomizer({ navigation, route }) {
       console.log('myVisionCards', myVisionCards);
       
       return myVisionCards.map(card => 
-          <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={handleRemovableCardPress}></RemovableCard>);
+          <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>);
     } else {
         alert('none!')
         return null;
@@ -77,8 +77,8 @@ function VisionCustomizer({ navigation, route }) {
   }
 
   // confirm delete card
-  function handleRemovableCardPress(card) {
-    //TEST code
+  function confirmRemovableCardPress(card) {
+    // FIX
     let text = "Are you sure you want to delete this card?";
     if(confirm(text) == true) {
       handleRemovableCardPress(card);
@@ -117,7 +117,7 @@ function VisionCustomizer({ navigation, route }) {
               <Pressable
                   style={Styles.Card}
                   onPress={() => refRBSheet.current.open()}>
-                    <Text style={[Styles.CardText, {fontFamily: 'Poppins_500Medium'}]}><Ionicons name='add' size={32} /></Text>
+                    <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
               </Pressable>
               
               <RBSheet
@@ -139,7 +139,7 @@ function VisionCustomizer({ navigation, route }) {
                     
                     <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='pencil' size={20} />  Write text</Text>
 
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='search' size={20} />  Examples</Text>
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder')}><Ionicons name='search' size={20} />  Examples</Text>
                   </View>
                 </RBSheet>
               

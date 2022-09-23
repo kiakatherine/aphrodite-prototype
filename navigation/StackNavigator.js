@@ -4,7 +4,6 @@ import DashboardScreen from "../screens/Dashboard";
 import FirstScreenScreen from "../screens/FirstScreen";
 import NewUserScreen from "../screens/NewUser";
 import SigninScreen from "../screens/Signin";
-import IntroSlidesScreen from "../screens/IntroSlides";
 import VisionBuilderScreen from "../screens/VisionBuilder";
 import VisionCustomizerScreen from "../screens/VisionCustomizer";
 import VisionViewScreen from "../screens/VisionView";
@@ -18,7 +17,6 @@ const MainStackNavigator = () => {
       <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: true }} />
-      <Stack.Screen name="IntroSlides" component={IntroSlidesScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionCustomizer" options={{ headerShown: true }}>{props => <VisionCustomizerScreen {...props} />}</Stack.Screen>
       <Stack.Screen name="VisionView" options={{ headerShown: true }}>{props => <VisionViewScreen {...props} />}</Stack.Screen>
