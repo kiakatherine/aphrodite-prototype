@@ -64,11 +64,27 @@ function VisionCustomizer({ navigation, route }) {
     setIsModalVisible(true);
   }
 
+  function viewExamples() {
+    // TEST CODE
+    navigation.navigate('VisionBuilder');
+  }
+
   function handleSaveText(newInput) {
     setMyVisionCards(rest => [...rest, {
       text: newInput
     }]);
     setIsModalVisible(false);
+  }
+
+  // confirm delete card
+  function handleRemovableCardPress(card) {
+    //TEST code
+    let text = "Are you sure you want to delete this card?";
+    if(confirm(text) == true) {
+      handleRemovableCardPress(card);
+    } else {
+      return;
+    }
   }
 
   function handleRemovableCardPress(card) {
@@ -122,6 +138,8 @@ function VisionCustomizer({ navigation, route }) {
                     <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
                     
                     <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='pencil' size={20} />  Write text</Text>
+
+                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='search' size={20} />  Examples</Text>
                   </View>
                 </RBSheet>
               

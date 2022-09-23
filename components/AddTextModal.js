@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
 import AppLoading from 'expo-app-loading';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import {
   useFonts,
@@ -19,20 +20,22 @@ function AddTextModal(props) {
         Poppins_700Bold,
     });
 
-    const [newText, onChangeText] = useState('');
+    const [newText, onChangeText] = useState(props.value);
 
     if(!fontsLoaded) {
         return <AppLoading />;
     } else {
         return (
-            <View>
+            <View style={Styles.container}>
+                <Pressable onPress={() => props.onCancel()}><Ionicons name="close-outline" size={48}></Ionicons></Pressable>
+
                 <TextInput
-                    style={[Styles.textInput, , {fontFamily: 'Poppins_400Regular'}]}
+                    style={[Styles.modalTextInput, {fontFamily: 'Poppins_400Regular'}]}
                     placeholder="Type here"
                     value={newText}
                     onChangeText={onChangeText}
                 />
-                <Pressable style={[Styles.button, Styles.buttonFullWidth]} onPress={() => props.onSave(newText)}>
+                <Pressable style={[Styles.button, Styles.buttonFullWidth, Styles.buttonModalBottom]} onPress={() => props.onSave(newText)}>
                     <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
                 </Pressable>
             </View>

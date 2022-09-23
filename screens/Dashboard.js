@@ -22,26 +22,36 @@ function Dashboard({ navigation }) {
     Poppins_700Bold,
   });
 
-  function storeFirstThing() {
-    const db = getDatabase();
-    const reference = ref(db, 'users/' + 'Alexa');
-    set(reference, {
-      highscore: 10,
-    });
-  }
-  
+  // FIX
+  let firstTimeUser = true;
 
+  // function storeFirstThing() {
+  //   const db = getDatabase();
+  //   const reference = ref(db, 'users/' + 'Alexa');
+  //   set(reference, {
+  //     highscore: 10,
+  //   });
+  // }
+  
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
       <View style={Styles.centerContainer}>
-        <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Dashboard</Text>
-        <Pressable onPress={storeFirstThing}><Text>Test me</Text></Pressable>
-        <Pressable
-          style={[Styles.button, Styles.buttonFullWidth]}
-          onPress={() => navigation.navigate("IntroSlides")}
-        ><Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's go!</Text></Pressable>
+        {firstTimeUser &&
+            <Pressable
+            style={[Styles.button, Styles.buttonFullWidth]}
+            onPress={() => navigation.navigate("IntroSlides")}>
+            <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's go!</Text>
+          </Pressable>
+        }
+
+        {!firstTimeUser &&
+            <Pressable onPress={() => navigation.navigate("VisionView")}>
+              <Ionicons name='play-circle' size={32} />
+              <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+            </Pressable>
+        }
       </View>
     );}
   };

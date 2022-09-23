@@ -2,42 +2,42 @@ import { StyleSheet } from 'react-native';
 
 module.exports = StyleSheet.create({
     centerContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        padding: 30,
-        background: 'pink'
-    },
-    scrollView: {
-        paddingBottom: 75,
-        justifyContent: 'space-around',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      padding: 30,
+      background: 'pink'
     },
     container: {
-        flex: 1,
-        margin: 30,
-      },
+      flex: 1,
+      margin: 10,
+    },
+    scrollView: {
+      paddingBottom: 75,
+      justifyContent: 'space-around',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
     heading: {
-        fontSize: 24,
-        marginBottom: 20
-        },
+      fontSize: 24,
+      marginBottom: 20
+    },
     heading1: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 30
     },
     heading2: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginBottom: 40
+      fontSize: 20,
+      textAlign: 'center',
+      marginBottom: 40
     },
     leftHeading1: {
-        textAlign: 'left',
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20
+      textAlign: 'left',
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20
     },
     allCapsHeading: {
       textTransform: 'uppercase',
@@ -85,6 +85,11 @@ module.exports = StyleSheet.create({
       fontSize: 16,
       textAlign: 'center'
     },
+    buttonModalBottom: {
+      backgroundColor: 'black',
+      padding: 20,
+      justifyContent: 'flex-end'
+    },
     buttonDisabled: {
         backgroundColor: '#ddd',
         color: 'gray'
@@ -107,6 +112,10 @@ module.exports = StyleSheet.create({
         marginBottom: 30,
         borderBottomColor: '#8A8C9B',
         borderBottomWidth: 1
+    },
+    modalTextInput: {
+      fontSize: 28,
+      marginBottom: 30
     },
     bottomDrawer: {
         padding: 25
@@ -154,12 +163,16 @@ module.exports = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
       },
+      VisionViewContainer: {
+        background: '#2E2F36'
+      },
       VisionViewCard: {
         background: 'pink'
       },
       VisionViewCardText: {
         fontSize: 36,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white'
       },
       CardWithImage: {
         display: 'flex',
@@ -175,10 +188,27 @@ module.exports = StyleSheet.create({
         // flex: 1,
         fontSize: 48,
         padding: 3,
-        color: '#aaa',
+        color: 'white',
+        opacity: 0.3,
         borderRadius: 100
       },
       progressDotSelected: {
-        color: 'black'
+        color: 'white'
+      },
+      accountInfoLine: {
+        display: 'flex',
+        flexDirection: 'row',
+        paddingTop: 20,
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#C3C4CE'
+      },
+      accountInfoText: {
+        flex: 4,
+        fontSize: 16
+      },
+      accountInfoButton: {
+        flex: 1,
+        alignItems: 'flex-end'
       }
 });

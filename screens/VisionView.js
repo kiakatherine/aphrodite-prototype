@@ -51,7 +51,7 @@ function VisionView({ navigation, route }) {
         return <AppLoading />;
       } else {
         return (
-        <View style={[Styles.centerContainer, Styles.VisionViewCard]}>
+        <View style={[Styles.centerContainer, Styles.VisionViewContainer, Styles.VisionViewCard]}>
             {currentCard && <GestureRecognizer
                 onSwipeLeft={handleNextClick}
                 onSwipeRight={handleBackClick}

@@ -1,19 +1,111 @@
 import React, { useRef, useState } from 'react';
-import { Pressable, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Styles from "../style.js";
-import PhoneInput from "react-native-phone-number-input";
+import PhoneInput, {isValidNumber} from "react-native-phone-number-input";
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 
 function NewUser({ navigation }) {
-    const [value, setValue] = useState('');
+    // This is going to be your local ip address and the port you are running your server if you 
+    // are testing locally with your server running on the same computer and you are using
+    // android studio's emulator.
+    // If you are implementing this in your production build your base url should be where you are hosting your
+    // server program.
+    const BaseURL = 'https://verify.twilio.com/v2';
+
+    const [phoneInserted, setPhoneInserted] = useState(false);
+    const [phone, setPhone] = useState('');
     const [formattedValue, setFormattedValue] = useState("");
     const [valid, setValid] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
+    const [verfication, setverfication] = useState('');
+    // const [waitMessage, setwaitMessage] = useState(false);
+    const [checkedNumber, setCheckedNumber] = useState('');
+    const [retry, setretry] = useState(false);
     const phoneInput = useRef(PhoneInput);
 
-    const [screen, setScreen] = useState('Phone');
+    const reset = () => {
+        setPhoneInserted(false);
+        setPhone('');
+        setverfication('');
+        // setwaitMessage(false);
+        setCheckedNumber('');
+    };
 
-    // const [phoneNumberInput, onChangePhoneNumberInput] = useState(null);
+    const retryCode = () => {
+        setverfication('');
+    };
+
+    // This is the important part of the code
+    // That asks the node backend to send verication code to
+    // user phone number but before that it checks if the phone number
+    // inserted is a valid number
+    const sendCode = () => {
+        setPhoneInserted(true);
+        // setwaitMessage(true);
+        // console.log('formattedValue:', formattedValue)
+        if (!isValidNumber(formattedValue)) {
+            alert('Invalid phone number');
+            return;
+        } else {
+            console.log(`${BaseURL}/verify/${phone}`);
+            // send verfication code to phone number
+            fetch(`${BaseURL}/verify/${phone}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(res => res.json())
+                .then(res => {
+                console.log(res);
+                if (res.status === 'pending') {
+                    alert('set checked number')
+                    setCheckedNumber(phone);
+                    // setwaitMessage(false);
+                }
+                })
+                .catch(err => {
+                setPhoneInserted(false);
+                // setwaitMessage(false);
+                setPhone('');
+                console.log(err);
+                alert(err);
+            });
+        }
+    };
+
+    const verifyCode = () => {
+        console.log('checkedNumber:', checkedNumber)
+        if (!isValidNumber(checkedNumber)){
+            return false;
+        }
+    
+        // Now check if the verfication inserted was the same as 
+        // the one sent
+        fetch(`${BaseURL}/check/${checkedNumber}/${verfication}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            if (res.status === 'approved') {
+                alert('Phone Verfied');
+                // Navigate to another page  once phone is verfied
+                navigation.navigate('Validation');
+            } else {
+                // Handle other error cases like network connection problems
+                alert('Verfication failed try again!!');
+                // reset();
+                // If not network error like wrong number try again
+                setretry(true);
+            }
+        });
+    };
+
+    const [screen, setScreen] = useState('Phone');
     const [validationCode, onChangeValidationCode] = useState(null);
     const [firstName, onChangeFirstName] = useState(null);
     const [lastName, onChangeLastName] = useState(null);
@@ -21,7 +113,7 @@ function NewUser({ navigation }) {
     const [birthdayDay, onChangeBirthdayDay] = useState(null);
     const [birthdayYear, onChangeBirthdayYear] = useState(null);
     const [email, onChangeEmail] = useState(null);
-    const [gender, onChangeGender] = useState(null);
+    const [pronouns, onChangePronouns] = useState(null);
     const [identity, onChangeIdentity] = useState(null);
 
     function handleNextClick() {
@@ -50,9 +142,9 @@ function NewUser({ navigation }) {
                 return false;
             } else {
                 onChangeEmail(email);
-                setScreen('Gender');
+                setScreen('Pronouns');
             }
-        } else if(screen == 'Gender') {
+        } else if(screen == 'Pronouns') {
             setScreen('Identity');
         } else if(screen == 'Identity') {
             setScreen('Terms');
@@ -65,9 +157,9 @@ function NewUser({ navigation }) {
     
     function createUser() {
         const db = getDatabase();
-        const reference = ref(db, 'users/' + value);
+        const reference = ref(db, 'users/' + phone);
         set(reference, {
-            value,
+            phone,
             validationCode,
             firstName,
             lastName,
@@ -75,7 +167,7 @@ function NewUser({ navigation }) {
             birthdayDay,
             birthdayYear,
             email,
-            gender,
+            pronouns,
             identity
         });
     }
@@ -83,40 +175,60 @@ function NewUser({ navigation }) {
     return (
         <SafeAreaView style={Styles.centerContainer}>
             {screen === 'Phone' &&
-                <SafeAreaView>
-                    <Text style={Styles.leftHeading1}>Phone number</Text>
+                <View>
                     <View>
-                        <SafeAreaView>
-                        <PhoneInput
-                            ref={phoneInput}
-                            defaultValue={value}
-                            defaultCode="US"
-                            layout="first"
-                            onChangeText={(text) => {
-                                setValue(text);
-                            }}
-                            onChangeFormattedText={(text) => {
-                                setFormattedValue(text);
-                            }}
-                            withDarkTheme
-                            withShadow
-                            autoFocus
-                        />
-                        </SafeAreaView>
+                    <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        onPress={() => navigation.navigate('FirstScreen')}
+                        style={{marginBottom: 20}}
+                    >
+                        <Text style={{textDecorationLine: 'underline'}}>Back</Text>
+                    </TouchableHighlight>
+                    {/* <Text style={[CStyle.baseText, {marginBottom: 20, maxWidth: 300}]}>
+                        Your cell phone number will be used for account verification and
+                        notifications. Standard rates will apply.
+                    </Text> */}
                     </View>
 
-                    <Pressable
-                        style={[Styles.button, Styles.buttonFullWidth]}
-                        onPress={() => {
-                            const checkValid = phoneInput.current?.isValidNumber(value);
-                            setValid(checkValid ? checkValid : false);
-                            if(checkValid) {
-                                setScreen('Validation');
-                            }
-                        }}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </SafeAreaView>}
+                    <View style={{marginBottom: 20, alignSelf: 'center'}}>
+                        {!phoneInserted ? (
+                            <View style={{alignSelf: 'center'}}>
+                                <Text style={[Styles.heading1, {marginBottom: 20}]}>Phone number</Text>
+                                <PhoneInput
+                                    defaultCode="US"
+                                    layout="first"
+                                    disabled={phoneInserted}
+                                    value={phone}
+                                    onChangeText={text => {
+                                        setPhone(text);
+                                    }}
+                                    onChangeFormattedText={text => {
+                                        setFormattedValue(text);
+                                    }}
+                                    withDarkTheme
+                                    withShadow
+                                    autoFocus />
+                                <Button title="Send Code" onPress={sendCode} />
+                            </View>
+                            ) : (
+                                <View>
+                                    <Text style={[Styles.heading1, {marginBottom: 20}]}>Verification code</Text>
+                                    <TextInput
+                                        style={Styles.textInput}
+                                        onChangeText={setverfication}
+                                        value={verfication}
+                                        keyboardType="numeric" />
+
+                                    <Pressable
+                                        style={[Styles.button, Styles.buttonFullWidth]}
+                                        onPress={verifyCode}>
+                                            <Text style={Styles.buttonText}>Verify</Text>
+                                    </Pressable>
+                                </View>
+                            )}
+                    </View>
+                </View>}
 
             {screen === 'Validation' &&
                 <SafeAreaView>
@@ -223,52 +335,70 @@ function NewUser({ navigation }) {
                     </Pressable>
                 </SafeAreaView>}
             
-            {screen === 'Gender' &&
+            {screen === 'Pronouns' &&
                 <SafeAreaView>
-                    <Text style={Styles.leftHeading1}>Gender</Text>
+                    <Text style={Styles.leftHeading1}>What pronouns do you use?</Text>
                     <Pressable
                         style={[Styles.buttonInverted, Styles.buttonFullWidth]}
                         onPress={() => {
-                            onChangeGender('female');
+                            onChangePronouns('she/her/hers');
                             handleNextClick();
                         }}>
-                        <Text style={Styles.buttonInvertedText}>Female</Text>
+                        <Text style={Styles.buttonInvertedText}>she/her/hers</Text>
                     </Pressable>
 
                     <Pressable
                         style={[Styles.buttonInverted, Styles.buttonFullWidth]}
                         onPress={() => {
-                            onChangeGender('male');
+                            onChangePronouns('he/him/his');
                             handleNextClick();
                         }}>
-                        <Text style={Styles.buttonInvertedText}>Male</Text>
+                        <Text style={Styles.buttonInvertedText}>he/him/his</Text>
                     </Pressable>
 
                     <Pressable
                         style={[Styles.buttonInverted, Styles.buttonFullWidth]}
                         onPress={() => {
-                            onChangeGender('transgenderFemale');
+                            onChangePronouns('they/them/theirs');
                             handleNextClick();
                         }}>
-                        <Text style={Styles.buttonInvertedText}>Transgender female</Text>
+                        <Text style={Styles.buttonInvertedText}>they/them/theirs</Text>
                     </Pressable>
 
                     <Pressable
                         style={[Styles.buttonInverted, Styles.buttonFullWidth]}
                         onPress={() => {
-                            onChangeGender('transgenderMale');
+                            onChangePronouns('ze/hir/hirs');
                             handleNextClick();
                         }}>
-                        <Text style={Styles.buttonInvertedText}>Transgender male</Text>
+                        <Text style={Styles.buttonInvertedText}>ze/hir/hirs</Text>
                     </Pressable>
 
                     <Pressable
                         style={[Styles.buttonInverted, Styles.buttonFullWidth]}
                         onPress={() => {
-                            onChangeGender('nonBinaryNonConforming');
+                            onChangePronouns('noPreference');
                             handleNextClick();
                         }}>
-                        <Text style={Styles.buttonInvertedText}>Non-binary/Non-conforming</Text>
+                        <Text style={Styles.buttonInvertedText}>No preference</Text>
+                    </Pressable>
+
+                    <Pressable
+                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        onPress={() => {
+                            onChangePronouns('notListed');
+                            handleNextClick();
+                        }}>
+                        <Text style={Styles.buttonInvertedText}>Not listed</Text>
+                    </Pressable>
+
+                    <Pressable
+                        style={[Styles.buttonInverted, Styles.buttonFullWidth]}
+                        onPress={() => {
+                            onChangePronouns('preferNotToSay');
+                            handleNextClick();
+                        }}>
+                        <Text style={Styles.buttonInvertedText}>Prefer not to say</Text>
                     </Pressable>
                 </SafeAreaView>}
             
