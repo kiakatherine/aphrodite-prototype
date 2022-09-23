@@ -5,12 +5,11 @@ import Styles from "../style.js";
 function Signin({ navigation }) {
   return (
     <SafeAreaView style={Styles.centerContainer}>
-      <Text>Account info goes here</Text>
       <Pressable onPress={() => navigation.navigate('Home')}>
         <Text>Aphrodite</Text>
         <Text>Manifest your dream relationship.</Text>
-        <Pressable onPress={() => navigation.navigate('Signin')}><Text>New user</Text></Pressable>
-        <Pressable><Text>Sign in</Text></Pressable>
+        <Pressable style={[Styles.button, Styles.buttonFullWidth]} onPress={() => navigation.navigate('Dashboard')}>
+            <Text style={Styles.buttonText}>Sign in</Text></Pressable>
       </Pressable>
     </SafeAreaView>
   );
