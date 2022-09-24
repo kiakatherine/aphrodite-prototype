@@ -47,6 +47,9 @@ module.exports = StyleSheet.create({
     textAlignLeft: {
       textAlign: 'left'
     },
+    textAlignRight: {
+      textAlign: 'right'
+    },
     leftHeading1: {
       textAlign: 'left',
       fontSize: 24,
@@ -104,6 +107,9 @@ module.exports = StyleSheet.create({
       borderColor: 'white',
       padding: 20,
       borderRadius: 100
+    },
+    buttonLink: {
+      padding: 25
     },
     buttonDisabled: {
         backgroundColor: '#ddd',
