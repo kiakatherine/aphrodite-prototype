@@ -53,7 +53,8 @@ module.exports = StyleSheet.create({
       marginBottom: 40
     },
     textAlignCenter: {
-      textAlign: 'center'
+      textAlign: 'center',
+      alignItems: 'center'
     },
     textAlignLeft: {
       textAlign: 'left'

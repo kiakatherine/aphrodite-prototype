@@ -31,7 +31,7 @@ function NotificationsScreen({ navigation }) {
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible &&
-        <View><Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Notifications</Text>
+        <View style={[Styles.containerPadding, {marginTop: 20}]}><Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Notifications</Text>
         
         <View style={Styles.accountInfoLine}>
           <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_500Medium' }]}>Morning affirmations</Text>

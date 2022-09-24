@@ -80,7 +80,7 @@ function AccountScreen({ navigation }) {
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible && (
-        <View>
+        <View style={[Styles.containerPadding, {marginTop: 20}]}>
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>

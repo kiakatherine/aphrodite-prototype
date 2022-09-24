@@ -53,7 +53,7 @@ function Dashboard({ navigation }) {
     return <AppLoading />;
   } else {
     return (
-      <View style={Styles.centerContainer}>
+      <View style={[Styles.centerContainer, Styles.lightBackground]}>
         {firstTimeUser &&
             <View>
               <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
@@ -61,7 +61,7 @@ function Dashboard({ navigation }) {
               <Pressable
                 style={Styles.button}
                 onPress={() => navigation.navigate('VisionBuilder')}>
-                  <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Let's begin</Text>
+                  <Text style={Styles.buttonText}>Let's begin</Text>
               </Pressable>
           </View>
         }

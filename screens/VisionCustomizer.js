@@ -64,6 +64,10 @@ function VisionCustomizer({ navigation, route }) {
     setIsModalVisible(true);
   }
 
+  function handleCancel() {
+    setIsModalVisible(false);
+  }
+
   function viewExamples() {
     navigation.navigate('VisionBuilder');
   }
@@ -88,7 +92,7 @@ function VisionCustomizer({ navigation, route }) {
   } else {
     return (
       <View style={Styles.containerWithoutHeader}>
-        {isModalVisible && <AddTextModal onSave={handleSaveText} />}
+        {isModalVisible && <AddTextModal onSave={handleSaveText} onCancel={handleCancel} />}
         
         {!isModalVisible && <View>
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
