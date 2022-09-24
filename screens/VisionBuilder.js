@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Pressable, SafeAreaView, ScrollView, Text } from 'react-native';
+import { Pressable, View, ScrollView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
 import AppLoading from 'expo-app-loading';
@@ -51,7 +51,7 @@ function VisionBuilder({ navigation }) {
       return <AppLoading />;
     } else {
       return (
-        <SafeAreaView style={Styles.container}>
+        <View style={Styles.container}>
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Tap the cards that speak to you.</Text>
           
           <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -65,7 +65,7 @@ function VisionBuilder({ navigation }) {
             onPress={() => navigation.navigate("VisionCustomizer", {selectedCards})}>
               <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
           </Pressable>
-        </SafeAreaView>
+        </View>
       );
     }
   };

@@ -20,7 +20,7 @@ function VisionView({ navigation, route }) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
-      
+    
     let myVisionCards = route.params.myVisionCards;
     const [currentCard, setCurrentCard] = useState(myVisionCards[0]);
     const config = {
@@ -55,7 +55,7 @@ function VisionView({ navigation, route }) {
         <View style={[Styles.centerContainer, Styles.VisionViewContainer, Styles.VisionViewCard]}>
             <Pressable
                 style={Styles.topRightCloseButton}
-                onPress={() => navigation.navigate('VisionCustomizer', {myVisionCards})}>
+                onPress={() => navigation.goBack()}>
                     <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
             </Pressable>
             {currentCard &&

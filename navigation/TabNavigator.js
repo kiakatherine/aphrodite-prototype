@@ -32,7 +32,7 @@ const BottomTabNavigator = () => {
         })}>
       <Tab.Screen name="Home" component={MainStackNavigator} options={{ headerShown: false }} />
       <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: true }} />
     </Tab.Navigator>
   );
 };

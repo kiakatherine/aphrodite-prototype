@@ -23,7 +23,22 @@ function Dashboard({ navigation }) {
   });
 
   // FIX
-  let firstTimeUser = true;
+  let firstTimeUser = false;
+
+  const myVisionCards = [
+    {
+      text: "My partner is kind."
+    },
+    {
+      text: "My partner sees me for who I am."
+    },
+    {
+      text: "We are a power couple."
+    },
+    {
+      text: "We support each other."
+    }
+  ];
 
   // function storeFirstThing() {
   //   const db = getDatabase();
@@ -40,8 +55,8 @@ function Dashboard({ navigation }) {
       <View style={Styles.centerContainer}>
         {firstTimeUser &&
             <View>
-              <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
-              <Text style={[Styles.bodyText, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
+              <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
+              <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
               <Pressable
                 style={Styles.button}
                 onPress={() => navigation.navigate('VisionBuilder')}>
@@ -51,7 +66,7 @@ function Dashboard({ navigation }) {
         }
 
         {!firstTimeUser &&
-            <Pressable onPress={() => navigation.navigate("VisionView")}>
+            <Pressable onPress={() => navigation.navigate("VisionView", { myVisionCards })}>
               <Ionicons name='play-circle' size={32} />
               <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
             </Pressable>

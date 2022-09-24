@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pressable, SafeAreaView, Text, View } from 'react-native';
 import Styles from "../style.js";
-import { getDatabase, ref, onValue, set, update } from 'firebase/database';
+import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddTextModal from '../components/AddTextModal.js';
 
@@ -24,11 +24,10 @@ function AccountScreen({ navigation }) {
   const [currentField, setCurrentField] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [email, setEmail] = useState(null);
-  const [phone, setPhone] = useState(null);
   const [birthday, setBirthday] = useState(null);
   const [pronouns, setPronouns] = useState(null);
   const [identity, setIdentity] = useState(null);
@@ -37,23 +36,16 @@ function AccountScreen({ navigation }) {
   const currentUserId = '7133026633';
   const currentUserRef = ref(db, 'users/' + currentUserId);
 
-  const getCurrentUser = async() => {
-    onValue(currentUser, (snapshot) => {
+  useEffect(() => {
+    return onValue(currentUserRef, (snapshot) => {
       setCurrentUser(snapshot.val());
       setFirstName(snapshot.val().firstName);
       setLastName(snapshot.val().lastName);
-      // setPhone(snapshot.val().phone);
       setEmail(snapshot.val().email);
-      setBirthdayDay(snapshot.val().birthdayMonth);
-      setBirthdayMonth(snapshot.val().birthdayDay);
-      setBirthdayYear(snapshot.val().birthdayYear);
+      setBirthday(snapshot.val().birthday);
       setPronouns(snapshot.val().pronouns);
       setIdentity(snapshot.val().identity);
     });
-  }
-
-  useEffect(() => {
-    getCurrentUser();
   }, [])
 
   function handleEditClick(field, fieldData) {

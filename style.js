@@ -9,7 +9,6 @@ module.exports = StyleSheet.create({
       padding: 30
     },
     container: {
-      paddingTop: 100,
       padding: 25
     },
     fullScreen: {

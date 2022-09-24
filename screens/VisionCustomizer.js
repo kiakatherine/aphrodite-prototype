@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef } from "react";
 import { useState } from 'react';
-import { Pressable, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
@@ -65,7 +65,6 @@ function VisionCustomizer({ navigation, route }) {
   }
 
   function viewExamples() {
-    // TEST CODE
     navigation.navigate('VisionBuilder');
   }
 
@@ -76,18 +75,8 @@ function VisionCustomizer({ navigation, route }) {
     setIsModalVisible(false);
   }
 
-  // confirm delete card
   function confirmRemovableCardPress(card) {
-    // FIX
-    let text = "Are you sure you want to delete this card?";
-    if(confirm(text) == true) {
-      handleRemovableCardPress(card);
-    } else {
-      return;
-    }
-  }
-
-  function handleRemovableCardPress(card) {
+    // add confirmation
     const updatedCards = myVisionCards.filter(visionCard => {
       return visionCard !== card;
     });
@@ -98,15 +87,15 @@ function VisionCustomizer({ navigation, route }) {
     return <AppLoading />;
   } else {
     return (
-      <SafeAreaView style={Styles.container}>
+      <View style={Styles.container}>
         {isModalVisible && <AddTextModal onSave={handleSaveText} />}
         
         {!isModalVisible && <View>
             <View style={Styles.displayFlex}>
               {<Pressable
-                  style={[Styles.buttonSmall, Styles.flexOne]}
+                  style={Styles.buttonSmall}
                   disabled={myVisionCards.length === 0}
-                  onPress={() => navigation.navigate('VisionView', {myVisionCards})}>
+                  onPress={() => navigation.navigate.goBack()}>
                     <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
               </Pressable>}
             </View>
@@ -146,7 +135,7 @@ function VisionCustomizer({ navigation, route }) {
               <ListItems selectedCards={route.params.selectedCards} />
             </ScrollView>
           </View>}
-      </SafeAreaView>
+      </View>
     );
     }
   };
