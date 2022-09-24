@@ -95,7 +95,7 @@ function VisionCustomizer({ navigation, route }) {
               {<Pressable
                   style={Styles.buttonSmall}
                   disabled={myVisionCards.length === 0}
-                  onPress={() => navigation.navigate('VisionView', {myVisionCards})}>
+                  onPress={() => navigation.navigate('VisionViewTiles', {myVisionCards})}>
                     <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
               </Pressable>}
             </View>

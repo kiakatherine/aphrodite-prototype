@@ -28,7 +28,9 @@ function AccountScreen({ navigation }) {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [email, setEmail] = useState(null);
-  const [birthday, setBirthday] = useState(null);
+  const [birthdayMonth, setBirthdayMonth] = useState(null);
+  const [birthdayDay, setBirthdayDay] = useState(null);
+  const [birthdayYear, setBirthdayYear] = useState(null);
   const [pronouns, setPronouns] = useState(null);
   const [identity, setIdentity] = useState(null);
 
@@ -42,13 +44,16 @@ function AccountScreen({ navigation }) {
       setFirstName(snapshot.val().firstName);
       setLastName(snapshot.val().lastName);
       setEmail(snapshot.val().email);
-      setBirthday(snapshot.val().birthday);
+      setBirthdayMonth(snapshot.val().birthdayMonth);
+      setBirthdayDay(snapshot.val().birthdayDay);
+      setBirthdayYear(snapshot.val().birthdayYear);
       setPronouns(snapshot.val().pronouns);
       setIdentity(snapshot.val().identity);
     });
   }, [])
 
   function handleEditClick(field, fieldData) {
+    // FIX FOR BIRTHDAY
     setCurrentField(field);
     setCurrentVal(fieldData);
     setIsModalVisible(true);
@@ -115,10 +120,10 @@ function AccountScreen({ navigation }) {
           </View> */}
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{birthday}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{birthdayMonth} / {birthdayDay} / {birthdayYear}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('birthday', birthday)}>
+              onPress={() => handleEditClick('birthday', birthdayMonth, birthdayDay, birthdayYear)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>

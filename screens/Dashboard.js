@@ -25,6 +25,7 @@ function Dashboard({ navigation }) {
   // FIX
   let firstTimeUser = false;
 
+  // FIX
   const myVisionCards = [
     {
       text: "My partner is kind."
@@ -68,7 +69,7 @@ function Dashboard({ navigation }) {
         {!firstTimeUser &&
             <Pressable
               style={Styles.DashboardVisionView}
-              onPress={() => navigation.navigate("VisionView", { myVisionCards })}>
+              onPress={() => navigation.navigate("VisionViewTiles", { myVisionCards })}>
                 <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
                 <Ionicons style={{color: 'white'}} name='play-circle' size={64} />
             </Pressable>

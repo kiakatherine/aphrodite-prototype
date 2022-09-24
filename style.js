@@ -25,6 +25,9 @@ module.exports = StyleSheet.create({
       flexDirection: 'row',
       flexWrap: 'wrap',
     },
+    darkBackground: {
+      backgroundColor: '#2E2F36'
+    },
     heading: {
       fontSize: 24,
       marginBottom: 20
@@ -95,6 +98,12 @@ module.exports = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 16,
       textAlign: 'center'
+    },
+    buttonOutline: {
+      borderWidth: 2,
+      borderColor: 'white',
+      padding: 20,
+      borderRadius: 100
     },
     buttonDisabled: {
         backgroundColor: '#ddd',
@@ -169,16 +178,21 @@ module.exports = StyleSheet.create({
         borderColor: '#F4ECDF'
       },
       CardText: {
-        fontSize: 20
+        fontSize: 20,
       },
       CardSelected: {
         borderColor: 'black'
+      },
+      darkCard: {
+        backgroundColor: '#4F505A',
+        borderWidth: 0
       },
       DashboardVisionView: {
         marginTop: 75,
         width: '100%',
         backgroundColor: '#2E2F36',
-        padding: 30
+        padding: 30,
+        borderRadius: 15
       },
       RemovableCardButton: {
         zIndex: 1,
@@ -190,10 +204,10 @@ module.exports = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
       },
-      VisionViewContainer: {
+      VisionViewFullScreenContainer: {
         background: '#2E2F36'
       },
-      VisionViewCard: {
+      VisionViewFullScreenCard: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
@@ -201,7 +215,7 @@ module.exports = StyleSheet.create({
         padding: 30,
         backgroundColor: '#2E2F36'
       },
-      VisionViewCardText: {
+      VisionViewFullScreenCardText: {
         fontSize: 36,
         textAlign: 'center',
         color: 'white'

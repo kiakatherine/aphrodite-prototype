@@ -6,7 +6,8 @@ import NewUserScreen from "../screens/NewUser";
 import SigninScreen from "../screens/Signin";
 import VisionBuilderScreen from "../screens/VisionBuilder";
 import VisionCustomizerScreen from "../screens/VisionCustomizer";
-import VisionViewScreen from "../screens/VisionView";
+import VisionViewTiles from "../screens/VisionViewTiles";
+import VisionViewFullScreen from "../screens/VisionViewFullScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,8 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
       <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionCustomizer" options={{ headerShown: true }}>{props => <VisionCustomizerScreen {...props} />}</Stack.Screen>
-      <Stack.Screen name="VisionView" options={{ headerShown: false }}>{props => <VisionViewScreen {...props} />}</Stack.Screen>
+      <Stack.Screen name="VisionViewTiles" options={{ headerShown: true }}>{props => <VisionViewTiles {...props} />}</Stack.Screen>
+      <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
     </Stack.Navigator>
   );
 }
