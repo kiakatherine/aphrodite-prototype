@@ -10,7 +10,8 @@ module.exports = StyleSheet.create({
     },
     containerPadding: {
       padding: 30,
-      paddingTop: 0
+      paddingTop: 0,
+      height: '100%'
     },
     containerWithoutHeader: {
       marginTop: 55
@@ -21,14 +22,17 @@ module.exports = StyleSheet.create({
       alignItems: 'center', // vertically centers content
       borderBottomWidth: 1,
       borderBottomColor: '#C3C4CE',
-      padding: 12
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 2,
+      paddingBottom: 4
     },
     fullScreen: {
       display: 'flex',
       flexDirection: 'column',
     },
     scrollView: {
-      paddingBottom: 75,
+      // height: '50%',
       justifyContent: 'space-around',
       flexDirection: 'row',
       flexWrap: 'wrap',

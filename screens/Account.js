@@ -35,7 +35,7 @@ function AccountScreen({ navigation }) {
   const [identity, setIdentity] = useState(null);
 
   const db = getDatabase();
-  const currentUserId = '7133026633';
+  const currentUserId = '7133026633'; // FIX
   const currentUserRef = ref(db, 'users/' + currentUserId);
 
   useEffect(() => {

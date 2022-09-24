@@ -9,6 +9,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 
 import {
   useFonts,
@@ -48,6 +49,10 @@ function VisionCustomizer({ navigation, route }) {
     }
   };
 
+  const db = getDatabase();
+  const currentUserId = '7133026633'; // FIX
+  const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
+
   const ListItems = (props) => {
     if(myVisionCards.length) {
       console.log('myVisionCards', myVisionCards);
@@ -81,6 +86,7 @@ function VisionCustomizer({ navigation, route }) {
 
   function confirmRemovableCardPress(card) {
     // add confirmation
+    // delete card
     const updatedCards = myVisionCards.filter(visionCard => {
       return visionCard !== card;
     });
