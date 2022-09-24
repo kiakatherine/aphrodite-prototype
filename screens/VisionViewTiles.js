@@ -28,13 +28,7 @@ function VisionViewTiles({ navigation, route }) {
         return <AppLoading />;
       } else {
         return (
-            <View style={[Styles.centerContainer, Styles.darkBackground]}>
-                <Pressable
-                    style={[Styles.buttonLink, Styles.textAlignRight]}
-                    onPress={() => navigation.navigate("VisionCustomizer", { myVisionCards })}>
-                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons name='create-outline' size={24} /></Text>
-                </Pressable>
-                
+            <View style={[Styles.centerContainer, Styles.darkBackground]}>                
                 <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
                 
                 <Pressable

@@ -23,7 +23,7 @@ function Dashboard({ navigation }) {
   });
 
   // FIX
-  let firstTimeUser = false;
+  let firstTimeUser = true;
 
   // FIX
   const myVisionCards = [

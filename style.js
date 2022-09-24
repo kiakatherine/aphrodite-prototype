@@ -8,12 +8,20 @@ module.exports = StyleSheet.create({
       textAlign: 'center',
       padding: 30
     },
-    container: {
-      padding: 25
+    containerPadding: {
+      padding: 30,
+      paddingTop: 0
     },
     containerWithoutHeader: {
-      marginTop: 50,
-      padding: 30
+      marginTop: 55
+    },
+    customHeader: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center', // vertically centers content
+      borderBottomWidth: 1,
+      borderBottomColor: '#C3C4CE',
+      padding: 12
     },
     fullScreen: {
       display: 'flex',
@@ -24,6 +32,9 @@ module.exports = StyleSheet.create({
       justifyContent: 'space-around',
       flexDirection: 'row',
       flexWrap: 'wrap',
+    },
+    lightBackground: {
+      backgroundColor: 'white'
     },
     darkBackground: {
       backgroundColor: '#2E2F36'
@@ -158,12 +169,13 @@ module.exports = StyleSheet.create({
     },
     bottomDrawerHeader: {
         fontSize: 24,
-        fontWeight: 'bold',
         marginBottom: 25
     },
     bottomDrawerText: {
         fontSize: 20,
-        marginBottom: 25
+        marginBottom: 25,
+        borderBottomColor: '#D8D8D8',
+        borderBottomWidth: 2
     },
     validationCodeInput: {
       marginRight: 15,
@@ -171,11 +183,10 @@ module.exports = StyleSheet.create({
       borderBottomWidth: 2
     },
     Card: {
-        flex: '0 1 auto',
-        justifyContent: 'space-around',
+        width: '45%',
+        justifyContent: 'space-around', // vertically centers content
         alignItems: 'center',
         minHeight: 165,
-        width: '45%',
         marginBottom: 20,
         padding: 25,
         backgroundColor: '#F2EDE4',
