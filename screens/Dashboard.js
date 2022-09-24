@@ -66,9 +66,11 @@ function Dashboard({ navigation }) {
         }
 
         {!firstTimeUser &&
-            <Pressable onPress={() => navigation.navigate("VisionView", { myVisionCards })}>
-              <Ionicons name='play-circle' size={32} />
-              <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+            <Pressable
+              style={Styles.DashboardVisionView}
+              onPress={() => navigation.navigate("VisionView", { myVisionCards })}>
+                <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+                <Ionicons style={{color: 'white'}} name='play-circle' size={64} />
             </Pressable>
         }
       </View>

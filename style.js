@@ -11,6 +11,10 @@ module.exports = StyleSheet.create({
     container: {
       padding: 25
     },
+    containerWithoutHeader: {
+      marginTop: 50,
+      padding: 30
+    },
     fullScreen: {
       display: 'flex',
       flexDirection: 'column',
@@ -28,7 +32,7 @@ module.exports = StyleSheet.create({
     heading1: {
       fontSize: 24,
       fontWeight: 'bold',
-      marginBottom: 30
+      marginBottom: 10
     },
     heading2: {
       fontSize: 18,
@@ -56,6 +60,9 @@ module.exports = StyleSheet.create({
         textAlign: 'left',
         fontSize: 18,
         marginBottom: 40
+    },
+    textWhite: {
+      color: 'white'
     },
     displayFlex: {
         display: 'flex',
@@ -114,7 +121,7 @@ module.exports = StyleSheet.create({
     },
     topRightCloseButton: {
       position: 'absolute',
-      top: 30,
+      top: 50,
       right: 30
     },
     modalTextInput: {
@@ -167,6 +174,12 @@ module.exports = StyleSheet.create({
       CardSelected: {
         borderColor: 'black'
       },
+      DashboardVisionView: {
+        marginTop: 75,
+        width: '100%',
+        backgroundColor: '#2E2F36',
+        padding: 30
+      },
       RemovableCardButton: {
         zIndex: 1,
         position: 'absolute',
@@ -216,8 +229,8 @@ module.exports = StyleSheet.create({
       accountInfoLine: {
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 20,
-        paddingBottom: 10,
+        paddingTop: 25,
+        paddingBottom: 25,
         borderBottomWidth: 1,
         borderBottomColor: '#C3C4CE'
       },

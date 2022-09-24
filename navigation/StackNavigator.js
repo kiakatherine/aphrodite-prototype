@@ -16,10 +16,10 @@ const MainStackNavigator = () => {
       <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
       <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
       <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: true }} />
       <Stack.Screen name="VisionCustomizer" options={{ headerShown: true }}>{props => <VisionCustomizerScreen {...props} />}</Stack.Screen>
-      <Stack.Screen name="VisionView" options={{ headerShown: true }}>{props => <VisionViewScreen {...props} />}</Stack.Screen>
+      <Stack.Screen name="VisionView" options={{ headerShown: false }}>{props => <VisionViewScreen {...props} />}</Stack.Screen>
     </Stack.Navigator>
   );
 }

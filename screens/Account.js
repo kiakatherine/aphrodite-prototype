@@ -70,7 +70,7 @@ function AccountScreen({ navigation }) {
   }
 
   return (
-    <View style={Styles.container}>
+    <View style={Styles.containerWithoutHeader}>
       {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
