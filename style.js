@@ -25,7 +25,7 @@ module.exports = StyleSheet.create({
       paddingLeft: 10,
       paddingRight: 10,
       paddingTop: 2,
-      paddingBottom: 4
+      paddingBottom: 20
     },
     fullScreen: {
       display: 'flex',

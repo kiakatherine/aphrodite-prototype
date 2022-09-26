@@ -14,8 +14,9 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
 
-function VisionBuilder({ navigation }) {
+function VisionBuilder({navigation, cards}) {
     let [fontsLoaded] = useFonts({
       Poppins_400Regular,
       Poppins_500Medium,
@@ -27,14 +28,7 @@ function VisionBuilder({ navigation }) {
     const currentUserId = '7133026633'; // FIX
     const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
 
-    // useEffect(() => {
-    //   return onValue(cardsRef, (snapshot) => {
-    //     setSelectedCards(snapshot.val());
-    //   });
-    // }, [])
-
-    const [selectedCards, setSelectedCards] = useState([]);
-
+    const [selectedCards, setSelectedCards] = useState(cards ? cards : []);
     const exampleCards = [
       { text: "My partner is kind.", type: "text" },
       { text: "My partner sees me for who I am.", type: "text" },
@@ -56,18 +50,32 @@ function VisionBuilder({ navigation }) {
     }
 
     function clickDone() {
-      // FIX - check for duplicates
-      // add uid
-
-      var cards = [];
-
+      // save cards with unique id
       selectedCards.forEach(card => {
-        const addedCard = push(cardsRef, card);
-        const uid = addedCard.key;
-        update(addedCard, { id: uid });
+        let newCards = [];
+
+        // check for duplicates before adding to database
+        const cardsToAdd = selectedCards.filter((card, index) => {
+          return card.text !== selectedCards[index].text; 
+        });
+
+        if(cardsToAdd.length === 0) {
+          // no new cards to add
+          navigation.navigate("VisionCustomizer", {selectedCards});
+        } else {
+          const addedCard = push(cardsRef, card);
+          const uid = addedCard.key;
+          update(addedCard, { id: uid });
+          newCards.push({
+            'text': card.text,
+            'type': card.type,
+            'id': uid
+          });
+        }
+        
+        setSelectedCards(newCards);
+        navigation.navigate("VisionCustomizer", {selectedCards: newCards});
       });
-      push(cardsRef, cards);
-      navigation.navigate("VisionCustomizer", {selectedCards});
     }
 
     if(!fontsLoaded) {
@@ -78,7 +86,7 @@ function VisionBuilder({ navigation }) {
           <View style={[Styles.customHeader, {marginBottom: 30}]}>
             <Pressable
                 style={[Styles.textAlignRight, Styles.flexOne]}
-                onPress={() => navigation.goBack()}>
+                onPress={() => navigation.goBack({selectedCards})}>
                     <Ionicons name='arrow-back-outline' size={24} />
             </Pressable>
 

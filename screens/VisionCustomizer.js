@@ -19,7 +19,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function VisionCustomizer({ navigation, route }) {
+function VisionCustomizer({ navigation, cards }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -27,8 +27,8 @@ function VisionCustomizer({ navigation, route }) {
     Poppins_700Bold,
   });
 
+  const [myVisionCards, setMyVisionCards] = useState(cards);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [myVisionCards, setMyVisionCards] = useState(route.params.selectedCards);
   const refRBSheet = useRef(); // bottom drawer
   const [image, setImage] = useState(null);
 
@@ -41,8 +41,6 @@ function VisionCustomizer({ navigation, route }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
       setMyVisionCards(rest => [...rest, result]);
@@ -54,9 +52,7 @@ function VisionCustomizer({ navigation, route }) {
   const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
 
   const ListItems = (props) => {
-    if(myVisionCards.length) {
-      console.log('myVisionCards', myVisionCards);
-      
+    if(myVisionCards.length) {      
       return myVisionCards.map(card => 
           <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>);
     } else {
@@ -74,7 +70,7 @@ function VisionCustomizer({ navigation, route }) {
   }
 
   function viewExamples() {
-    navigation.navigate('VisionBuilder');
+    navigation.navigate('VisionBuilder', {myVisionCards});
   }
 
   function handleSaveText(newInput) {
@@ -85,12 +81,10 @@ function VisionCustomizer({ navigation, route }) {
   }
 
   function confirmRemovableCardPress(card) {
-    // add confirmation
-    // delete card
-    const updatedCards = myVisionCards.filter(visionCard => {
-      return visionCard !== card;
-    });
-    setMyVisionCards(updatedCards.length ? updatedCards : []);
+    // FIX: add confirmation
+    const cardRef = ref(db, 'users/' + currentUserId + '/cards/' + card.id);
+    remove(cardRef);
+    setMyVisionCards(myVisionCards.length ? myVisionCards : []);
   }
 
   if(!fontsLoaded) {
@@ -104,7 +98,7 @@ function VisionCustomizer({ navigation, route }) {
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
               <Pressable
                   style={[Styles.textAlignRight, Styles.flexOne]}
-                  onPress={() => navigation.goBack()}>
+                  onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}>
                       <Ionicons name='arrow-back-outline' size={24} />
               </Pressable>
 
@@ -153,11 +147,11 @@ function VisionCustomizer({ navigation, route }) {
                       
                       <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
 
-                      <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder')}><Ionicons name='search' size={20} />  Examples</Text>
+                      <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}><Ionicons name='search' size={20} />  Examples</Text>
                     </View>
                   </RBSheet>
                 
-                <ListItems selectedCards={route.params.selectedCards} />
+                <ListItems selectedCards={myVisionCards} />
               </ScrollView>
             </View>
           </View>}

@@ -18,9 +18,15 @@ const MainStackNavigator = () => {
       <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="VisionBuilder" component={VisionBuilderScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>{props => <VisionCustomizerScreen {...props} />}</Stack.Screen>
-      <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>{props => <VisionViewTiles {...props} />}</Stack.Screen>
+      <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
+        {props => <VisionBuilderScreen {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
+        {props => <VisionCustomizerScreen {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
+        {props => <VisionViewTiles {...props} />}
+      </Stack.Screen>
       <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
     </Stack.Navigator>
   );
