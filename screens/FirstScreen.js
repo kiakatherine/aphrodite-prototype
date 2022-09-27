@@ -28,7 +28,7 @@ function FirstScreen({ navigation }) {
                 <Text style={[Styles.heading2, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Manifest your dream relationship.</Text>
                 <Pressable
                     style={[Styles.button, {marginBottom: 20}]}
-                    onPress={() => navigation.navigate('NewUser')}>
+                    onPress={() => navigation.navigate('PhoneNumber')}>
                         <Text style={Styles.buttonText}>New user</Text>
                 </Pressable>
                 <Pressable

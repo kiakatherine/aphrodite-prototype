@@ -10,7 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
 import DashboardScreen from "./screens/Dashboard";
 import FirstScreenScreen from "./screens/FirstScreen";
-import NewUserScreen from "./screens/NewUser";
+import PhoneNumberScreen from "./screens/PhoneNumber";
 import SigninScreen from "./screens/Signin";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
@@ -20,6 +20,10 @@ import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
 
 function App() {
+  // type StackParamList = {
+  //   PhoneNumber: undefined;
+  // };
+ 
   const [currentUser, setCurrentUser] = useState();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -66,7 +70,7 @@ function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />        
         <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
@@ -81,7 +85,7 @@ function App() {
         <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
       </Stack.Navigator>
     );
-    }
+  }
 
   return (
     <NavigationContainer>

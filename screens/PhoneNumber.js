@@ -1,17 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Styles from "../style.js";
-import PhoneInput, {isValidNumber} from "react-native-phone-number-input";
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 
-function NewUser({ navigation }) {
-    // This is going to be your local ip address and the port you are running your server if you 
-    // are testing locally with your server running on the same computer and you are using
-    // android studio's emulator.
-    // If you are implementing this in your production build your base url should be where you are hosting your
-    // server program.
-    const BaseURL = 'https://verify.twilio.com/v2';
+import PhoneInput, {isValidNumber} from "react-native-phone-number-input";
+import { BASE_URL } from "@env";
+import { sendSmsVerification } from "../api/verify";
+// import Otp from "./screens/Otp";
+// import Gated from "./screens/Gated";
 
+function NewUser({ navigation }) {
     const [phoneInserted, setPhoneInserted] = useState(false);
     const [phone, setPhone] = useState('');
     const [formattedValue, setFormattedValue] = useState("");
@@ -23,55 +21,29 @@ function NewUser({ navigation }) {
     const [retry, setretry] = useState(false);
     const phoneInput = useRef(PhoneInput);
 
-    const reset = () => {
-        setPhoneInserted(false);
-        setPhone('');
-        setverfication('');
-        // setwaitMessage(false);
-        setCheckedNumber('');
-    };
+    // const reset = () => {
+    //     setPhoneInserted(false);
+    //     setPhone('');
+    //     setverfication('');
+    //     // setwaitMessage(false);
+    //     setCheckedNumber('');
+    // };
 
-    const retryCode = () => {
-        setverfication('');
-    };
+    // const retryCode = () => {
+    //     setverfication('');
+    // };
 
-    // This is the important part of the code
-    // That asks the node backend to send verication code to
-    // user phone number but before that it checks if the phone number
-    // inserted is a valid number
+    // type StackParamList = {
+    //     PhoneNumber: undefined;
+    //     Otp: { phoneNumber: string };
+    //     Gated: undefined;
+    //   };     
+
+    // https://www.twilio.com/blog/phone-verification-react-native
     const sendCode = () => {
-        setPhoneInserted(true);
-        // setwaitMessage(true);
-        // console.log('formattedValue:', formattedValue)
-        if (!isValidNumber(formattedValue)) {
-            alert('Invalid phone number');
-            return;
-        } else {
-            console.log(`${BaseURL}/verify/${phone}`);
-            // send verfication code to phone number
-            fetch(`${BaseURL}/verify/${phone}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(res => res.json())
-                .then(res => {
-                console.log(res);
-                if (res.status === 'pending') {
-                    alert('set checked number')
-                    setCheckedNumber(phone);
-                    // setwaitMessage(false);
-                }
-                })
-                .catch(err => {
-                setPhoneInserted(false);
-                // setwaitMessage(false);
-                setPhone('');
-                console.log(err);
-                alert(err);
-            });
-        }
+        sendSmsVerification(formattedValue).then((sent) => {
+            navigation.navigate("Otp", { phoneNumber: formattedValue });
+          });          
     };
 
     const verifyCode = () => {
