@@ -172,11 +172,9 @@ function NewUser({ navigation }) {
                                     layout="first"
                                     disabled={phoneInserted}
                                     value={phone}
-                                    onChangeText={text => {
-                                        setPhone(text);
-                                    }}
                                     onChangeFormattedText={text => {
                                         setFormattedValue(text);
+                                        setPhone(text);
                                     }}
                                     withDarkTheme
                                     withShadow

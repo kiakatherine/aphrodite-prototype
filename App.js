@@ -18,10 +18,14 @@ import VisionViewTiles from "./screens/VisionViewTiles";
 import VisionViewFullScreen from "./screens/VisionViewFullScreen";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
+import OtpScreen from "./screens/Otp";
+import GatedScreen from "./screens/Gated";
 
 function App() {
-  // type StackParamList = {
-  //   PhoneNumber: undefined;
+  // const StackParamList = {
+  //   PhoneNumber: undefined,
+  //   Otp: { phoneNumber: string },
+  //   Gated: undefined
   // };
  
   const [currentUser, setCurrentUser] = useState();
@@ -70,7 +74,9 @@ function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />        
+        <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Otp" component={OtpScreen} />
+        <Stack.Screen name="Gated" component={GatedScreen} />        
         <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
