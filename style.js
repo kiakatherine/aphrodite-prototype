@@ -86,6 +86,14 @@ module.exports = StyleSheet.create({
     textWhite: {
       color: 'white'
     },
+    error: {
+      backgroundColor: 'pink',
+      color: 'red',
+      textAlign: 'center',
+      fontSize: 20,
+      padding: 15,
+      borderRadius: 50
+    },
     displayFlex: {
         display: 'flex',
         flexDirection: 'row',
@@ -110,7 +118,8 @@ module.exports = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'black',
         padding: 20,
-        borderRadius: 100
+        borderRadius: 100,
+        marginBottom: 12
     },
     buttonInvertedText: {
       color: 'black',

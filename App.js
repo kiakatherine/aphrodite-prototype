@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashboardScreen from "./screens/Dashboard";
 import FirstScreenScreen from "./screens/FirstScreen";
 import PhoneNumberScreen from "./screens/PhoneNumber";
+import NewUserScreen from "./screens/NewUser";
 import SigninScreen from "./screens/Signin";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
@@ -19,15 +20,8 @@ import VisionViewFullScreen from "./screens/VisionViewFullScreen";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
 import OtpScreen from "./screens/Otp";
-import GatedScreen from "./screens/Gated";
 
 function App() {
-  // const StackParamList = {
-  //   PhoneNumber: undefined,
-  //   Otp: { phoneNumber: string },
-  //   Gated: undefined
-  // };
- 
   const [currentUser, setCurrentUser] = useState();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -76,7 +70,7 @@ function App() {
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Otp" component={OtpScreen} />
-        <Stack.Screen name="Gated" component={GatedScreen} />        
+        <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>

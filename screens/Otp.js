@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Button, Text } from "react-native";
-
+import { View, StyleSheet, Button, Text } from "react-native";
 import { checkVerification } from "../api/verify";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
+import Styles from "../style.js";
 
 const Otp = ({ route, navigation }) => {
  const { phoneNumber } = route.params;
  const [invalidCode, setInvalidCode] = useState(false);
  return (
-   <SafeAreaView style={styles.wrapper}>
-     <Text style={styles.prompt}>Enter the code we sent you</Text>
-     <Text style={styles.message}>
+   <View style={[Styles.containerWithoutHeader, Styles.containerPadding, Styles.fullScreen]}>
+     <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Verify your phone</Text>
+     <Text style={[Styles.bodyText, {fontFamily: 'Poppins_400Regular'}]}>
        {`Your phone (${phoneNumber}) will be used to protect your account each time you log in.`}
      </Text>
      <Button
@@ -18,7 +18,7 @@ const Otp = ({ route, navigation }) => {
        onPress={() => navigation.replace("PhoneNumber")}
      />
      <OTPInputView
-       style={{ width: "80%", height: 200 }}
+       style={{ width: "100%", height: 200 }}
        pinCount={6}
        autoFocusOnLoad
        codeInputFieldStyle={styles.underlineStyleBase}
@@ -26,12 +26,12 @@ const Otp = ({ route, navigation }) => {
        onCodeFilled={(code) => {
          checkVerification(phoneNumber, code).then((success) => {
            if (!success) setInvalidCode(true);
-           success && navigation.replace("Gated");
+           success && navigation.replace("NewUser", {phoneNumber});
          });
        }}
      />
-     {invalidCode && <Text style={styles.error}>Incorrect code.</Text>}
-   </SafeAreaView>
+     {invalidCode && <Text style={[Styles.error, {fontFamily: 'Poppins_500Medium'}]}>Incorrect code.</Text>}
+   </View>
  );
 };
 

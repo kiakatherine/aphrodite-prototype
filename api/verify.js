@@ -1,3 +1,5 @@
+// https://www.twilio.com/blog/phone-verification-react-native
+
 import { BASE_URL } from "@env";
 
 const sendSmsVerification = async (phoneNumber) => {
