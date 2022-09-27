@@ -40,16 +40,37 @@ function VisionBuilder({navigation, cards}) {
       { text: "My partner is generous.", type: "text" }
     ];
 
-    function selectCard(card) {
-      setSelectedCards([...selectedCards, card]);
+    // select/deselect card
+    function clickCard(card) {
+      setSelectedCards([...cards]);
+
+      const isSelectedAlready = cards.filter(selectedCard =>
+        selectedCard.text == card.text);
+      
+      if(isSelectedAlready.length === 0) {
+        // do props.onSelectCard from App.js
+        const addedCard = push(cardsRef, card);
+        const uid = addedCard.key;
+        update(addedCard, { id: uid });
+        const newCard = {
+          'text': card.text,
+          'type': card.type,
+          'id': uid
+        };        
+        setSelectedCards([...cards, newCard]);
+      } else {
+        const cardRef = ref(db, 'users/' + currentUserId + '/cards/' + isSelectedAlready[0].id);
+        const updatedCards = cards.filter(selectedCard =>
+          selectedCard.text !== card.text);
+        setSelectedCards(updatedCards);
+        remove(cardRef);
+      }
     }
 
-    function unselectCard(card) {
-      const newState = selectedCards.filter(selectedCard => selectedCard.text !== card.text);
-      setSelectedCards(newState);
-    }
-
+    // save all cards
     function clickDone() {
+      setSelectedCards(cards);
+
       // save cards with unique id
       selectedCards.forEach(card => {
         let newCards = [];
@@ -77,7 +98,7 @@ function VisionBuilder({navigation, cards}) {
         navigation.navigate("VisionCustomizer", {selectedCards: newCards});
       });
     }
-
+    
     if(!fontsLoaded) {
       return <AppLoading />;
     } else {
@@ -91,8 +112,8 @@ function VisionBuilder({navigation, cards}) {
             </Pressable>
 
             <Pressable
-              style={[Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
-              disabled={selectedCards.length === 0}
+              style={[Styles.buttonSmall, cards.length === 0 && Styles.buttonDisabled]}
+              disabled={cards.length === 0}
               onPress={() => clickDone()}>
                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Done</Text>
             </Pressable>
@@ -104,7 +125,11 @@ function VisionBuilder({navigation, cards}) {
             <View style={{flexGrow: 1}}>
               <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
                 {exampleCards.map(card => 
-                  <Card key={card.text} card={card} isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0} onCardPress={() => selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0 ? unselectCard(card) : selectCard(card)} />)}
+                  <Card
+                    key={card.text}
+                    card={card}
+                    isSelected={cards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+                    onCardPress={() => clickCard(card)} />)}
               </ScrollView>
             </View>
           </View>

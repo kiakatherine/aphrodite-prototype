@@ -83,8 +83,10 @@ function VisionCustomizer({ navigation, cards }) {
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
     const cardRef = ref(db, 'users/' + currentUserId + '/cards/' + card.id);
+    const updatedCards = cards.filter(selectedCard =>
+    selectedCard.text !== card.text);
+    setMyVisionCards(updatedCards);
     remove(cardRef);
-    setMyVisionCards(myVisionCards.length ? myVisionCards : []);
   }
 
   if(!fontsLoaded) {
