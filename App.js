@@ -12,7 +12,6 @@ import DashboardScreen from "./screens/Dashboard";
 import FirstScreenScreen from "./screens/FirstScreen";
 import PhoneNumberScreen from "./screens/PhoneNumber";
 import NewUserScreen from "./screens/NewUser";
-import SigninScreen from "./screens/Signin";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
 import VisionViewTiles from "./screens/VisionViewTiles";
@@ -69,9 +68,8 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Otp" component={OtpScreen} />
+        <Stack.Screen name="Otp" component={OtpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Signin" component={SigninScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
           {props => <VisionBuilderScreen {...props} cards={ cards } />}

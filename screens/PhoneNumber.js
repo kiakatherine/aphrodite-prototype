@@ -50,13 +50,13 @@ function PhoneNumber({ navigation }) {
 
     return (
         <SafeAreaView style={[Styles.centerContainer, Styles.fullScreen]}>
-            <Pressable
-                style={Styles.topRightCloseButton}
-                onPress={() => navigation.navigate('FirstScreen')}>
-                  <Ionicons name="close-outline" size={48}></Ionicons>
-            </Pressable>
-
             <View style={Styles.centerContainer}>
+              <Pressable
+                  style={Styles.topRightCloseButton}
+                  onPress={() => navigation.navigate('FirstScreen')}>
+                    <Ionicons name="close-outline" size={48}></Ionicons>
+              </Pressable>
+              
               {view === 'phone' && 
               <><FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}

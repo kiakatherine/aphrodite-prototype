@@ -33,7 +33,7 @@ function FirstScreen({ navigation }) {
                 </Pressable>
                 <Pressable
                     style={Styles.buttonInverted}
-                    onPress={() => navigation.navigate('Signin')}>
+                    onPress={() => navigation.navigate('PhoneNumber')}>
                         <Text style={Styles.buttonInvertedText}>Sign in</Text>
                 </Pressable>
             </View>

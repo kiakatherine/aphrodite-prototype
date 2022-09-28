@@ -14,7 +14,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function Dashboard({ navigation }) {
+function Dashboard({ navigation, route }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -25,6 +25,7 @@ function Dashboard({ navigation }) {
   // FIX
   let firstTimeUser = false;
 
+  // let myVisionCards = route.params.myVisionCards;
   // FIX
   const myVisionCards = [
     {
