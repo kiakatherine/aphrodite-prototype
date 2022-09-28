@@ -8,8 +8,9 @@ import { sendSmsVerification } from "../api/verify";
 
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
+import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-
+import { get } from 'react-native/Libraries/Utilities/PixelRatio.js';
 
 function PhoneNumber({ navigation }) {
     const [view, setView] = useState('phone');
@@ -34,12 +35,25 @@ function PhoneNumber({ navigation }) {
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
 
+    function checkExistingUser(id) {
+      const db = getDatabase();
+      const currUser = ref(db, 'users/' + id);
+      onValue(currUser, (snapshot) => {
+        // check if new user
+        if(snapshot.val()) {
+          navigation.navigate('Dashboard');
+        } else {
+          navigation.navigate('NewUser', {phoneNumber: id});
+        }
+      });
+    }
+
     return (
         <SafeAreaView style={[Styles.centerContainer, Styles.fullScreen]}>
             <Pressable
                 style={Styles.topRightCloseButton}
                 onPress={() => navigation.navigate('FirstScreen')}>
-                <Ionicons name="close-outline" size={48}></Ionicons>
+                  <Ionicons name="close-outline" size={48}></Ionicons>
             </Pressable>
 
             <View style={Styles.centerContainer}>
@@ -47,7 +61,7 @@ function PhoneNumber({ navigation }) {
               <><FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
                 firebaseConfig={app.options}
-                // attemptInvisibleVerification
+                attemptInvisibleVerification={true}
               />
               <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
               <TextInput
@@ -105,6 +119,7 @@ function PhoneNumber({ navigation }) {
                         const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                         await signInWithCredential(auth, credential);
                         showMessage({ text: 'Phone authentication successful 👍' });
+                        checkExistingUser(phoneNumber);
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                       }

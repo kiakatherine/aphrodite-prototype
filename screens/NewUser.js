@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Styles from "../style.js";
 import { getDatabase, ref, set } from 'firebase/database';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 function NewUser({ route, navigation }) {
     const { phoneNumber } = route.params;
@@ -67,6 +68,12 @@ function NewUser({ route, navigation }) {
 
     return (
         <View style={[Styles.centerContainer, Styles.fullScreen]}>
+            <Pressable
+                style={Styles.topRightCloseButton}
+                onPress={() => navigation.navigate('FirstScreen')}>
+                  <Ionicons name="close-outline" size={48}></Ionicons>
+            </Pressable>
+
             {screen === 'FirstName' &&
                 <View>
                     <Text style={Styles.leftHeading1}>First name</Text>
