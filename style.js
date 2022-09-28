@@ -86,6 +86,12 @@ module.exports = StyleSheet.create({
     textWhite: {
       color: 'white'
     },
+    message: {
+      textAlign: 'center',
+      // marginTop: 25,
+      marginBottom: 25,
+      fontSize: 16
+    },
     error: {
       backgroundColor: 'pink',
       color: 'red',
@@ -157,7 +163,8 @@ module.exports = StyleSheet.create({
         fontSize: 28,
         marginBottom: 30,
         borderBottomColor: '#8A8C9B',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        paddingBottom: 12
     },
     topRightCloseButton: {
       position: 'absolute',
