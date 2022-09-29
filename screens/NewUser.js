@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { KeyboardAvoidingView, Pressable, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import Styles from "../style.js";
 import { getDatabase, ref, set } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -83,7 +83,7 @@ function NewUser({ route, navigation }) {
                             onChangeFirstName(text);
                         }} />
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -98,7 +98,7 @@ function NewUser({ route, navigation }) {
                             onChangeLastName(text);
                         }} />
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -140,7 +140,7 @@ function NewUser({ route, navigation }) {
                             />
                     </View>
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -156,7 +156,7 @@ function NewUser({ route, navigation }) {
                             onChangeEmail(text);
                         }} />
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
@@ -274,7 +274,7 @@ function NewUser({ route, navigation }) {
                     <Text style={Styles.leftHeading1}>Terms & Conditions</Text>
                     <Text style={Styles.bodyText}>Text here</Text>
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={handleNextClick}>
                         <Text style={Styles.buttonText}>I agree</Text>
                     </Pressable>
@@ -284,7 +284,7 @@ function NewUser({ route, navigation }) {
                 <View>
                     <Text style={[Styles.allCapsHeading, Styles.textAlignCenter, {marginBottom: 25}]}>Creating account</Text>
                     <Pressable
-                        style={Styles.button}
+                        style={[Styles.button, Styles.modalBottomButton]}
                         onPress={createUser}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>

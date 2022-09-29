@@ -20,7 +20,12 @@ import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
 import OtpScreen from "./screens/Otp";
 
-function App() {
+// firebase
+import { initializeApp, getApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+
+function App({ navigation }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -30,34 +35,50 @@ function App() {
   const [birthdayYear, setBirthdayYear] = useState(null);
   const [pronouns, setPronouns] = useState(null);
   const [identity, setIdentity] = useState(null);
-
   const [cards, setCards] = useState([]);
 
   // database
-  const db = getDatabase();
-  const currentUserId = '7133026633'; // FIX
-  const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
+  // const db = getDatabase();
+  // const currentUserId = '7133026633'; // FIX
+  // const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
+  // const userRef = ref(db, 'users/' + currentUserId);
+
+  // Firebase references
+  const app = getApp();
+  const auth = getAuth(app);
 
   useEffect(() => {
-    return onValue(cardsRef, (snapshot) => {
-      const data = snapshot.val();
-      let cardsArr = [];
-      for (var key in data) {
-        cardsArr.push(data[key])
-      }
-      if(cardsArr.length > 0) {
-        setCards(cardsArr);
-        // setCurrentUser(snapshot.val());
-        // setFirstName(snapshot.val().firstName);
-        // setLastName(snapshot.val().lastName);
-        // setEmail(snapshot.val().email);
-        // setBirthdayMonth(snapshot.val().birthdayMonth);
-        // setBirthdayDay(snapshot.val().birthdayDay);
-        // setBirthdayYear(snapshot.val().birthdayYear);
-        // setPronouns(snapshot.val().pronouns);
-        // setIdentity(snapshot.val().identity);
+    auth.onAuthStateChanged((user) => {
+      if(user) {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+        navigation.navigate('Dashboard');
       }
     });
+    // return onValue(userRef, (snapshot) => {
+    //   const user = snapshot.val();
+    //   const cards = snapshot.val().cards;
+    //   let cardsArr = [];
+      
+    //   for (var key in cards) {
+    //     cardsArr.push(cards[key])
+    //   }
+    //   setCurrentUser(user);
+    //   // console.log('user', user)
+      
+    //   if(cardsArr.length > 0) {
+    //     setCards(cardsArr);
+    //     // setCurrentUser(snapshot.val());
+    //     // setFirstName(snapshot.val().firstName);
+    //     // setLastName(snapshot.val().lastName);
+    //     // setEmail(snapshot.val().email);
+    //     // setBirthdayMonth(snapshot.val().birthdayMonth);
+    //     // setBirthdayDay(snapshot.val().birthdayDay);
+    //     // setBirthdayYear(snapshot.val().birthdayYear);
+    //     // setPronouns(snapshot.val().pronouns);
+    //     // setIdentity(snapshot.val().identity);
+    //   }
+    // });
   }, [])
 
   // navigation
@@ -66,19 +87,19 @@ function App() {
   const MainStackNavigator = () => {
     return (
       <Stack.Navigator>
+        {isLoggedIn && <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />}
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Otp" component={OtpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-          {props => <VisionBuilderScreen {...props} cards={ cards } />}
+          {props => <VisionBuilderScreen {...props} user={currentUser} cards={ cards } />}
         </Stack.Screen>
         <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-          {props => <VisionCustomizerScreen {...props} cards={ cards } />}
+          {props => <VisionCustomizerScreen {...props} user={currentUser} cards={ cards } />}
         </Stack.Screen>
         <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-          {props => <VisionViewTiles {...props} cards={ cards } />}
+          {props => <VisionViewTiles {...props} user={currentUser} cards={ cards } />}
         </Stack.Screen>
         <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
       </Stack.Navigator>

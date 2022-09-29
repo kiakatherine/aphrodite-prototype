@@ -16,7 +16,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
 
-function VisionBuilder({navigation, cards}) {
+function VisionBuilder({navigation, route}) {
     let [fontsLoaded] = useFonts({
       Poppins_400Regular,
       Poppins_500Medium,
@@ -24,9 +24,12 @@ function VisionBuilder({navigation, cards}) {
       Poppins_700Bold,
     });
 
-    const db = getDatabase();
-    const currentUserId = '7133026633'; // FIX
-    const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
+    const currentUser = route.user;
+    const cards = route.cards;
+
+    // const db = getDatabase();
+    // const currentUserId = '7133026633'; // FIX
+    // const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
 
     const [selectedCards, setSelectedCards] = useState(cards ? cards : []);
     const exampleCards = [

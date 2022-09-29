@@ -56,6 +56,10 @@ module.exports = StyleSheet.create({
       fontSize: 18,
       marginBottom: 40
     },
+    inner: {
+      padding: 24,
+      flex: 1
+    },
     textAlignCenter: {
       textAlign: 'center',
       alignItems: 'center'
@@ -181,8 +185,8 @@ module.exports = StyleSheet.create({
       backgroundColor: 'black',
       padding: 20,
       borderRadius: 0,
-      marginLeft: -25,
-      marginRight: -25,
+      marginLeft: -50,
+      marginRight: -50,
       // justifyContent: 'flex-end'
     },
     bottomDrawer: {
