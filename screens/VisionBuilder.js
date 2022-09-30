@@ -16,7 +16,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
 
-function VisionBuilder({navigation, route}) {
+function VisionBuilder(props) {
     let [fontsLoaded] = useFonts({
       Poppins_400Regular,
       Poppins_500Medium,
@@ -24,8 +24,8 @@ function VisionBuilder({navigation, route}) {
       Poppins_700Bold,
     });
 
-    const currentUser = route.user;
-    const cards = route.cards;
+    const currentUser = props.initialParams.user;
+    const cards = props.initialParams.cards;
 
     // const db = getDatabase();
     // const currentUserId = '7133026633'; // FIX
@@ -85,7 +85,7 @@ function VisionBuilder({navigation, route}) {
 
         if(cardsToAdd.length === 0) {
           // no new cards to add
-          navigation.navigate("VisionCustomizer", {selectedCards});
+          props.navigation.navigate("VisionCustomizer", {selectedCards});
         } else {
           const addedCard = push(cardsRef, card);
           const uid = addedCard.key;
@@ -98,7 +98,7 @@ function VisionBuilder({navigation, route}) {
         }
         
         setSelectedCards(newCards);
-        navigation.navigate("VisionCustomizer", {selectedCards: newCards});
+        props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
       });
     }
     
@@ -110,7 +110,7 @@ function VisionBuilder({navigation, route}) {
           <View style={[Styles.customHeader, {marginBottom: 30}]}>
             <Pressable
                 style={[Styles.textAlignRight, Styles.flexOne]}
-                onPress={() => navigation.goBack({selectedCards})}>
+                onPress={() => props.navigation.goBack({selectedCards})}>
                     <Ionicons name='arrow-back-outline' size={24} />
             </Pressable>
 

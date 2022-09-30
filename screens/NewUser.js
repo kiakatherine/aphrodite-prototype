@@ -4,7 +4,7 @@ import Styles from "../style.js";
 import { getDatabase, ref, set } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-function NewUser({ route, navigation }) {
+function NewUser({ navigation, route }) {
     const { phoneNumber } = route.params;
     const [screen, setScreen] = useState('FirstName');
     const [validationCode, onChangeValidationCode] = useState(null);
@@ -53,7 +53,7 @@ function NewUser({ route, navigation }) {
     function createUser() {
         const db = getDatabase();
         const reference = ref(db, 'users/' + phoneNumber.substring(1));
-        set(reference, {
+        const user = set(reference, {
             phoneNumber,
             firstName,
             lastName,
@@ -64,6 +64,7 @@ function NewUser({ route, navigation }) {
             pronouns,
             identity
         });
+        navigation.navigate('Dashboard', {user});
     }
 
     return (

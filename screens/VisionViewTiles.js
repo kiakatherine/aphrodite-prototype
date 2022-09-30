@@ -14,7 +14,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function VisionViewTiles({ navigation, route }) {
+function VisionViewTiles(props) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
@@ -22,7 +22,8 @@ function VisionViewTiles({ navigation, route }) {
         Poppins_700Bold,
       });
     
-    let myVisionCards = route.params.myVisionCards;
+    const user = props.initialParams.user;
+    let cards = props.initialParams.cards;
 
     if(!fontsLoaded) {
         return <AppLoading />;
@@ -32,13 +33,13 @@ function VisionViewTiles({ navigation, route }) {
                 <View style={[Styles.customHeader, {marginBottom: 30}]}>
                     <Pressable
                         style={[Styles.textAlignRight, Styles.flexOne]}
-                        onPress={() => navigation.goBack()}>
+                        onPress={() => props.navigation.goBack()}>
                             <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                     </Pressable>
 
                     <Pressable
                         style={[Styles.buttonLink, {alignItems: 'center'}]}
-                        onPress={() => navigation.navigate("VisionCustomizer", { myVisionCards })}>
+                        onPress={() => props.navigation.navigate("VisionCustomizer", { cards })}>
                             <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
                     </Pressable>
                 </View>
@@ -46,15 +47,21 @@ function VisionViewTiles({ navigation, route }) {
                 <View style={Styles.containerPadding}>
                     <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
                     
-                    <Pressable
+                    {cards.length > 0 &&  <Pressable
                         style={[Styles.buttonOutline, {marginBottom: 40}]}
-                        onPress={() => navigation.navigate("VisionViewFullScreen", { myVisionCards })}>
+                        onPress={() => props.navigation.navigate("VisionViewFullScreen", { cards })}>
                             <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
-                    </Pressable>
+                    </Pressable>}
 
                     <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
-                        {myVisionCards.map(card => 
+                        {cards.length > 0 && cards.map(card => 
                             <Card key={card.text} card={card} darkTheme={true} />)}
+                        {cards.length === 0 &&
+                            <Pressable
+                            style={[Styles.buttonOutline, {marginBottom: 40}]}
+                            onPress={() => props.navigation.navigate('VisionBuilder', { cards })}>
+                                <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
+                        </Pressable>}
                     </ScrollView>
                 </View>
             </View>

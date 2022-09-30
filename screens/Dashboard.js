@@ -14,7 +14,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function Dashboard({ navigation, route }) {
+function Dashboard(props) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -22,12 +22,12 @@ function Dashboard({ navigation, route }) {
     Poppins_700Bold,
   });
 
-  // FIX
-  let firstTimeUser = false;
+  const user = props.initialParams.user;
+  const firstTimeUser = user.hasSeenWelcome ? true : false;
+  // let cards = props.initialParams.cards ? props.initialParams.cards : [];
 
-  // let myVisionCards = route.params.myVisionCards;
   // FIX
-  const myVisionCards = [
+  const cards = [
     {
       text: "My partner is kind."
     },
@@ -61,7 +61,7 @@ function Dashboard({ navigation, route }) {
               <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
               <Pressable
                 style={Styles.button}
-                onPress={() => navigation.navigate('VisionBuilder')}>
+                onPress={() => props.navigation.navigate('VisionBuilder')}>
                   <Text style={Styles.buttonText}>Let's begin</Text>
               </Pressable>
           </View>
@@ -70,7 +70,7 @@ function Dashboard({ navigation, route }) {
         {!firstTimeUser &&
             <Pressable
               style={Styles.DashboardVisionView}
-              onPress={() => navigation.navigate("VisionViewTiles", { myVisionCards })}>
+              onPress={() => props.navigation.navigate('VisionViewTiles', {cards})}>
                 <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
                 <Ionicons style={{color: 'white'}} name='play-circle' size={64} />
             </Pressable>

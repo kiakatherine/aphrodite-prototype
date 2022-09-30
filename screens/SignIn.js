@@ -13,7 +13,7 @@ import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 import { get } from 'react-native/Libraries/Utilities/PixelRatio.js';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
 
-function PhoneNumber(props) {
+function SignIn(props) {
     const [view, setView] = useState('phone');
     
     // Firebase references
@@ -35,6 +35,20 @@ function PhoneNumber(props) {
 
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
+
+    // function checkExistingUser(id) {
+    //   const db = getDatabase();
+    //   const currUser = ref(db, 'users/' + id);
+    //   onValue(currUser, (snapshot) => {
+    //     // check if new user
+    //     debugger
+    //     if(snapshot.val()) {
+    //       props.navigation.navigate('Dashboard', {user: snapshot.val()});
+    //     } else {
+    //       props.navigation.navigate('NewUser', {phoneNumber: id});
+    //     }
+    //   });
+    // }
 
     return (
         <SafeAreaView style={[Styles.centerContainer, Styles.fullScreen]}>
@@ -107,8 +121,8 @@ function PhoneNumber(props) {
                         const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                         let userData = await signInWithCredential(auth, credential);
                         showMessage({ text: 'Phone authentication successful 👍' });
-                        // checkExistingUser(phoneNumber);
-                        props.onVerifyClick(userData);
+                        debugger
+                        props.navigation.navigate('Dashboard', userData);
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                       }
@@ -122,4 +136,4 @@ function PhoneNumber(props) {
     );
 };
 
-export default PhoneNumber;
+export default SignIn;

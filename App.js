@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashboardScreen from "./screens/Dashboard";
 import FirstScreenScreen from "./screens/FirstScreen";
 import PhoneNumberScreen from "./screens/PhoneNumber";
+import SignInScreen from "./screens/SignIn";
 import NewUserScreen from "./screens/NewUser";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
@@ -25,8 +26,6 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function App({ navigation }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -47,14 +46,32 @@ function App({ navigation }) {
   const app = getApp();
   const auth = getAuth(app);
 
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setCurrentUser(user);
+    if (initializing) setInitializing(false);
+  }
+
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if(user) {
-        setIsLoggedIn(true);
-        setCurrentUser(user);
-        navigation.navigate('Dashboard');
-      }
-    });
+    const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  // useEffect(() => {
+  //   function setUser() {
+  //     auth.onAuthStateChanged((user) => {
+  //       if(user) {
+  //         setIsLoggedIn(state => ({...state}));
+  //         setCurrentUser(state => ({...state}));
+  //         navigation.navigate('Dashboard', {user});
+  //       }
+  //     });
+  //   }
+  //   setUser();
     // return onValue(userRef, (snapshot) => {
     //   const user = snapshot.val();
     //   const cards = snapshot.val().cards;
@@ -79,7 +96,12 @@ function App({ navigation }) {
     //     // setIdentity(snapshot.val().identity);
     //   }
     // });
-  }, [])
+  // }, [])
+
+  function handleVerifyClick(user) {
+    setCurrentUser(user);
+    navigation.navigate('Dashboard', {user: user});
+  }
 
   // navigation
   const Tab = createBottomTabNavigator();
@@ -87,22 +109,37 @@ function App({ navigation }) {
   const MainStackNavigator = () => {
     return (
       <Stack.Navigator>
-        {isLoggedIn && <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />}
+        <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
+          {props => <DashboardScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+        </Stack.Screen>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PhoneNumber" component={PhoneNumberScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+          {props => <PhoneNumberScreen {...props} onVerifyClick={handleVerifyClick} />}
+        </Stack.Screen>
+        <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Otp" component={OtpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-          {props => <VisionBuilderScreen {...props} user={currentUser} cards={ cards } />}
+          {props => <VisionBuilderScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
         </Stack.Screen>
         <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-          {props => <VisionCustomizerScreen {...props} user={currentUser} cards={ cards } />}
+          {props => <VisionCustomizerScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
         </Stack.Screen>
         <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-          {props => <VisionViewTiles {...props} user={currentUser} cards={ cards } />}
+          {props => <VisionViewTiles {...props} initialParams={{user: currentUser, cards: cards}} />}
         </Stack.Screen>
-        <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
+        <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
+          {props => <VisionViewFullScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+        </Stack.Screen>
       </Stack.Navigator>
+    );
+  }
+
+  if (initializing) return null;
+
+  if (!currentUser) {
+    return (
+      <FirstScreenScreen />
     );
   }
 
@@ -129,9 +166,11 @@ function App({ navigation }) {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
-        <Tab.Screen name="Home" component={MainStackNavigator} options={{ headerShown: false }} />
-        <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Home" component={MainStackNavigator} initialParams={{ user: currentUser }} options={{ headerShown: false }} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} initialParams={{ user: currentUser }} options={{ headerShown: false }} />
+        <Tab.Screen name="Account" options={{ headerShown: false }}>
+          {props => <AccountScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
