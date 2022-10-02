@@ -10,6 +10,8 @@ import * as ImagePicker from 'expo-image-picker';
 import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
+import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
+import { initializeApp, getApp } from 'firebase/app';
 
 import {
   useFonts,
@@ -19,7 +21,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function VisionCustomizer({ navigation, cards }) {
+function VisionCustomizer({ navigation }) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -27,7 +29,23 @@ function VisionCustomizer({ navigation, cards }) {
     Poppins_700Bold,
   });
 
-  const [myVisionCards, setMyVisionCards] = useState(cards);
+  let [cards, setCards] = useState([]);
+
+  useEffect(() => {
+      const app = getApp();
+      const auth = getAuth(app);
+      const db = getDatabase();
+      const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+      onValue(cardsRef, (snapshot) => {
+          const cards = snapshot.val();
+          let cardsArr = [];
+          for (var key in cards) {
+              cardsArr.push(cards[key])
+          }
+          setCards(cardsArr);
+      });
+  }, [])
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const refRBSheet = useRef(); // bottom drawer
   const [image, setImage] = useState(null);

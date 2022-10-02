@@ -41,7 +41,6 @@ function VisionViewTiles(props) {
         });
     }, [])
     
-    
     if(!fontsLoaded) {
         return <AppLoading />;
       } else {

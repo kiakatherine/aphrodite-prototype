@@ -26,8 +26,6 @@ function VisionBuilder(props) {
       Poppins_700Bold,
     });
 
-    let [cards, setCards] = useState([]);
-
     useEffect(() => {
         const app = getApp();
         const auth = getAuth(app);
@@ -39,11 +37,11 @@ function VisionBuilder(props) {
             for (var key in cards) {
                 cardsArr.push(cards[key])
             }
-            setCards(cardsArr);
+            setSelectedCards(cardsArr);
         });
     }, [])
 
-    const [selectedCards, setSelectedCards] = useState(cards ? cards : []);
+    const [selectedCards, setSelectedCards] = useState([]);
     const exampleCards = [
       { text: "My partner is kind.", type: "text" },
       { text: "My partner sees me for who I am.", type: "text" },
@@ -57,13 +55,23 @@ function VisionBuilder(props) {
 
     // select/deselect card
     function clickCard(card) {
-      setSelectedCards([...cards]);
+      const app = getApp();
+      const auth = getAuth(app);
+      const db = getDatabase();
+      let isSelectedAlready = [];
+      let cardsRef = [];
 
-      const isSelectedAlready = cards.filter(selectedCard =>
-        selectedCard.text == card.text);
-      
+      // if user already has cards
+      if(selectedCards.length > 0) {
+        isSelectedAlready = selectedCards.filter(selectedCard =>
+          selectedCard.text == card.text);
+        if(isSelectedAlready.length === 0) {
+          cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + isSelectedAlready[0].id);
+        }
+      }
+
       if(isSelectedAlready.length === 0) {
-        // do props.onSelectCard from App.js
+        cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
         const addedCard = push(cardsRef, card);
         const uid = addedCard.key;
         update(addedCard, { id: uid });
@@ -72,13 +80,14 @@ function VisionBuilder(props) {
           'type': card.type,
           'id': uid
         };        
-        setSelectedCards([...cards, newCard]);
+        setSelectedCards([...selectedCards, newCard]);
       } else {
-        const cardRef = ref(db, 'users/' + currentUserId + '/cards/' + isSelectedAlready[0].id);
-        const updatedCards = cards.filter(selectedCard =>
+        const uid = card.uid;
+        cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
+        const updatedCards = selectedCards.filter(selectedCard =>
           selectedCard.text !== card.text);
         setSelectedCards(updatedCards);
-        remove(cardRef);
+        remove(cardsRef);
       }
     }
 
@@ -127,8 +136,8 @@ function VisionBuilder(props) {
             </Pressable>
 
             <Pressable
-              style={[Styles.buttonSmall, cards.length === 0 && Styles.buttonDisabled]}
-              disabled={cards.length === 0}
+              style={[Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
+              disabled={selectedCards.length === 0}
               onPress={() => clickDone()}>
                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Done</Text>
             </Pressable>
@@ -143,7 +152,7 @@ function VisionBuilder(props) {
                   <Card
                     key={card.text}
                     card={card}
-                    isSelected={cards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+                    isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
                     onCardPress={() => clickCard(card)} />)}
               </ScrollView>
             </View>
