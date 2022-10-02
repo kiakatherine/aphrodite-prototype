@@ -29,12 +29,13 @@ function AccountScreen(props) {
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
 
   useEffect(() => {
+    debugger
     onValue(userRef, (snapshot) => {
       setCurrentUser(snapshot.val());
     });
