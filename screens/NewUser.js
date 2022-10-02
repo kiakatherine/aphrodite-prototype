@@ -3,9 +3,10 @@ import { KeyboardAvoidingView, Pressable, Text, TextInput, TouchableHighlight, V
 import Styles from "../style.js";
 import { getDatabase, ref, set } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
+import { initializeApp, getApp } from 'firebase/app';
 
 function NewUser(props) {
-    const phoneNumber = props.route.params.userData.user.phoneNumber;
     const [screen, setScreen] = useState('FirstName');
     const [validationCode, onChangeValidationCode] = useState(null);
     const [firstName, onChangeFirstName] = useState(null);
@@ -51,10 +52,9 @@ function NewUser(props) {
     }
     
     function saveUser() {
-        const db = getDatabase();
-        const reference = ref(db, 'users/' + phoneNumber.substring(1));
-        const user = set(reference, {
-            phoneNumber,
+        const app = getApp();
+        const auth = getAuth(app);
+        const userData = {
             firstName,
             lastName,
             birthdayMonth,
@@ -63,8 +63,20 @@ function NewUser(props) {
             email,
             pronouns,
             identity
-        });
-        props.navigation.navigate('Dashboard', {user});
+        };
+        const db = getDatabase();
+        const reference = ref(db, 'users/' + auth.currentUser.uid);
+        debugger
+        set(reference, userData).then(() => {
+            props.navigation.navigate('Dashboard');
+        }).catch((error) => {
+            alert('Error');
+        })
+        set(auth.currentUser, userData).then(() => {
+            props.navigation.navigate('Dashboard');
+          }).catch((error) => {
+            alert('Error')
+          });
     }
 
     return (

@@ -5,6 +5,8 @@ import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import '../firebase.js';
 import { getDatabase, ref, onValue, set } from 'firebase/database';
+import { initializeApp, getApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 import {
   useFonts,
@@ -22,7 +24,10 @@ function Dashboard(props) {
     Poppins_700Bold,
   });
 
-  const user = props.initialParams.user;
+  const app = getApp();
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+  debugger
   const firstTimeUser = user.hasSeenWelcome ? true : false;
   // let cards = props.initialParams.cards ? props.initialParams.cards : [];
 

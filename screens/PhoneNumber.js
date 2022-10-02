@@ -107,8 +107,13 @@ function PhoneNumber(props) {
                         const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                         let userData = await signInWithCredential(auth, credential);
                         showMessage({ text: 'Phone authentication successful 👍' });
-                        props.navigation.navigate('NewUser', {userData});
-                        props.onVerifyClick(userData);
+                        const db = getDatabase();
+                        const reference = ref(db, 'users/' + userData.user.uid);
+                        set(reference, {'hasSeenWelcome': false}).then(() => {
+                          props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
+                        }).catch((error) => {
+                          alert('Error');
+                        });
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                       }

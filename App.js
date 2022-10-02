@@ -25,21 +25,7 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function App() {
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [birthdayMonth, setBirthdayMonth] = useState(null);
-  const [birthdayDay, setBirthdayDay] = useState(null);
-  const [birthdayYear, setBirthdayYear] = useState(null);
-  const [pronouns, setPronouns] = useState(null);
-  const [identity, setIdentity] = useState(null);
   const [cards, setCards] = useState([]);
-
-  // database
-  // const db = getDatabase();
-  // const currentUserId = '7133026633'; // FIX
-  // const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
-  // const userRef = ref(db, 'users/' + currentUserId);
 
   // Firebase references
   const app = getApp();
@@ -47,11 +33,9 @@ function App() {
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [currentUser, setCurrentUser] = useState();
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    setCurrentUser(user);
     if (initializing) setInitializing(false);
   }
 
@@ -97,10 +81,6 @@ function App() {
     // });
   // }, [])
 
-  function handleVerifyClick(user) {
-    setCurrentUser(user);
-  }
-
   // navigation
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
@@ -109,24 +89,24 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-          {props => <PhoneNumberScreen {...props} onVerifyClick={handleVerifyClick} />}
+          {props => <PhoneNumberScreen {...props} />}
         </Stack.Screen>
         <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {props => <DashboardScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <DashboardScreen {...props} />}
         </Stack.Screen>
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-          {props => <VisionBuilderScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <VisionBuilderScreen {...props} />}
         </Stack.Screen>
         <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-          {props => <VisionCustomizerScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <VisionCustomizerScreen {...props} />}
         </Stack.Screen>
         <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-          {props => <VisionViewTiles {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <VisionViewTiles {...props} />}
         </Stack.Screen>
         <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
-          {props => <VisionViewFullScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <VisionViewFullScreen {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     );
@@ -164,10 +144,10 @@ function App() {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
-        <Tab.Screen name="Home" component={MainStackNavigator} initialParams={{ user: currentUser }} options={{ headerShown: false }} />
-        <Tab.Screen name="Notifications" component={NotificationsScreen} initialParams={{ user: currentUser }} options={{ headerShown: false }} />
+        <Tab.Screen name="Home" component={MainStackNavigator} options={{ headerShown: false }} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Account" options={{ headerShown: false }}>
-          {props => <AccountScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+          {props => <AccountScreen {...props} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
