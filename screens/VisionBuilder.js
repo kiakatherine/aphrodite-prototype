@@ -6,6 +6,8 @@ import Card from '../components/Card.js';
 import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
+import { initializeApp, getApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 import {
   useFonts,
@@ -24,12 +26,22 @@ function VisionBuilder(props) {
       Poppins_700Bold,
     });
 
-    const currentUser = props.initialParams.user;
-    const cards = props.initialParams.cards;
+    let [cards, setCards] = useState([]);
 
-    // const db = getDatabase();
-    // const currentUserId = '7133026633'; // FIX
-    // const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
+    useEffect(() => {
+        const app = getApp();
+        const auth = getAuth(app);
+        const db = getDatabase();
+        const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+        onValue(cardsRef, (snapshot) => {
+            const cards = snapshot.val();
+            let cardsArr = [];
+            for (var key in cards) {
+                cardsArr.push(cards[key])
+            }
+            setCards(cardsArr);
+        });
+    }, [])
 
     const [selectedCards, setSelectedCards] = useState(cards ? cards : []);
     const exampleCards = [

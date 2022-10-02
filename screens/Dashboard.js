@@ -27,7 +27,7 @@ function Dashboard(props) {
   const app = getApp();
   const auth = getAuth(app);
   const user = auth.currentUser;
-  const firstTimeUser = user.hasSeenWelcome ? true : false;
+  const firstTimeUser = user.hasSeenWelcome ? false : true;
   // let cards = props.initialParams.cards ? props.initialParams.cards : [];
 
   // FIX

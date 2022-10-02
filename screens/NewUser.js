@@ -68,14 +68,12 @@ function NewUser(props) {
         const reference = ref(db, 'users/' + auth.currentUser.uid);
         set(reference, userData).then(() => {
             props.navigation.navigate('Dashboard');
-        }).catch((error) => {
-            alert('Error');
-        })
+        });
         set(auth.currentUser, userData).then(() => {
             props.navigation.navigate('Dashboard');
           }).catch((error) => {
             alert('Error')
-          });
+        });
     }
 
     return (
