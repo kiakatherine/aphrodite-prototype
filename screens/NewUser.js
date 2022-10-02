@@ -4,8 +4,8 @@ import Styles from "../style.js";
 import { getDatabase, ref, set } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-function NewUser({ navigation, route }) {
-    const { phoneNumber } = route.params;
+function NewUser(props) {
+    const phoneNumber = props.route.params.userData.user.phoneNumber;
     const [screen, setScreen] = useState('FirstName');
     const [validationCode, onChangeValidationCode] = useState(null);
     const [firstName, onChangeFirstName] = useState(null);
@@ -46,11 +46,11 @@ function NewUser({ navigation, route }) {
         } else if(screen == 'Terms') {
             setScreen('Creating');
         } else if(screen == 'Creating') {
-            navigation.navigate('Dashboard');
+            props.navigation.navigate('Dashboard');
         }
     }
     
-    function createUser() {
+    function saveUser() {
         const db = getDatabase();
         const reference = ref(db, 'users/' + phoneNumber.substring(1));
         const user = set(reference, {
@@ -64,14 +64,14 @@ function NewUser({ navigation, route }) {
             pronouns,
             identity
         });
-        navigation.navigate('Dashboard', {user});
+        props.navigation.navigate('Dashboard', {user});
     }
 
     return (
         <View style={[Styles.centerContainer, Styles.fullScreen]}>
             <Pressable
                 style={Styles.topRightCloseButton}
-                onPress={() => navigation.navigate('FirstScreen')}>
+                onPress={() => props.navigation.navigate('FirstScreen')}>
                   <Ionicons name="close-outline" size={48}></Ionicons>
             </Pressable>
 
@@ -286,7 +286,7 @@ function NewUser({ navigation, route }) {
                     <Text style={[Styles.allCapsHeading, Styles.textAlignCenter, {marginBottom: 25}]}>Creating account</Text>
                     <Pressable
                         style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={createUser}>
+                        onPress={saveUser}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
                 </View>}

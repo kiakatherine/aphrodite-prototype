@@ -19,13 +19,12 @@ import VisionViewTiles from "./screens/VisionViewTiles";
 import VisionViewFullScreen from "./screens/VisionViewFullScreen";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
-import OtpScreen from "./screens/Otp";
 
 // firebase
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
-function App({ navigation }) {
+function App() {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -100,7 +99,6 @@ function App({ navigation }) {
 
   function handleVerifyClick(user) {
     setCurrentUser(user);
-    navigation.navigate('Dashboard', {user: user});
   }
 
   // navigation
@@ -109,16 +107,15 @@ function App({ navigation }) {
   const MainStackNavigator = () => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {props => <DashboardScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
-        </Stack.Screen>
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
           {props => <PhoneNumberScreen {...props} onVerifyClick={handleVerifyClick} />}
         </Stack.Screen>
         <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Otp" component={OtpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
+          {props => <DashboardScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
+        </Stack.Screen>
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
           {props => <VisionBuilderScreen {...props} initialParams={{user: currentUser, cards: cards}} />}
         </Stack.Screen>
@@ -137,11 +134,12 @@ function App({ navigation }) {
 
   if (initializing) return null;
 
-  if (!currentUser) {
-    return (
-      <FirstScreenScreen />
-    );
-  }
+  // FIX
+  // if (!currentUser) {
+  //   return (
+  //     <FirstScreenScreen />
+  //   );
+  // }
 
   return (
     <NavigationContainer>

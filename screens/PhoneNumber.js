@@ -107,7 +107,7 @@ function PhoneNumber(props) {
                         const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                         let userData = await signInWithCredential(auth, credential);
                         showMessage({ text: 'Phone authentication successful 👍' });
-                        // checkExistingUser(phoneNumber);
+                        props.navigation.navigate('NewUser', {userData});
                         props.onVerifyClick(userData);
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });

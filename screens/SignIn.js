@@ -121,7 +121,6 @@ function SignIn(props) {
                         const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                         let userData = await signInWithCredential(auth, credential);
                         showMessage({ text: 'Phone authentication successful 👍' });
-                        debugger
                         props.navigation.navigate('Dashboard', userData);
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });

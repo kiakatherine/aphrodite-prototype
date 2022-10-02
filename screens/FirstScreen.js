@@ -11,7 +11,7 @@ import {
     Poppins_700Bold,
   } from '@expo-google-fonts/poppins';
 
-function FirstScreen(props) {
+function FirstScreen({navigation}) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
@@ -28,12 +28,12 @@ function FirstScreen(props) {
                 <Text style={[Styles.heading2, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Manifest your dream relationship.</Text>
                 <Pressable
                     style={[Styles.button, {marginBottom: 20}]}
-                    onPress={() => props.navigation.navigate('PhoneNumber')}>
+                    onPress={() => navigation.navigate('PhoneNumber')}>
                         <Text style={Styles.buttonText}>New user</Text>
                 </Pressable>
                 <Pressable
                     style={Styles.buttonInverted}
-                    onPress={() => props.navigation.navigate('SignIn')}>
+                    onPress={() => navigation.navigate('SignIn')}>
                         <Text style={Styles.buttonInvertedText}>Sign in</Text>
                 </Pressable>
             </View>
