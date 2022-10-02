@@ -96,8 +96,6 @@ function VisionBuilder(props) {
 
     // save all cards
     function clickDone() {
-      setSelectedCards(cards);
-
       // save cards with unique id
       selectedCards.forEach(card => {
         let newCards = [];

@@ -1,6 +1,4 @@
-import React from 'react';
-import { useRef } from "react";
-import { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import RemovableCard from '../components/RemovableCard.js';
@@ -29,12 +27,13 @@ function VisionCustomizer({ navigation }) {
     Poppins_700Bold,
   });
 
-  let [cards, setCards] = useState([]);
-
-  useEffect(() => {
-      const app = getApp();
+  const app = getApp();
       const auth = getAuth(app);
       const db = getDatabase();
+
+  let [myVisionCards, setMyVisionCards] = useState([]);
+
+  useEffect(() => {
       const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
       onValue(cardsRef, (snapshot) => {
           const cards = snapshot.val();
@@ -42,7 +41,7 @@ function VisionCustomizer({ navigation }) {
           for (var key in cards) {
               cardsArr.push(cards[key])
           }
-          setCards(cardsArr);
+          setMyVisionCards(cardsArr);
       });
   }, [])
 
@@ -64,10 +63,6 @@ function VisionCustomizer({ navigation }) {
       setMyVisionCards(rest => [...rest, result]);
     }
   };
-
-  const db = getDatabase();
-  const currentUserId = '7133026633'; // FIX
-  const cardsRef = ref(db, 'users/' + currentUserId + '/cards');
 
   const ListItems = (props) => {
     if(myVisionCards.length) {      
@@ -100,8 +95,8 @@ function VisionCustomizer({ navigation }) {
 
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
-    const cardRef = ref(db, 'users/' + currentUserId + '/cards/' + card.id);
-    const updatedCards = cards.filter(selectedCard =>
+    const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
+    const updatedCards = myVisionCards.filter(selectedCard =>
     selectedCard.text !== card.text);
     setMyVisionCards(updatedCards);
     remove(cardRef);
