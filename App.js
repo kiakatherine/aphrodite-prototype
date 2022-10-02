@@ -85,10 +85,11 @@ function App() {
   // navigation
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
-  const MainStackNavigator = (currentUser) => {
+  const MainStackNavigator = () => {
+    const isLoggedIn = auth.currentUser;
     return (
       <Stack.Navigator>
-        {!currentUser && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
+        {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
           {props => <DashboardScreen {...props} />}
         </Stack.Screen>
@@ -117,7 +118,7 @@ function App() {
   if (initializing) return null;
 
   // FIX
-  // if (!currentUser) {
+  // if (!auth.currentUser) {
   //   return (
   //     <FirstScreenScreen />
   //   );

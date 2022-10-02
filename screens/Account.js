@@ -17,11 +17,11 @@ import {
 import { signOut } from 'firebase/auth';
 
 function AccountScreen(props) {
-  const user = props.initialParams.user;
-
   // Firebase references
   const app = getApp();
   const auth = getAuth(app);
+  const db = getDatabase();
+  const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -29,9 +29,16 @@ function AccountScreen(props) {
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
+  const [currentUser, setCurrentUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
+
+  useEffect(() => {
+    onValue(userRef, (snapshot) => {
+      setCurrentUser(snapshot.val());
+    });
+  }, [])
 
   function handleEditClick(field, fieldData) {
     // FIX FOR BIRTHDAY
@@ -55,8 +62,13 @@ function AccountScreen(props) {
     setIsModalVisible(false);
   }
 
-  return (
-    <View style={Styles.containerWithoutHeader}>
+  function clickLogOut() {
+    auth.signOut();
+    props.navigation.navigate('FirstScreen');
+  }
+
+  return (<>
+    {currentUser && <View style={Styles.containerWithoutHeader}>
       {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
@@ -65,28 +77,28 @@ function AccountScreen(props) {
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.firstName}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('firstName', user.firstName)}>
+              onPress={() => handleEditClick('firstName', currentUser.firstName)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.lastName}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.lastName}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('lastName', user.lastName)}>
+              onPress={() => handleEditClick('lastName', currentUser.lastName)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.email}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.email}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('email', user.email)}>
+              onPress={() => handleEditClick('email', currentUser.email)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
@@ -101,42 +113,42 @@ function AccountScreen(props) {
           </View> */}
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.birthdayMonth} / {user.birthdayDay} / {user.birthdayYear}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.birthdayMonth} / {currentUser.birthdayDay} / {currentUser.birthdayYear}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('birthday', user.birthdayMonth, user.birthdayDay, user.birthdayYear)}>
+              onPress={() => handleEditClick('birthday', currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.pronouns}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.pronouns}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('pronouns', user.pronouns)}>
+              onPress={() => handleEditClick('pronouns', currentUser.pronouns)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{user.identity}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.identity}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('identity', user.identity)}>
+              onPress={() => handleEditClick('identity', currentUser.identity)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
 
           <Pressable
-              style={Styles.buttonLink}
-              onPress={() => auth.signOut()}>
-                <Text>Logout</Text>
+              style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
+              onPress={() => clickLogOut()}>
+                <Text style={Styles.buttonText}>Logout</Text>
               </Pressable>
         </View>
     )}
 
     </View>
-  );
+    }</>);
 };
 
 export default AccountScreen;
