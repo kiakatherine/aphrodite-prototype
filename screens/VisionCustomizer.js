@@ -28,8 +28,8 @@ function VisionCustomizer({ navigation }) {
   });
 
   const app = getApp();
-      const auth = getAuth(app);
-      const db = getDatabase();
+  const auth = getAuth(app);
+  const db = getDatabase();
 
   let [myVisionCards, setMyVisionCards] = useState([]);
 
@@ -120,7 +120,7 @@ function VisionCustomizer({ navigation }) {
               <Pressable
                   style={Styles.buttonSmall}
                   disabled={myVisionCards.length === 0}
-                  onPress={() => navigation.navigate('VisionViewTiles', {myVisionCards})}>
+                  onPress={() => navigation.navigate('VisionViewTiles')}>
                     <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
               </Pressable>
             </View>

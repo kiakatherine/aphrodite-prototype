@@ -24,27 +24,9 @@ function Dashboard(props) {
     Poppins_700Bold,
   });
 
-  const app = getApp();
-  const auth = getAuth(app);
-  const user = auth.currentUser;
-  const firstTimeUser = user.hasSeenWelcome ? false : true;
-  // let cards = props.initialParams.cards ? props.initialParams.cards : [];
-
-  // FIX
-  const cards = [
-    {
-      text: "My partner is kind."
-    },
-    {
-      text: "My partner sees me for who I am."
-    },
-    {
-      text: "We are a power couple."
-    },
-    {
-      text: "We support each other."
-    }
-  ];
+  // const app = getApp();
+  // const auth = getAuth(app);
+  // const user = auth.currentUser;
 
   // function storeFirstThing() {
   //   const db = getDatabase();
@@ -59,26 +41,12 @@ function Dashboard(props) {
   } else {
     return (
       <View style={[Styles.centerContainer, Styles.lightBackground]}>
-        {firstTimeUser &&
-            <View>
-              <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
-              <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
-              <Pressable
-                style={Styles.button}
-                onPress={() => props.navigation.navigate('VisionBuilder')}>
-                  <Text style={Styles.buttonText}>Let's begin</Text>
-              </Pressable>
-          </View>
-        }
-
-        {!firstTimeUser &&
-            <Pressable
-              style={Styles.DashboardVisionView}
-              onPress={() => props.navigation.navigate('VisionViewTiles', {cards})}>
-                <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
-                <Ionicons style={{color: 'white'}} name='play-circle' size={64} />
-            </Pressable>
-        }
+          <Pressable
+            style={Styles.DashboardVisionView}
+            onPress={() => props.navigation.navigate('VisionViewTiles')}>
+              <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+              <Ionicons style={{color: 'white'}} name='play-circle' size={64} />
+          </Pressable>
       </View>
     );}
   };

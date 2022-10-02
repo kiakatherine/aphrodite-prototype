@@ -4,6 +4,9 @@ import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
+import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
+import { initializeApp, getApp } from 'firebase/app';
 
 import {
   useFonts,
@@ -20,13 +23,27 @@ function VisionViewFullScreen({ navigation, route }) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
-    
-    let myVisionCards = route.params.myVisionCards;
+
+    const app = getApp();
+    const auth = getAuth(app);
+    let [myVisionCards, setMyVisionCards] = useState([]);
     const [currentCard, setCurrentCard] = useState(myVisionCards[0]);
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
       };
+    
+    useEffect(() => {
+        const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+        onValue(cardsRef, (snapshot) => {
+            const cards = snapshot.val();
+            let cardsArr = [];
+            for (var key in cards) {
+                cardsArr.push(cards[key])
+            }
+            setMyVisionCards(cardsArr);
+        });
+    }, [])
 
     function handleNextClick() {
         let currentCardIndex = myVisionCards.indexOf(currentCard);

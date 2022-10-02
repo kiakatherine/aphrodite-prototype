@@ -11,7 +11,6 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 function AddTextModal(props) {
     let [fontsLoaded] = useFonts({
@@ -27,7 +26,7 @@ function AddTextModal(props) {
         return <AppLoading />;
     } else {
         return (
-            <SafeAreaView style={Styles.fullScreen}>
+            <View style={Styles.fullScreen}>
                 <Pressable
                     style={Styles.topRightCloseButton}
                     onPress={() => props.onCancel()}>
@@ -45,7 +44,7 @@ function AddTextModal(props) {
                     onPress={() => props.onSave(newText)}>
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
                 </Pressable>
-            </SafeAreaView>
+            </View>
         );
     }
   }

@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // screens
+import WelcomeScreen from "./screens/Welcome";
 import DashboardScreen from "./screens/Dashboard";
 import FirstScreenScreen from "./screens/FirstScreen";
 import PhoneNumberScreen from "./screens/PhoneNumber";
@@ -87,6 +88,7 @@ function App() {
   const MainStackNavigator = () => {
     return (
       <Stack.Navigator>
+        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
           {props => <PhoneNumberScreen {...props} />}
