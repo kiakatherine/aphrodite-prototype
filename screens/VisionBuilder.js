@@ -65,9 +65,6 @@ function VisionBuilder(props) {
       if(selectedCards.length > 0) {
         isSelectedAlready = selectedCards.filter(selectedCard =>
           selectedCard.text == card.text);
-        if(isSelectedAlready.length === 0) {
-          cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + isSelectedAlready[0].id);
-        }
       }
 
       if(isSelectedAlready.length === 0) {
@@ -82,12 +79,18 @@ function VisionBuilder(props) {
         };        
         setSelectedCards([...selectedCards, newCard]);
       } else {
-        const uid = card.uid;
+        const uid = isSelectedAlready[0].id;
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
-        const updatedCards = selectedCards.filter(selectedCard =>
-          selectedCard.text !== card.text);
-        setSelectedCards(updatedCards);
-        remove(cardsRef);
+        const updatedCards = selectedCards.length > 0 ? selectedCards.filter(selectedCard =>
+          selectedCard.text !== card.text) : null;
+        if(selectedCards.length > 0) {
+          setSelectedCards(updatedCards);
+        }
+        remove(cardsRef).then(() => {
+          // alert('Card removed');
+        }).catch(error => {
+          // alert('Error');
+        });
       }
     }
 
