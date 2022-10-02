@@ -85,19 +85,19 @@ function App() {
   // navigation
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
-  const MainStackNavigator = () => {
+  const MainStackNavigator = (currentUser) => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-          {props => <PhoneNumberScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+        {!currentUser && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
           {props => <DashboardScreen {...props} />}
         </Stack.Screen>
+        <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+          {props => <PhoneNumberScreen {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
           {props => <VisionBuilderScreen {...props} />}
         </Stack.Screen>
