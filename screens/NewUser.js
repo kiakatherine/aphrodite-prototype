@@ -66,7 +66,6 @@ function NewUser(props) {
         };
         const db = getDatabase();
         const reference = ref(db, 'users/' + auth.currentUser.uid);
-        debugger
         set(reference, userData).then(() => {
             props.navigation.navigate('Dashboard');
         }).catch((error) => {

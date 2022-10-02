@@ -109,7 +109,7 @@ function PhoneNumber(props) {
                         showMessage({ text: 'Phone authentication successful 👍' });
                         const db = getDatabase();
                         const reference = ref(db, 'users/' + userData.user.uid);
-                        set(reference, {'hasSeenWelcome': false}).then(() => {
+                        set(reference, {'hasSeenWelcome': false, cards: []}).then(() => {
                           props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                         }).catch((error) => {
                           alert('Error');

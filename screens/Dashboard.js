@@ -27,7 +27,6 @@ function Dashboard(props) {
   const app = getApp();
   const auth = getAuth(app);
   const user = auth.currentUser;
-  debugger
   const firstTimeUser = user.hasSeenWelcome ? true : false;
   // let cards = props.initialParams.cards ? props.initialParams.cards : [];
 

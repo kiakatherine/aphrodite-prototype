@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Card from '../components/Card.js';
+import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
+import { initializeApp, getApp } from 'firebase/app';
+import { getDatabase, ref, set, onValue } from 'firebase/database';
 
 import {
   useFonts,
@@ -21,10 +24,24 @@ function VisionViewTiles(props) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
-    
-    const user = props.initialParams.user;
-    let cards = props.initialParams.cards;
+    let [cards, setCards] = useState([]);
 
+    useEffect(() => {
+        const app = getApp();
+        const auth = getAuth(app);
+        const db = getDatabase();
+        const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+        onValue(cardsRef, (snapshot) => {
+            const cards = snapshot.val();
+            let cardsArr = [];
+            for (var key in cards) {
+                cardsArr.push(cards[key])
+            }
+            setCards(cardsArr);
+        });
+    }, [])
+    
+    
     if(!fontsLoaded) {
         return <AppLoading />;
       } else {
@@ -39,7 +56,7 @@ function VisionViewTiles(props) {
 
                     <Pressable
                         style={[Styles.buttonLink, {alignItems: 'center'}]}
-                        onPress={() => props.navigation.navigate("VisionCustomizer", { cards })}>
+                        onPress={() => props.navigation.navigate("VisionCustomizer")}>
                             <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
                     </Pressable>
                 </View>
@@ -49,7 +66,7 @@ function VisionViewTiles(props) {
                     
                     {cards.length > 0 &&  <Pressable
                         style={[Styles.buttonOutline, {marginBottom: 40}]}
-                        onPress={() => props.navigation.navigate("VisionViewFullScreen", { cards })}>
+                        onPress={() => props.navigation.navigate("VisionViewFullScreen")}>
                             <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
                     </Pressable>}
 
@@ -59,7 +76,7 @@ function VisionViewTiles(props) {
                         {cards.length === 0 &&
                             <Pressable
                             style={[Styles.buttonOutline, {marginBottom: 40}]}
-                            onPress={() => props.navigation.navigate('VisionBuilder', { cards })}>
+                            onPress={() => props.navigation.navigate('VisionBuilder')}>
                                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
                         </Pressable>}
                     </ScrollView>
