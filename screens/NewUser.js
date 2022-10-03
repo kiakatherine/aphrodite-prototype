@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Pressable, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
-import { initializeApp, getApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getApp } from 'firebase/app';
 
 function NewUser(props) {
     const [screen, setScreen] = useState('FirstName');
-    const [validationCode, onChangeValidationCode] = useState(null);
     const [firstName, onChangeFirstName] = useState(null);
     const [lastName, onChangeLastName] = useState(null);
     const [birthdayMonth, onChangeBirthdayMonth] = useState(null);
@@ -44,11 +43,12 @@ function NewUser(props) {
             setScreen('Identity');
         } else if(screen == 'Identity') {
             setScreen('Terms');
-        } else if(screen == 'Terms') {
-            setScreen('Creating');
-        } else if(screen == 'Creating') {
-            props.navigation.navigate('Dashboard');
         }
+        // else if(screen == 'Terms') {
+        //     setScreen('Creating');
+        // } else if(screen == 'Creating') {
+        //     props.navigation.navigate('Dashboard');
+        // }
     }
     
     function saveUser() {
@@ -118,33 +118,30 @@ function NewUser(props) {
                         <TextInput
                             style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
                             keyboardType='numeric'
-                            placeholder="XX"
+                            placeholder="MM"
                             value={birthdayMonth}
                             maxLength={2}
                             onChangeText={(text) => {
                                 onChangeBirthdayMonth(text);
-                            }}
-                            />
+                            }}/>
                         <TextInput
                             style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
                             keyboardType='numeric'
-                            placeholder="XX"
+                            placeholder="DD"
                             maxLength={2}
                             value={birthdayDay}
                             onChangeText={(text) => {
                                 onChangeBirthdayDay(text);
-                            }}
-                            />
+                            }}/>
                         <TextInput
                             style={[Styles.textInput, Styles.validationCodeInput, { flex: 2 }]}
                             keyboardType='numeric'
-                            placeholder="XXXX"
+                            placeholder="YYYY"
                             maxLength={4}
                             value={birthdayYear}
                             onChangeText={(text) => {
                                 onChangeBirthdayYear(text);
-                            }}
-                            />
+                            }}/>
                     </View>
                     <Pressable
                         style={[Styles.button, Styles.modalBottomButton]}
@@ -211,24 +208,6 @@ function NewUser(props) {
                     <Pressable
                         style={Styles.buttonInverted}
                         onPress={() => {
-                            onChangePronouns('noPreference');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>No preference</Text>
-                    </Pressable>
-
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('notListed');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Not listed</Text>
-                    </Pressable>
-
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
                             onChangePronouns('preferNotToSay');
                             handleNextClick();
                         }}>
@@ -282,12 +261,12 @@ function NewUser(props) {
                     <Text style={Styles.bodyText}>Text here</Text>
                     <Pressable
                         style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={handleNextClick}>
+                        onPress={saveUser}>
                         <Text style={Styles.buttonText}>I agree</Text>
                     </Pressable>
                 </View>}
             
-            {screen === 'Creating' &&
+            {/* {screen === 'Creating' &&
                 <View>
                     <Text style={[Styles.allCapsHeading, Styles.textAlignCenter, {marginBottom: 25}]}>Creating account</Text>
                     <Pressable
@@ -295,7 +274,7 @@ function NewUser(props) {
                         onPress={saveUser}>
                         <Text style={Styles.buttonText}>Next</Text>
                     </Pressable>
-                </View>}
+                </View>} */}
          </View>
     );
 };

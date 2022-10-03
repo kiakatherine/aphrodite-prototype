@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -26,6 +26,7 @@ function VisionViewFullScreen({ navigation, route }) {
 
     const app = getApp();
     const auth = getAuth(app);
+    const db = getDatabase();
     let [myVisionCards, setMyVisionCards] = useState([]);
     const [currentCard, setCurrentCard] = useState(myVisionCards[0]);
     const config = {
@@ -75,6 +76,7 @@ function VisionViewFullScreen({ navigation, route }) {
                 onPress={() => navigation.goBack()}>
                     <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
             </Pressable>
+            
             {currentCard &&
                 <GestureRecognizer
                     onSwipeLeft={handleNextClick}
@@ -86,7 +88,7 @@ function VisionViewFullScreen({ navigation, route }) {
 
                 <View style={Styles.progressDotBar}>
                     {myVisionCards.map((visionCard, i) =>
-                        <Text key={i} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
+                        <Text key={visionCard.id} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
                 </View>
         </View>
         );

@@ -53,6 +53,7 @@ function VisionViewTiles(props) {
                             <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                     </Pressable>
 
+                    {/* FIX: check what previous screen was and whether to show Done or edit button */}
                     <Pressable
                         style={[Styles.buttonLink, {alignItems: 'center'}]}
                         onPress={() => props.navigation.navigate("VisionCustomizer")}>

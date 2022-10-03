@@ -145,7 +145,7 @@ function VisionBuilder(props) {
           </View>
 
           <View style={Styles.containerPadding}>
-            <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>Tap the cards that speak to you.</Text>
+            <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
           
             <View style={{flexGrow: 1}}>
               <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>

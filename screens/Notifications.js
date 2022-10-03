@@ -26,8 +26,9 @@ function NotificationsScreen({ navigation }) {
   }
 
   return (
-    <View style={Styles.containerWithoutHeader}>
-      {isModalVisible &&
+    <View style={[Styles.centerContainer, Styles.textAlignCenter]}>
+      <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_500Medium' }]}>Working on it!</Text>
+      {/* {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible &&
@@ -50,7 +51,7 @@ function NotificationsScreen({ navigation }) {
               <Ionicons name='create-outline' size={24} />
             </Pressable>
         </View>
-      </View>}
+      </View>} */}
     </View>
   )
 };

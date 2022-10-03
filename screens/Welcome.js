@@ -29,7 +29,7 @@ function Welcome(props) {
         return <AppLoading />;
       } else {
         return (
-            <View>
+            <View style={Styles.centerContainer}>
               <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
               <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
               <Pressable

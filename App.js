@@ -86,7 +86,7 @@ function App() {
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
   const MainStackNavigator = () => {
-    const isLoggedIn = auth.currentUser;
+    const isLoggedIn = auth.currentUser ? auth.currentUser : false;
     return (
       <Stack.Navigator>
         {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
