@@ -143,32 +143,10 @@ function App() {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
-        <Tab.Screen name="Home" component={MainStackNavigator} options={(route) => ({ headerShown: false })} />
+        <Tab.Screen name="Home" component={DashboardScreen} options={(route) => ({ headerShown: false })} />
         <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
-    );
-  }
-
-  const MainStackNavigator = () => {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-          {props => <DashboardScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-          {props => <VisionBuilderScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-          {props => <VisionCustomizerScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-          {props => <VisionViewTiles {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
-          {props => <VisionViewFullScreen {...props} />}
-        </Stack.Screen>
-      </Stack.Navigator>
     );
   }
 
@@ -193,6 +171,19 @@ function App() {
           <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+
+          <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
+            {props => <VisionBuilderScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
+            {props => <VisionCustomizerScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
+            {props => <VisionViewTiles {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
+            {props => <VisionViewFullScreen {...props} />}
+          </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </>
