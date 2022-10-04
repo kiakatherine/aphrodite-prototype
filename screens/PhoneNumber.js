@@ -101,7 +101,6 @@ function PhoneNumber(props) {
                         showMessage({ text: 'Phone authentication successful 👍' });
                         const db = getDatabase();
                         const reference = ref(db, 'users/' + userData.user.uid);
-                        debugger
                         update(reference, {'hasSeenWelcome': false}).then(() => {
                           props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                         }).catch((error) => {

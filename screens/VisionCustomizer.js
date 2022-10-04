@@ -87,10 +87,25 @@ function VisionCustomizer({ navigation }) {
   }
 
   function handleSaveText(newInput) {
-    setMyVisionCards(rest => [...rest, {
-      text: newInput
-    }]);
     setIsModalVisible(false);
+
+    debugger;
+    let newCards = [];
+    const cardType = newInput;
+    const card = {
+      text: newInput,
+      type: 'text'
+    };
+    const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    const addedCard = push(cardsRef, card);
+    const uid = addedCard.key;
+    update(addedCard, { id: uid });
+    newCards.push({
+      'text': card.text,
+      'type': card.type,
+      'id': uid
+    });
+    setMyVisionCards(rest => [...rest, newCards]);
   }
 
   function confirmRemovableCardPress(card) {
