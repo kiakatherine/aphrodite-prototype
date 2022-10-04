@@ -5,7 +5,7 @@ import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/d
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddTextModal from '../components/AddTextModal.js';
 import { initializeApp, getApp } from 'firebase/app';
-import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { getAuth, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 
 import {
   useFonts,
@@ -14,7 +14,6 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { signOut } from 'firebase/auth';
 
 function AccountScreen(props) {
   // Firebase references
@@ -22,6 +21,10 @@ function AccountScreen(props) {
   const auth = getAuth(app);
   const db = getDatabase();
   const userRef = ref(db, 'users/' + auth.currentUser.uid);
+
+  if(!auth.currentUser) {
+    props.navigation.navigate('FirstScreen');
+  }
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,

@@ -31,6 +31,7 @@ function App() {
   // Firebase references
   const app = getApp();
   const auth = getAuth(app);
+  const isLoggedIn = auth.currentUser ? auth.currentUser : false;
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -85,20 +86,76 @@ function App() {
   // navigation
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
+
+  // const MainStackNavigator = () => {
+  //   const isLoggedIn = auth.currentUser ? auth.currentUser : false;
+
+  //   // order of screens here matters
+  //   // dashboard screen is after firstscreen because it's what should show when logged in
+  //   return (
+  //     <Stack.Navigator>
+  //       {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
+  //       <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
+  //         {props => <DashboardScreen {...props} />}
+  //       </Stack.Screen>
+  //       <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+  //         {props => <PhoneNumberScreen {...props} />}
+  //       </Stack.Screen>
+  //       <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+  //       <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+  //       <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+  //       <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
+  //         {props => <VisionBuilderScreen {...props} />}
+  //       </Stack.Screen>
+  //       <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
+  //         {props => <VisionCustomizerScreen {...props} />}
+  //       </Stack.Screen>
+  //       <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
+  //         {props => <VisionViewTiles {...props} />}
+  //       </Stack.Screen>
+  //       <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
+  //         {props => <VisionViewFullScreen {...props} />}
+  //       </Stack.Screen>
+  //     </Stack.Navigator>
+  //   );
+  // }
+
+  const HomeTabs = () => {
+    return (
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+            
+                if (route.name === 'Home') {
+                    iconName = focused
+                    ? 'home-outline'
+                    : 'home-outline';
+                } else if (route.name === 'Notifications') {
+                    iconName = focused ? 'notifications-outline' : 'notifications-outline';
+                } else if (route.name === 'Account') {
+                    iconName = focused ? 'settings-outline' : 'settings-outline';
+                }
+            
+                // You can return any component that you like here!
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#000',
+              tabBarInactiveTintColor: '#aaa',
+          })}>
+        <Tab.Screen name="Home" component={MainStackNavigator} options={(route) => ({ headerShown: false })} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
+      </Tab.Navigator>
+    );
+  }
+
   const MainStackNavigator = () => {
-    const isLoggedIn = auth.currentUser ? auth.currentUser : false;
     return (
       <Stack.Navigator>
-        {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
         <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
           {props => <DashboardScreen {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-          {props => <PhoneNumberScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
           {props => <VisionBuilderScreen {...props} />}
         </Stack.Screen>
@@ -125,35 +182,20 @@ function App() {
   // }
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-          screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-          
-              if (route.name === 'Home') {
-                  iconName = focused
-                  ? 'home-outline'
-                  : 'home-outline';
-              } else if (route.name === 'Notifications') {
-                  iconName = focused ? 'notifications-outline' : 'notifications-outline';
-              } else if (route.name === 'Account') {
-                  iconName = focused ? 'settings-outline' : 'settings-outline';
-              }
-          
-              // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: '#000',
-              tabBarInactiveTintColor: '#aaa',
-          })}>
-        <Tab.Screen name="Home" component={MainStackNavigator} options={{ headerShown: false }} />
-        <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Account" options={{ headerShown: false }}>
-          {props => <AccountScreen {...props} />}
-        </Tab.Screen>
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>      
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
+          <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+            {props => <PhoneNumberScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 };
 

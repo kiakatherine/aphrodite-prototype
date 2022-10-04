@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kia.aphrodite.my-app"
+      "bundleIdentifier": "com.kia.aphrodite.my-app",
+      "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
