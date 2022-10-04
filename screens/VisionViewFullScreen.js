@@ -28,7 +28,7 @@ function VisionViewFullScreen({ navigation, route }) {
     const auth = getAuth(app);
     const db = getDatabase();
     let [myVisionCards, setMyVisionCards] = useState([]);
-    const [currentCard, setCurrentCard] = useState(myVisionCards[0]);
+    const [currentCard, setCurrentCard] = useState();
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
@@ -43,6 +43,7 @@ function VisionViewFullScreen({ navigation, route }) {
                 cardsArr.push(cards[key])
             }
             setMyVisionCards(cardsArr);
+            setCurrentCard(cardsArr[0]);
         });
     }, [])
 
@@ -76,7 +77,7 @@ function VisionViewFullScreen({ navigation, route }) {
                 onPress={() => navigation.goBack()}>
                     <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
             </Pressable>
-            
+
             {currentCard &&
                 <GestureRecognizer
                     onSwipeLeft={handleNextClick}

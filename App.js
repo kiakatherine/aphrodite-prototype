@@ -87,39 +87,6 @@ function App() {
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
 
-  // const MainStackNavigator = () => {
-  //   const isLoggedIn = auth.currentUser ? auth.currentUser : false;
-
-  //   // order of screens here matters
-  //   // dashboard screen is after firstscreen because it's what should show when logged in
-  //   return (
-  //     <Stack.Navigator>
-  //       {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
-  //       <Stack.Screen name="Dashboard" options={{ headerShown: false }}>
-  //         {props => <DashboardScreen {...props} />}
-  //       </Stack.Screen>
-  //       <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-  //         {props => <PhoneNumberScreen {...props} />}
-  //       </Stack.Screen>
-  //       <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-  //       <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-  //       <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
-  //       <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-  //         {props => <VisionBuilderScreen {...props} />}
-  //       </Stack.Screen>
-  //       <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-  //         {props => <VisionCustomizerScreen {...props} />}
-  //       </Stack.Screen>
-  //       <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-  //         {props => <VisionViewTiles {...props} />}
-  //       </Stack.Screen>
-  //       <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
-  //         {props => <VisionViewFullScreen {...props} />}
-  //       </Stack.Screen>
-  //     </Stack.Navigator>
-  //   );
-  // }
-
   const HomeTabs = () => {
     return (
       <Tab.Navigator

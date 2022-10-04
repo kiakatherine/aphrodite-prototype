@@ -20,20 +20,12 @@ function PhoneNumber(props) {
     const app = getApp();
     const auth = getAuth(app);
 
-    // Double-check that we can run the example
-    if (!app?.options || Platform.OS === 'web') {
-      throw new Error(
-        'This example only works on Android or iOS, and requires a valid Firebase config.'
-      );
-    }
-
     // Ref or state management hooks
-    const recaptchaVerifier = React.useRef(null);
-    const [phoneNumber, setPhoneNumber] = React.useState();
-    const [verificationId, setVerificationId] = React.useState();
-    const [verificationCode, setVerificationCode] = React.useState();
-
-    const [message, showMessage] = React.useState();
+    const recaptchaVerifier = useRef(null);
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [verificationId, setVerificationId] = useState();
+    const [verificationCode, setVerificationCode] = useState();
+    const [message, showMessage] = useState();
     const attemptInvisibleVerification = false;
 
     return (
@@ -109,7 +101,8 @@ function PhoneNumber(props) {
                         showMessage({ text: 'Phone authentication successful 👍' });
                         const db = getDatabase();
                         const reference = ref(db, 'users/' + userData.user.uid);
-                        set(reference, {'hasSeenWelcome': false}).then(() => {
+                        debugger
+                        update(reference, {'hasSeenWelcome': false}).then(() => {
                           props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                         }).catch((error) => {
                           alert('Error');
