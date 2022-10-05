@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
@@ -67,10 +66,7 @@ function VisionViewFullScreen({ navigation, route }) {
         }
     }
 
-    if(!fontsLoaded) {
-        return <AppLoading />;
-      } else {
-        return (
+    return (
         <View style={[Styles.centerContainer, Styles.VisionViewFullScreenCard]}>
             <Pressable
                 style={Styles.topRightCloseButton}
@@ -92,8 +88,7 @@ function VisionViewFullScreen({ navigation, route }) {
                         <Text key={i} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
                 </View>
         </View>
-        );
-    }
-  };
+    );
+}
   
-  export default VisionViewFullScreen;
+export default VisionViewFullScreen;

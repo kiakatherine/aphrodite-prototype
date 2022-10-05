@@ -5,7 +5,6 @@ import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as ImagePicker from 'expo-image-picker';
-import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
@@ -117,16 +116,6 @@ function VisionCustomizer({ navigation }) {
     return await getDownloadURL(fileRef);
   }
 
-  // const ListItems = (props) => {
-  //   if(myVisionCards.length) {      
-  //     return myVisionCards.map(card => 
-  //         <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>);
-  //   } else {
-  //       alert('none!')
-  //       return null;
-  //   }
-  // };
-
   function openAddTextModal() {
     setIsModalVisible(true);
   }
@@ -200,80 +189,76 @@ function VisionCustomizer({ navigation }) {
     )
   }
 
-  if(!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
-        {isModalVisible &&
-          <AddTextModal onSave={handleSaveText} onCancel={handleCancel} />}
-        
-        {!isModalVisible &&
-          <>
-            <View style={[Styles.customHeader, {marginBottom: 30}]}>
-              <Pressable
-                  style={[Styles.textAlignRight, Styles.flexOne]}
-                  onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}>
-                      <Ionicons name='arrow-back-outline' size={24} />
-              </Pressable>
+  return (
+    <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
+      {isModalVisible &&
+        <AddTextModal onSave={handleSaveText} onCancel={handleCancel} />}
+      
+      {!isModalVisible &&
+        <>
+          <View style={[Styles.customHeader, {marginBottom: 30}]}>
+            <Pressable
+                style={[Styles.textAlignRight, Styles.flexOne]}
+                onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}>
+                    <Ionicons name='arrow-back-outline' size={24} />
+            </Pressable>
 
-              <Pressable
-                  style={Styles.buttonSmall}
-                  disabled={myVisionCards.length === 0}
-                  onPress={() => navigation.navigate('VisionViewTiles', {previousScreen: 'VisionViewCustomizer'})}>
-                    <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
-              </Pressable>
-            </View>
+            <Pressable
+                style={Styles.buttonSmall}
+                disabled={myVisionCards.length === 0}
+                onPress={() => navigation.navigate('VisionViewTiles', {previousScreen: 'VisionViewCustomizer'})}>
+                  <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
+            </Pressable>
+          </View>
 
-            <View style={Styles.containerPadding}>
-              <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
-              
-              <SafeAreaView
-                style={{height: '80%'}}
-                showsVerticalScrollIndicator={false}>
-                <FlatList
-                    data={myVisionCards}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    />
-              </SafeAreaView>
+          <View style={Styles.containerPadding}>
+            <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
+            
+            <SafeAreaView
+              style={{height: '90%'}}
+              showsVerticalScrollIndicator={false}>
+              <FlatList
+                  data={myVisionCards}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item.id}
+                  numColumns={2}
+                  showsVerticalScrollIndicator={false}
+                  />
+            </SafeAreaView>
 
-              <RBSheet
-                ref={refRBSheet}
-                closeOnDragDown={true}
-                closeOnPressMask={false}
-                customStyles={{
-                  wrapper: {
-                    backgroundColor: 'transparent'
-                  },
-                  draggableIcon: {
-                    backgroundColor: '#000'
-                  }
-                }}>
-                  <View style={Styles.bottomDrawer}>
-                    <View style={Styles.displayFlex}>
-                      <Text style={[Styles.bottomDrawerHeader, Styles.flexOne, {fontFamily: 'Poppins_600SemiBold'}]}>New pin</Text>
-                      <Pressable
-                        style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
-                        onPress={() => refRBSheet.current.close()}>
-                            <Ionicons name="close-outline" size={48}></Ionicons>
-                      </Pressable>
-                    </View>
-                      
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
-                    
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
-
-                    <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}><Ionicons name='search' size={20} />  Examples</Text>
+            <RBSheet
+              ref={refRBSheet}
+              closeOnDragDown={true}
+              closeOnPressMask={false}
+              customStyles={{
+                wrapper: {
+                  backgroundColor: 'transparent'
+                },
+                draggableIcon: {
+                  backgroundColor: '#000'
+                }
+              }}>
+                <View style={Styles.bottomDrawer}>
+                  <View style={Styles.displayFlex}>
+                    <Text style={[Styles.bottomDrawerHeader, Styles.flexOne, {fontFamily: 'Poppins_600SemiBold'}]}>New pin</Text>
+                    <Pressable
+                      style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
+                      onPress={() => refRBSheet.current.close()}>
+                          <Ionicons name="close-outline" size={48}></Ionicons>
+                    </Pressable>
                   </View>
-                </RBSheet>
-            </View>
-          </>}
-      </View>
-    );
-    }
-  };
+                    
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
+                  
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
+
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}><Ionicons name='search' size={20} />  Examples</Text>
+                </View>
+              </RBSheet>
+          </View>
+        </>}
+    </View>
+  );
+}
   
-  export default VisionCustomizer;
+export default VisionCustomizer;

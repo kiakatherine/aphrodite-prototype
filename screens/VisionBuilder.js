@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { FlatList, Pressable, View, SafeAreaView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
-import AppLoading from 'expo-app-loading';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { initializeApp, getApp } from 'firebase/app';
@@ -160,48 +159,44 @@ function VisionBuilder(props) {
       );
     };
     
-    if(!fontsLoaded) {
-      return <AppLoading />;
-    } else {
-      return (
-        <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
-          <View style={[Styles.customHeader, {marginBottom: 30}]}>
-            <Pressable
-              style={[Styles.textAlignRight, Styles.flexOne]}
-              onPress={() => props.navigation.goBack({selectedCards})}>
-                <Ionicons name='arrow-back-outline' size={24} />
-            </Pressable>
+    return (
+      <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
+        <View style={[Styles.customHeader, {marginBottom: 30}]}>
+          <Pressable
+            style={[Styles.textAlignRight, Styles.flexOne]}
+            onPress={() => props.navigation.goBack({selectedCards})}>
+              <Ionicons name='arrow-back-outline' size={24} />
+          </Pressable>
 
-            <Pressable
-              style={[Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
-              disabled={selectedCards.length === 0}
-              onPress={() => clickDone()}>
-                <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Done</Text>
-            </Pressable>
-          </View>
-
-          <View style={Styles.containerPadding}>
-            <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
-          
-            <SafeAreaView style={{height: '80%'}}>
-              <FlatList
-                data={exampleCards}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                />
-                {/* {exampleCards.map(card => 
-                  <Card
-                    key={card.text}
-                    card={card}
-                    isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
-                    onCardPress={() => clickCard(card)} />)} */}
-            </SafeAreaView>
-          </View>
+          <Pressable
+            style={[Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
+            disabled={selectedCards.length === 0}
+            onPress={() => clickDone()}>
+              <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Done</Text>
+          </Pressable>
         </View>
-      );
-    }
-  };
+
+        <View style={Styles.containerPadding}>
+          <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
+        
+          <SafeAreaView style={{height: '90%'}}>
+            <FlatList
+              data={exampleCards}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              />
+              {/* {exampleCards.map(card => 
+                <Card
+                  key={card.text}
+                  card={card}
+                  isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+                  onCardPress={() => clickCard(card)} />)} */}
+          </SafeAreaView>
+        </View>
+      </View>
+    )
+  }
   
   export default VisionBuilder;
