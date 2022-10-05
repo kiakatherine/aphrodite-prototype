@@ -77,7 +77,7 @@ function PreviewTiles(props) {
                 </Pressable>}
 
                 {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
-                    style={[Styles.buttonWhite]}
+                    style={[Styles.buttonWhite, Styles.buttonSmall]}
                     onPress={() => props.navigation.navigate("Sending")}>
                         <Text style={Styles.buttonWhiteText}>Create</Text>
                 </Pressable>}

@@ -10,8 +10,7 @@ module.exports = StyleSheet.create({
     },
     containerPadding: {
       padding: 30,
-      paddingTop: 0,
-      // height: '100%'
+      paddingTop: 0
     },
     containerWithoutHeader: {
       marginTop: 55
@@ -24,18 +23,12 @@ module.exports = StyleSheet.create({
       borderBottomColor: '#C3C4CE',
       paddingLeft: 10,
       paddingRight: 10,
-      paddingTop: 2,
+      paddingTop: 20,
       paddingBottom: 20
     },
     fullScreen: {
       display: 'flex',
       flexDirection: 'column',
-    },
-    scrollView: {
-      // height: '50%',
-      // justifyContent: 'space-around',
-      // flexDirection: 'row',
-      // flexWrap: 'wrap',
     },
     lightBackground: {
       backgroundColor: 'white'
@@ -143,12 +136,7 @@ module.exports = StyleSheet.create({
       textAlign: 'center'
     },
     buttonWhite: {
-      backgroundColor: 'white',
-      padding: 15,
-      paddingRight: 20,
-      paddingLeft: 20,
-      borderRadius: 100,
-      alignContent: 'center'
+      backgroundColor: 'white'
     },
     buttonWhiteText: {
       color: 'black',
@@ -171,7 +159,6 @@ module.exports = StyleSheet.create({
     },
     buttonSmall: {
         width: 100,
-        backgroundColor: 'black',
         padding: 10,
         borderRadius: 100
     },

@@ -204,10 +204,10 @@ function VisionCustomizer({ navigation }) {
             </Pressable>
 
             <Pressable
-                style={Styles.buttonSmall}
+                style={[Styles.button, Styles.buttonSmall]}
                 disabled={myVisionCards.length === 0}
                 onPress={() => navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'})}>
-                  <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_500Medium'}]}>Preview</Text>
+                  <Text style={Styles.buttonSmallText}>Preview</Text>
             </Pressable>
           </View>
 
@@ -215,7 +215,7 @@ function VisionCustomizer({ navigation }) {
             <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
             
             <SafeAreaView
-              style={{height: '90%'}}
+              style={{height: '85%'}}
               showsVerticalScrollIndicator={false}>
               <FlatList
                   data={myVisionCards}

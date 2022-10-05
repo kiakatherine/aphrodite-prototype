@@ -169,10 +169,10 @@ function VisionBuilder(props) {
           </Pressable>
 
           <Pressable
-            style={[Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
+            style={[Styles.button, Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
             disabled={selectedCards.length === 0}
             onPress={() => clickDone()}>
-              <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Done</Text>
+              <Text style={[Styles.buttonText]}>Done</Text>
           </Pressable>
         </View>
 
