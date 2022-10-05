@@ -191,12 +191,6 @@ function VisionBuilder(props) {
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
                 />
-                {/* {exampleCards.map(card => 
-                  <Card
-                    key={card.text}
-                    card={card}
-                    isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
-                    onCardPress={() => clickCard(card)} />)} */}
             </SafeAreaView>
           </View>
         </View>

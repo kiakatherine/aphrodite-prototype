@@ -56,6 +56,11 @@ module.exports = StyleSheet.create({
       fontSize: 18,
       marginBottom: 40
     },
+    heading3: {
+      textTransform: 'uppercase',
+      letterSpacing: 2,
+      fontSize: 21
+    },
     inner: {
       padding: 24,
       flex: 1

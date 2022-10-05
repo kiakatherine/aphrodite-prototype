@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import AppLoading from 'expo-app-loading';
@@ -42,11 +42,31 @@ function VisionViewTiles(props) {
         });
     }, [])
 
+    // const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => (
+    //     // <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    //     //   <Text style={[styles.title, textColor]}>{item.title}</Text>
+    //     // </TouchableOpacity>
+        
+    //     <Pressable
+    //       style={[Styles.Card, isSelected ? Styles.CardSelected : '']}
+    //       selected={isSelected}
+    //       onPress={onPress}>
+    //         {/* <Text style={Styles.CardText}>{item.text}</Text> */}
+    //         <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>
+    //       </Pressable>
+    //   );
+  
+      const renderItem = ({ item }) => {  
+        return (
+            <Card key={item.text} card={item} darkTheme={true} />
+        );
+      };
+
     if(!fontsLoaded) {
         return <AppLoading />;
       } else {
         return (
-            <View style={[Styles.containerWithoutHeader, Styles.darkBackground]}>                
+            <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>                
                 <View style={[Styles.customHeader, {marginBottom: 30}]}>
                     <Pressable
                         style={[Styles.textAlignRight, Styles.flexOne]}
@@ -68,6 +88,9 @@ function VisionViewTiles(props) {
                 </View>
                 
                 <View style={Styles.containerPadding}>
+                    {previousScreen === 'VisionCustomizer' &&
+                        <Text style={[Styles.heading3, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
+
                     <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
                     
                     {cards.length > 0 &&  <Pressable
@@ -76,16 +99,23 @@ function VisionViewTiles(props) {
                             <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
                     </Pressable>}
 
-                    <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
-                        {cards.length > 0 && cards.map(card => 
-                            <Card key={card.text} card={card} darkTheme={true} />)}
+                    <SafeAreaView style={{height: '69%'}}>
                         {cards.length === 0 &&
                             <Pressable
                             style={[Styles.buttonOutline, {marginBottom: 40}]}
                             onPress={() => props.navigation.navigate('VisionBuilder')}>
                                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
-                        </Pressable>}
-                    </ScrollView>
+                            </Pressable>}
+
+                        {cards.length > 0 &&
+                            <FlatList
+                                data={cards}
+                                renderItem={renderItem}
+                                keyExtractor={(item) => item.id}
+                                numColumns={2}
+                                showsVerticalScrollIndicator={false}
+                                />}
+                        </SafeAreaView>
                 </View>
             </View>
         );
