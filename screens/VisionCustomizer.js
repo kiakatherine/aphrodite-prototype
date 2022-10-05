@@ -60,8 +60,6 @@ function VisionCustomizer({ navigation }) {
       quality: 1,
     });
 
-    debugger
-
     if (!file.cancelled) {
       setImage(file.uri);
       setMyVisionCards(rest => [...rest, file]);
@@ -170,7 +168,6 @@ function VisionCustomizer({ navigation }) {
 
   const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
     const isFirstCard = firstCard.text === item.text;
-    // debugger
 
     return(
       <>

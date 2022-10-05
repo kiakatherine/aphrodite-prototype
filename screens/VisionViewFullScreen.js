@@ -48,6 +48,7 @@ function VisionViewFullScreen({ navigation, route }) {
     }, [])
 
     function handleNextClick() {
+        debugger
         let currentCardIndex = myVisionCards.indexOf(currentCard);
 
         if((currentCardIndex + 1) < myVisionCards.length) {
@@ -58,6 +59,7 @@ function VisionViewFullScreen({ navigation, route }) {
     }
 
     function handleBackClick() {
+        debugger
         let currentCardIndex = myVisionCards.indexOf(currentCard);
         
         if(currentCardIndex > 0) {
@@ -89,7 +91,7 @@ function VisionViewFullScreen({ navigation, route }) {
 
                 <View style={Styles.progressDotBar}>
                     {myVisionCards.map((visionCard, i) =>
-                        <Text key={visionCard.id} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
+                        <Text key={i} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
                 </View>
         </View>
         );
