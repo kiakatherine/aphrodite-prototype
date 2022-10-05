@@ -18,6 +18,7 @@ import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
 import VisionViewTiles from "./screens/VisionViewTiles";
 import VisionViewFullScreen from "./screens/VisionViewFullScreen";
+import SendingScreen from "./screens/Sending";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
 
@@ -151,6 +152,7 @@ function App() {
           <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
             {props => <VisionViewFullScreen {...props} />}
           </Stack.Screen>
+          <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -82,7 +82,7 @@ function VisionViewTiles(props) {
 
                     {(previousScreen === 'VisionViewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
                         style={[Styles.buttonWhite]}
-                        onPress={() => props.navigation.navigate("VisionCustomizer")}>
+                        onPress={() => props.navigation.navigate("Sending")}>
                             <Text style={Styles.buttonWhiteText}>Create</Text>
                     </Pressable>}
                 </View>
