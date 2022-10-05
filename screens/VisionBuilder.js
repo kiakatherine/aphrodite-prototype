@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Pressable, View, ScrollView, Text } from 'react-native';
+import { FlatList, Pressable, View, SafeAreaView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
 import AppLoading from 'expo-app-loading';
@@ -17,6 +17,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
+// import { FlatList } from 'react-native-web';
 
 function VisionBuilder(props) {
     let [fontsLoaded] = useFonts({
@@ -43,14 +44,14 @@ function VisionBuilder(props) {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const exampleCards = [
-      { text: "My partner is kind.", type: "text" },
-      { text: "My partner sees me for who I am.", type: "text" },
-      { text: "We are a power couple.", type: "text" },
-      { text: "We support each other.", type: "text" },
-      { text: "My partner is honest.", type: "text" },
-      { text: "My partner is patient.", type: "text" },
-      { text: "My partner is faithful.", type: "text" },
-      { text: "My partner is generous.", type: "text" }
+      { id: 1, text: "My partner is kind.", type: "text" },
+      { id: 2, text: "My partner sees me for who I am.", type: "text" },
+      { id: 3, text: "We are a power couple.", type: "text" },
+      { id: 4, text: "We support each other.", type: "text" },
+      { id: 5, text: "My partner is honest.", type: "text" },
+      { id: 6, text: "My partner is patient.", type: "text" },
+      { id: 7, text: "My partner is faithful.", type: "text" },
+      { id: 8, text: "My partner is generous.", type: "text" }
     ];
 
     // select/deselect card
@@ -123,17 +124,52 @@ function VisionBuilder(props) {
         props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
       });
     }
+
+    const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => (
+      // <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+      //   <Text style={[styles.title, textColor]}>{item.title}</Text>
+      // </TouchableOpacity>
+      
+      <Pressable
+        style={[Styles.Card, isSelected ? Styles.CardSelected : '']}
+        selected={isSelected}
+        onPress={onPress}>
+          {/* <Text style={Styles.CardText}>{item.text}</Text> */}
+          <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>
+        </Pressable>
+    );
+
+    const renderItem = ({ item }) => {
+      // const selectedId = true;
+      // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+      // const color = item.id === selectedId ? 'white' : 'black';
+
+      return (
+        <ListItem
+          item={item}
+          onPress={() => clickCard(item)}
+          isSelected={selectedCards.filter(selectedCard => selectedCard.text == item.text).length > 0}
+          // backgroundColor={{ backgroundColor }}
+          // textColor={{ color }}
+        />
+        // <Card
+        // key={card.text}
+        // card={card}
+        // isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+        // onCardPress={() => clickCard(card)} />
+      );
+    };
     
     if(!fontsLoaded) {
       return <AppLoading />;
     } else {
       return (
-        <View style={Styles.containerWithoutHeader}>
+        <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
           <View style={[Styles.customHeader, {marginBottom: 30}]}>
             <Pressable
-                style={[Styles.textAlignRight, Styles.flexOne]}
-                onPress={() => props.navigation.goBack({selectedCards})}>
-                    <Ionicons name='arrow-back-outline' size={24} />
+              style={[Styles.textAlignRight, Styles.flexOne]}
+              onPress={() => props.navigation.goBack({selectedCards})}>
+                <Ionicons name='arrow-back-outline' size={24} />
             </Pressable>
 
             <Pressable
@@ -147,16 +183,21 @@ function VisionBuilder(props) {
           <View style={Styles.containerPadding}>
             <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
           
-            <View style={{flexGrow: 1}}>
-              <ScrollView contentContainerStyle={Styles.scrollView} showsVerticalScrollIndicator={false}>
-                {exampleCards.map(card => 
+            <SafeAreaView style={{height: '80%'}}>
+              <FlatList
+                data={exampleCards}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                />
+                {/* {exampleCards.map(card => 
                   <Card
                     key={card.text}
                     card={card}
                     isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
-                    onCardPress={() => clickCard(card)} />)}
-              </ScrollView>
-            </View>
+                    onCardPress={() => clickCard(card)} />)} */}
+            </SafeAreaView>
           </View>
         </View>
       );

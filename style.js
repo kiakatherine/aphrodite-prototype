@@ -11,7 +11,7 @@ module.exports = StyleSheet.create({
     containerPadding: {
       padding: 30,
       paddingTop: 0,
-      height: '100%'
+      // height: '100%'
     },
     containerWithoutHeader: {
       marginTop: 55
@@ -33,9 +33,9 @@ module.exports = StyleSheet.create({
     },
     scrollView: {
       // height: '50%',
-      justifyContent: 'space-around',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
+      // justifyContent: 'space-around',
+      // flexDirection: 'row',
+      // flexWrap: 'wrap',
     },
     lightBackground: {
       backgroundColor: 'white'
@@ -137,6 +137,20 @@ module.exports = StyleSheet.create({
       fontSize: 16,
       textAlign: 'center'
     },
+    buttonWhite: {
+      backgroundColor: 'white',
+      padding: 15,
+      paddingRight: 20,
+      paddingLeft: 20,
+      borderRadius: 100,
+      alignContent: 'center'
+    },
+    buttonWhiteText: {
+      color: 'black',
+      fontWeight: 'bold',
+      fontSize: 16,
+      textAlign: 'center'
+    },
     buttonOutline: {
       borderWidth: 2,
       borderColor: 'white',
@@ -213,6 +227,7 @@ module.exports = StyleSheet.create({
         alignItems: 'center',
         minHeight: 165,
         marginBottom: 20,
+        marginRight: 20,
         padding: 25,
         backgroundColor: '#F2EDE4',
         borderWidth: 3,

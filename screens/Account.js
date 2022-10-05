@@ -23,7 +23,7 @@ function AccountScreen(props) {
   const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   if(!auth.currentUser) {
-    props.navigation.navigate('FirstScreen');
+    props.navigation.navigate('Landing');
   }
 
   let [fontsLoaded] = useFonts({
@@ -67,7 +67,7 @@ function AccountScreen(props) {
 
   function clickLogOut() {
     auth.signOut();
-    props.navigation.navigate('FirstScreen');
+    props.navigation.navigate('Landing');
   }
 
   return (<>

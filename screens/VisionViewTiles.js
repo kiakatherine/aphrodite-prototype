@@ -24,6 +24,7 @@ function VisionViewTiles(props) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
+    const previousScreen = props.route.params.previousScreen;
     let [cards, setCards] = useState([]);
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function VisionViewTiles(props) {
             setCards(cardsArr);
         });
     }, [])
-    
+
     if(!fontsLoaded) {
         return <AppLoading />;
       } else {
@@ -53,12 +54,17 @@ function VisionViewTiles(props) {
                             <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                     </Pressable>
 
-                    {/* FIX: check what previous screen was and whether to show Done or edit button */}
-                    <Pressable
-                        style={[Styles.buttonLink, {alignItems: 'center'}]}
+                    {previousScreen === 'Dashboard' && <Pressable
+                        style={[Styles.buttonLink]}
                         onPress={() => props.navigation.navigate("VisionCustomizer")}>
                             <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
-                    </Pressable>
+                    </Pressable>}
+
+                    {(previousScreen === 'VisionViewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
+                        style={[Styles.buttonWhite]}
+                        onPress={() => props.navigation.navigate("VisionCustomizer")}>
+                            <Text style={Styles.buttonWhiteText}>Create</Text>
+                    </Pressable>}
                 </View>
                 
                 <View style={Styles.containerPadding}>

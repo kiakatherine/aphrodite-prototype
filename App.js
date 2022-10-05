@@ -10,7 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
 import WelcomeScreen from "./screens/Welcome";
 import DashboardScreen from "./screens/Dashboard";
-import FirstScreenScreen from "./screens/FirstScreen";
+import LandingScreen from "./screens/Landing";
 import PhoneNumberScreen from "./screens/PhoneNumber";
 import SignInScreen from "./screens/SignIn";
 import NewUserScreen from "./screens/NewUser";
@@ -122,7 +122,7 @@ function App() {
   // FIX
   // if (!auth.currentUser) {
   //   return (
-  //     <FirstScreenScreen />
+  //     <LandingScreen />
   //   );
   // }
 
@@ -130,7 +130,7 @@ function App() {
     <>      
       <NavigationContainer>
         <Stack.Navigator>
-          {!isLoggedIn && <Stack.Screen name="FirstScreen" component={FirstScreenScreen} options={{ headerShown: false }} />}
+          {!isLoggedIn && <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />}
           <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
             {props => <PhoneNumberScreen {...props} />}
