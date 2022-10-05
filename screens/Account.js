@@ -20,11 +20,12 @@ function AccountScreen(props) {
   const app = getApp();
   const auth = getAuth(app);
   const db = getDatabase();
-  const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   if(!auth.currentUser) {
     props.navigation.navigate('Landing');
   }
+  
+  const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,

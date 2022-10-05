@@ -26,13 +26,13 @@ import AccountScreen from "./screens/Account";
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
-function App() {
+function App(props) {
   const [cards, setCards] = useState([]);
 
   // Firebase references
   const app = getApp();
   const auth = getAuth(app);
-  const isLoggedIn = auth.currentUser ? auth.currentUser : false;
+  const isLoggedIn = auth.currentUser ? true : false;
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
@@ -40,6 +40,11 @@ function App() {
   // Handle user state changes
   function onAuthStateChanged(user) {
     if (initializing) setInitializing(false);
+    // if (!user) {
+    //   props.navigation.navigate('Landing');
+    // } else {
+    //   props.navigation.navigate('Dashboard');
+    // }
   }
 
   useEffect(() => {
@@ -127,11 +132,19 @@ function App() {
   //   );
   // }
 
+  function getInitialRoute() {
+    if(isLoggedIn) {
+      return "Dashboard"
+    } else {
+      return "Landing"
+    }
+  }
+
   return (
     <>      
       <NavigationContainer>
-        <Stack.Navigator>
-          {!isLoggedIn && <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />}
+        <Stack.Navigator initialRouteName={getInitialRoute()}>
+          <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
             {props => <PhoneNumberScreen {...props} />}
