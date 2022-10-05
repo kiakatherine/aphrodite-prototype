@@ -46,7 +46,7 @@ function Dashboard(props) {
             onPress={() => props.navigation.navigate('VisionViewTiles', {previousScreen: 'Dashboard'})}>
               {/* <Text style={[Styles.heading1, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
               <Ionicons style={{color: 'white'}} name='play-circle' size={64} /> */}
-              <Image source={require('../assets/images/play.png')} />
+              <Image source={require('../assets/images/play.png')} style={{width: '100%', height: '100%'}} />
           </Pressable>
       </View>
     );}

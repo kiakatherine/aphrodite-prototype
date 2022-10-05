@@ -250,10 +250,10 @@ module.exports = StyleSheet.create({
         borderWidth: 0
       },
       DashboardVisionView: {
-        marginTop: 75,
-        width: '100%',
+        margin: 20,
+        marginTop: 100,
         backgroundColor: '#2E2F36',
-        padding: 30,
+        padding: 10,
         borderRadius: 15
       },
       RemovableCardButton: {
