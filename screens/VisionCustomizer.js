@@ -183,6 +183,11 @@ function VisionCustomizer({ navigation }) {
     )
   }
 
+  function clickExamples() {
+    refRBSheet.current.close();
+    navigation.navigate('VisionBuilder', {myVisionCards});
+  }
+
   const renderItem = ({ item }) => {
     return (
       <ListItem item={item} />
@@ -252,7 +257,7 @@ function VisionCustomizer({ navigation }) {
                   
                   <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
 
-                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}><Ionicons name='search' size={20} />  Examples</Text>
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={clickExamples}><Ionicons name='search' size={20} />  Examples</Text>
                 </View>
               </RBSheet>
           </View>
