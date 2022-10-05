@@ -48,7 +48,6 @@ function VisionViewFullScreen({ navigation, route }) {
     }, [])
 
     function handleNextClick() {
-        debugger
         let currentCardIndex = myVisionCards.indexOf(currentCard);
 
         if((currentCardIndex + 1) < myVisionCards.length) {
@@ -59,7 +58,6 @@ function VisionViewFullScreen({ navigation, route }) {
     }
 
     function handleBackClick() {
-        debugger
         let currentCardIndex = myVisionCards.indexOf(currentCard);
         
         if(currentCardIndex > 0) {
@@ -73,7 +71,7 @@ function VisionViewFullScreen({ navigation, route }) {
         return <AppLoading />;
       } else {
         return (
-        <View style={[Styles.centerContainer, Styles.VisionViewFullScreenContainer, Styles.VisionViewFullScreenCard]}>
+        <View style={[Styles.centerContainer, Styles.VisionViewFullScreenCard]}>
             <Pressable
                 style={Styles.topRightCloseButton}
                 onPress={() => navigation.goBack()}>

@@ -266,11 +266,7 @@ module.exports = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
       },
-      VisionViewFullScreenContainer: {
-        background: '#2E2F36'
-      },
       VisionViewFullScreenCard: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
