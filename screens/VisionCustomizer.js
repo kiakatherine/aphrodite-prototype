@@ -10,7 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
-import { getStorage, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 
 import {
   useFonts,
@@ -60,6 +60,8 @@ function VisionCustomizer({ navigation }) {
       quality: 1,
     });
 
+    debugger
+
     if (!file.cancelled) {
       setImage(file.uri);
       setMyVisionCards(rest => [...rest, file]);
@@ -71,8 +73,9 @@ function VisionCustomizer({ navigation }) {
       contentType: 'image/jpeg'
     };
 
+    // FIX: properly upload image to firebase
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-    const addedCard = push(cardsRef, card);
+    const addedCard = push(cardsRef, card); // FIX
     const uid = addedCard.key;
     update(addedCard, { id: uid });
     // const newCard = {
@@ -83,55 +86,38 @@ function VisionCustomizer({ navigation }) {
 
     const card = {
       type: 'image',
-      fileName: file.name,
+      uri: file.uri,
       id: uid
     }
 
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    const storageRef = ref(storage, 'users/' + auth.currentUser.uid + '/cards/' + card);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    uploadImageAsync(file.uri);
+  }
 
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
-        }
-      }, 
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            // User doesn't have permission to access the object
-            break;
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
-
-          // ...
-
-          case 'storage/unknown':
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      }, 
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-        });
-      }
-    );
-  };
+  async function uploadImageAsync(uri) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+  
+    const fileRef = ref(getStorage(), uuid.v4());
+    const result = await uploadBytes(fileRef, blob);
+  
+    // We're done with the blob, close and release it
+    blob.close();
+  
+    return await getDownloadURL(fileRef);
+  }
 
   // const ListItems = (props) => {
   //   if(myVisionCards.length) {      
@@ -184,6 +170,7 @@ function VisionCustomizer({ navigation }) {
 
   const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
     const isFirstCard = firstCard.text === item.text;
+    // debugger
 
     return(
       <>
@@ -212,10 +199,7 @@ function VisionCustomizer({ navigation }) {
 
   const renderItem = ({ item }) => {
     return (
-      <ListItem
-        item={item}
-        onPress={() => clickCard(item)}
-      />
+      <ListItem item={item} />
     )
   }
 
@@ -259,7 +243,7 @@ function VisionCustomizer({ navigation }) {
                     />
               </SafeAreaView>
 
-              {/* <RBSheet
+              <RBSheet
                 ref={refRBSheet}
                 closeOnDragDown={true}
                 closeOnPressMask={false}
@@ -287,7 +271,7 @@ function VisionCustomizer({ navigation }) {
 
                     <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}><Ionicons name='search' size={20} />  Examples</Text>
                   </View>
-                </RBSheet> */}
+                </RBSheet>
             </View>
           </>}
       </View>
