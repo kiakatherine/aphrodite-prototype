@@ -16,7 +16,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function VisionViewTiles(props) {
+function PreviewTiles(props) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
@@ -76,7 +76,7 @@ function VisionViewTiles(props) {
                         <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
                 </Pressable>}
 
-                {(previousScreen === 'VisionViewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
+                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
                     style={[Styles.buttonWhite]}
                     onPress={() => props.navigation.navigate("Sending")}>
                         <Text style={Styles.buttonWhiteText}>Create</Text>
@@ -91,7 +91,7 @@ function VisionViewTiles(props) {
                 
                 {cards.length > 0 &&  <Pressable
                     style={[Styles.buttonOutline, {marginBottom: 40}]}
-                    onPress={() => props.navigation.navigate("VisionViewFullScreen")}>
+                    onPress={() => props.navigation.navigate("PreviewFullScreen")}>
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
                 </Pressable>}
 
@@ -117,4 +117,4 @@ function VisionViewTiles(props) {
     );
 }
   
-export default VisionViewTiles;
+export default PreviewTiles;

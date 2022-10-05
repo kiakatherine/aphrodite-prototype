@@ -16,8 +16,8 @@ import SignInScreen from "./screens/SignIn";
 import NewUserScreen from "./screens/NewUser";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
-import VisionViewTiles from "./screens/VisionViewTiles";
-import VisionViewFullScreen from "./screens/VisionViewFullScreen";
+import PreviewTiles from "./screens/PreviewTiles";
+import PreviewFullScreen from "./screens/PreviewFullScreen";
 import SendingScreen from "./screens/Sending";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
@@ -159,11 +159,11 @@ function App(props) {
           <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
             {props => <VisionCustomizerScreen {...props} />}
           </Stack.Screen>
-          <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-            {props => <VisionViewTiles {...props} />}
+          <Stack.Screen name="PreviewTiles" options={{ headerShown: false }}>
+            {props => <PreviewTiles {...props} />}
           </Stack.Screen>
-          <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>
-            {props => <VisionViewFullScreen {...props} />}
+          <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
+            {props => <PreviewFullScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false }} />
         </Stack.Navigator>

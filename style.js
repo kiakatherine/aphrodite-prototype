@@ -266,14 +266,14 @@ module.exports = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
       },
-      VisionViewFullScreenCard: {
+      PreviewFullScreenCard: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
         padding: 30,
         backgroundColor: '#2E2F36'
       },
-      VisionViewFullScreenCardText: {
+      PreviewFullScreenCardText: {
         fontSize: 36,
         textAlign: 'center',
         color: 'white'

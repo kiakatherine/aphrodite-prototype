@@ -15,7 +15,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function VisionViewFullScreen({ navigation, route }) {
+function PreviewFullScreen({ navigation }) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
@@ -67,7 +67,7 @@ function VisionViewFullScreen({ navigation, route }) {
     }
 
     return (
-        <View style={[Styles.centerContainer, Styles.VisionViewFullScreenCard]}>
+        <View style={[Styles.centerContainer, Styles.PreviewFullScreenCard]}>
             <Pressable
                 style={Styles.topRightCloseButton}
                 onPress={() => navigation.goBack()}>
@@ -79,7 +79,7 @@ function VisionViewFullScreen({ navigation, route }) {
                     onSwipeLeft={handleNextClick}
                     onSwipeRight={handleBackClick}
                     config={config}>
-                        {currentCard.text && <Text style={[Styles.VisionViewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
+                        {currentCard.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
                         {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
                 </GestureRecognizer>}
 
@@ -91,4 +91,4 @@ function VisionViewFullScreen({ navigation, route }) {
     );
 }
   
-export default VisionViewFullScreen;
+export default PreviewFullScreen;

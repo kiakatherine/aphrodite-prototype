@@ -179,7 +179,7 @@ function VisionBuilder(props) {
         <View style={Styles.containerPadding}>
           <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
         
-          <SafeAreaView style={{height: '90%'}}>
+          <SafeAreaView style={{height: '80%'}}>
             <FlatList
               data={exampleCards}
               renderItem={renderItem}

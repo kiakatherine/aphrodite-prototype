@@ -6,8 +6,8 @@ import PhoneNumberScreen from "../screens/PhoneNumber";
 import SigninScreen from "../screens/Signin";
 import VisionBuilderScreen from "../screens/VisionBuilder";
 import VisionCustomizerScreen from "../screens/VisionCustomizer";
-import VisionViewTiles from "../screens/VisionViewTiles";
-import VisionViewFullScreen from "../screens/VisionViewFullScreen";
+import PreviewTiles from "../screens/PreviewTiles";
+import PreviewFullScreen from "../screens/PreviewFullScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,10 +24,10 @@ const MainStackNavigator = () => {
       <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
         {props => <VisionCustomizerScreen {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="VisionViewTiles" options={{ headerShown: false }}>
-        {props => <VisionViewTiles {...props} />}
+      <Stack.Screen name="PreviewTiles" options={{ headerShown: false }}>
+        {props => <PreviewTiles {...props} />}
       </Stack.Screen>
-      <Stack.Screen name="VisionViewFullScreen" options={{ headerShown: false }}>{props => <VisionViewFullScreen {...props} />}</Stack.Screen>
+      <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>{props => <PreviewFullScreen {...props} />}</Stack.Screen>
     </Stack.Navigator>
   );
 }
