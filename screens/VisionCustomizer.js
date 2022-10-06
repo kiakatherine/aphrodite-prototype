@@ -64,57 +64,57 @@ function VisionCustomizer({ navigation }) {
       setMyVisionCards(rest => [...rest, file]);
     }
 
-    // Create the file metadata
-    /** @type {any} */
-    const metadata = {
-      contentType: 'image/jpeg'
-    };
+    // // Create the file metadata
+    // /** @type {any} */
+    // const metadata = {
+    //   contentType: 'image/jpeg'
+    // };
 
-    // FIX: properly upload image to firebase
-    const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-    const addedCard = push(cardsRef, card); // FIX
-    const uid = addedCard.key;
-    update(addedCard, { id: uid });
-    // const newCard = {
-    //   'text': card.text,
-    //   'type': card.type,
-    //   'id': uid
-    // };        
+    // // FIX: properly upload image to firebase
+    // const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
+    // const addedCard = push(cardsRef, card); // FIX
+    // const uid = addedCard.key;
+    // update(addedCard, { id: uid });
+    // // const newCard = {
+    // //   'text': card.text,
+    // //   'type': card.type,
+    // //   'id': uid
+    // // };        
 
-    const card = {
-      type: 'image',
-      uri: file.uri,
-      id: uid
-    }
+    // const card = {
+    //   type: 'image',
+    //   uri: file.uri,
+    //   id: uid
+    // }
 
-    uploadImageAsync(file.uri);
+    // uploadImageAsync(file.uri);
   }
 
-  async function uploadImageAsync(uri) {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
+  // async function uploadImageAsync(uri) {
+  //   // Why are we using XMLHttpRequest? See:
+  //   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+  //   const blob = await new Promise((resolve, reject) => {
+  //     const xhr = new XMLHttpRequest();
+  //     xhr.onload = function () {
+  //       resolve(xhr.response);
+  //     };
+  //     xhr.onerror = function (e) {
+  //       console.log(e);
+  //       reject(new TypeError("Network request failed"));
+  //     };
+  //     xhr.responseType = "blob";
+  //     xhr.open("GET", uri, true);
+  //     xhr.send(null);
+  //   });
   
-    const fileRef = ref(getStorage(), uuid.v4());
-    const result = await uploadBytes(fileRef, blob);
+  //   const fileRef = ref(getStorage(), uuid.v4());
+  //   const result = await uploadBytes(fileRef, blob);
   
-    // We're done with the blob, close and release it
-    blob.close();
+  //   // We're done with the blob, close and release it
+  //   blob.close();
   
-    return await getDownloadURL(fileRef);
-  }
+  //   return await getDownloadURL(fileRef);
+  // }
 
   function openAddTextModal() {
     setIsModalVisible(true);
