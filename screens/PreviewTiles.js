@@ -110,6 +110,7 @@ function PreviewTiles(props) {
                             keyExtractor={(item) => item.id}
                             numColumns={2}
                             showsVerticalScrollIndicator={false}
+                            scrollEnabled={cards.length > 4}
                             />}
                     </SafeAreaView>
             </View>

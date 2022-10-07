@@ -197,6 +197,7 @@ function VisionCustomizer({ navigation }) {
                   keyExtractor={(item) => item.id}
                   numColumns={2}
                   showsVerticalScrollIndicator={false}
+                  scrollEnabled={myVisionCards.length > 4}
                   />
             </SafeAreaView>
 
