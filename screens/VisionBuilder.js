@@ -54,6 +54,24 @@ function VisionBuilder(props) {
       { id: 9, text: "My partner sees me for who I am.", type: "text" },
     ];
 
+    const uploadImage = async(uri) => {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
+  
+      const newCard = push(userRef, blob);
+      const uid = newCard.key;
+      update(newCard, {id: uid, 'type': 'image'});
+      
+      // const updatedCard = {
+      //   'type': 'image',
+      //   'id': uid,
+      //   'image': blob
+      // }
+  
+      // setMyVisionCards(rest => [...rest, updatedCard]);
+    }
+
     // select/deselect card
     function clickCard(card) {
       const app = getApp();
@@ -70,15 +88,21 @@ function VisionBuilder(props) {
 
       if(isSelectedAlready.length === 0) {
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-        const addedCard = push(cardsRef, card);
-        const uid = addedCard.key;
-        update(addedCard, { id: uid });
-        const newCard = {
-          'text': card.text,
-          'type': card.type,
-          'id': uid
-        };        
-        setSelectedCards([...selectedCards, newCard]);
+
+        if(card.type === 'text') {
+          const addedCard = push(cardsRef, card);
+          const uid = addedCard.key;
+          update(addedCard, { id: uid });
+          const newCard = {
+            'text': card.text,
+            'type': card.type,
+            'id': uid
+          };        
+          setSelectedCards([...selectedCards, newCard]);
+        } else if(card.type === 'image') {
+          // FIX: upload image to firebase
+          // uploadImage(card.filePath);
+        }
       } else {
         const uid = isSelectedAlready[0].id;
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
@@ -92,7 +116,7 @@ function VisionBuilder(props) {
         }).catch(error => {
           // alert('Error');
         });
-      }
+      } 
     }
 
     // save all cards
@@ -156,23 +180,20 @@ function VisionBuilder(props) {
     }
 
     const renderItem = ({ item }) => {
-      // const selectedId = true;
-      // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-      // const color = item.id === selectedId ? 'white' : 'black';
+      let isSelected = false;
+      
+      if(item.type === 'text') {
+        isSelected = selectedCards.filter(selectedCard => selectedCard.text == item.text).length > 0;
+      } else {
+        isSelected = selectedCards.filter(selectedCard => selectedCard.filePath == item.filePath).length > 0;
+      }
 
       return (
         <ListItem
           item={item}
           onPress={() => clickCard(item)}
-          isSelected={selectedCards.filter(selectedCard => selectedCard.text == item.text).length > 0}
-          // backgroundColor={{ backgroundColor }}
-          // textColor={{ color }}
+          isSelected={isSelected}
         />
-        // <Card
-        // key={card.text}
-        // card={card}
-        // isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
-        // onCardPress={() => clickCard(card)} />
       );
     };
     

@@ -82,18 +82,7 @@ function VisionCustomizer({ navigation }) {
       setMyVisionCards(rest => [...rest, file]);
     }
 
-    uploadImage(file.uri);
-
-    // FIX: properly upload image to firebase
-    // const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-    // const addedCard = push(cardsRef, card); // FIX
-    // const uid = addedCard.key;
-    // update(addedCard, { id: uid });
-    // const newCard = {
-    //   'text': card.text,
-    //   'type': card.type,
-    //   'id': uid
-    // };        
+    uploadImage(file.uri);     
   }
 
   function openAddTextModal() {
