@@ -21,7 +21,7 @@ function Card(props) {
       <Pressable
           style={[Styles.Card, props.isSelected ? Styles.CardSelected : '', props.darkTheme ? Styles.darkCard : '']}
           selected={props.isSelected}
-          onPress={props.onCardPress}>
+          onPress={() => props.onCardPress(props.card)}>
             <Text style={[Styles.CardText, props.darkTheme ? Styles.textWhite : '', {fontFamily: 'Poppins_600SemiBold'}]}>{props.card.text}</Text>
           </Pressable>
   );

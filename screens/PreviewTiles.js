@@ -41,6 +41,10 @@ function PreviewTiles(props) {
         });
     }, [])
 
+    function clickCard(card) {
+        props.navigation.navigate('PreviewFullScreen', {cards, currentCard: card});
+    }
+
     // const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => (
     //     // <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     //     //   <Text style={[styles.title, textColor]}>{item.title}</Text>
@@ -57,7 +61,7 @@ function PreviewTiles(props) {
   
       const renderItem = ({ item }) => {  
         return (
-            <Card key={item.text} card={item} darkTheme={true} />
+            <Card key={item.text} card={item} darkTheme={true} onCardPress={clickCard} />
         );
       };
 

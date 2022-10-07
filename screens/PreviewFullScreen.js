@@ -15,7 +15,7 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
-function PreviewFullScreen({ navigation }) {
+function PreviewFullScreen(props) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
@@ -26,25 +26,27 @@ function PreviewFullScreen({ navigation }) {
     const app = getApp();
     const auth = getAuth(app);
     const db = getDatabase();
-    let [myVisionCards, setMyVisionCards] = useState([]);
-    const [currentCard, setCurrentCard] = useState();
+
+    let [myVisionCards, setMyVisionCards] = useState(props.route.params.cards);
+    const [currentCard, setCurrentCard] = useState(props.route.params.currentCard ? props.route.params.currentCard : props.route.params.cards[0]);
+    
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
       };
     
-    useEffect(() => {
-        const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-        onValue(cardsRef, (snapshot) => {
-            const cards = snapshot.val();
-            let cardsArr = [];
-            for (var key in cards) {
-                cardsArr.push(cards[key])
-            }
-            setMyVisionCards(cardsArr);
-            setCurrentCard(cardsArr[0]);
-        });
-    }, [])
+    // useEffect(() => {
+    //     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    //     onValue(cardsRef, (snapshot) => {
+    //         const cards = snapshot.val();
+    //         let cardsArr = [];
+    //         for (var key in cards) {
+    //             cardsArr.push(cards[key])
+    //         }
+    //         setMyVisionCards(cardsArr);
+    //         setCurrentCard(cardsArr[0]);
+    //     });
+    // }, [])
 
     function handleNextClick() {
         let currentCardIndex = myVisionCards.indexOf(currentCard);
@@ -70,7 +72,7 @@ function PreviewFullScreen({ navigation }) {
         <View style={[Styles.centerContainer, Styles.PreviewFullScreenCard]}>
             <Pressable
                 style={Styles.topRightCloseButton}
-                onPress={() => navigation.goBack()}>
+                onPress={() => props.navigation.goBack()}>
                     <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
             </Pressable>
 
