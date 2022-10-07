@@ -33,7 +33,7 @@ function PhoneNumber(props) {
             <View style={Styles.centerContainer}>
               <Pressable
                   style={Styles.topRightCloseButton}
-                  onPress={() => props.navigation.navigate('FirstScreen')}>
+                  onPress={() => props.navigation.navigate('Landing')}>
                     <Ionicons name="close-outline" size={48}></Ionicons>
               </Pressable>
               

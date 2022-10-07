@@ -77,7 +77,7 @@ function NewUser(props) {
         <View style={[Styles.centerContainer, Styles.fullScreen]}>
             <Pressable
                 style={Styles.topRightCloseButton}
-                onPress={() => props.navigation.navigate('FirstScreen')}>
+                onPress={() => props.navigation.navigate('Landing')}>
                   <Ionicons name="close-outline" size={48}></Ionicons>
             </Pressable>
 
