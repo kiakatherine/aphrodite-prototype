@@ -27,7 +27,7 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function App(props) {
-  const [noCards, setNoCards] = useState(true);
+  // const [noCards, setNoCards] = useState(true);
 
   // Firebase references
   const app = getApp();
@@ -46,15 +46,16 @@ function App(props) {
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
     
-    if(auth.currentUser) {
-      const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    // check number of cards to see what to show in dashboard
+    // if(auth.currentUser) {
+    //   const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
     
-      onValue(cardsRef, (snapshot) => {
-        if(snapshot.val()) {
-          setNoCards(false);
-        }
-      });
-    }
+    //   onValue(cardsRef, (snapshot) => {
+    //     if(snapshot.val()) {
+    //       setNoCards(false);
+    //     }
+    //   });
+    // }
 
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -123,7 +124,7 @@ function App(props) {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
-        <Tab.Screen name="Home" component={noCards === true ? WelcomeScreen : DashboardScreen} options={(route) => ({ headerShown: false })} />
+        <Tab.Screen name="Home" component={DashboardScreen} options={(route) => ({ headerShown: false })} />
         <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
@@ -140,9 +141,15 @@ function App(props) {
   // }
 
   function getInitialRoute() {
-    if(isLoggedIn && noCards) {
-      return "Welcome"
-    } else if(isLoggedIn) {
+    // if(isLoggedIn && noCards) {
+    //   return "Welcome"
+    // } else if(isLoggedIn) {
+    //   return "Dashboard"
+    // } else {
+    //   return "Landing"
+    // }
+
+    if(isLoggedIn) {
       return "Dashboard"
     } else {
       return "Landing"

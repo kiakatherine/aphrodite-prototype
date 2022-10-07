@@ -41,7 +41,7 @@ module.exports = StyleSheet.create({
       marginBottom: 20
     },
     heading1: {
-      fontSize: 24,
+      fontSize: 26,
       fontWeight: 'bold',
       marginBottom: 10
     },
@@ -51,8 +51,9 @@ module.exports = StyleSheet.create({
     },
     heading3: {
       textTransform: 'uppercase',
-      letterSpacing: 1.5,
-      fontSize: 18
+      letterSpacing: 3,
+      fontSize: 14,
+      marginBottom: 10
     },
     inner: {
       padding: 24,
@@ -111,7 +112,7 @@ module.exports = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: 'black',
+        backgroundColor: '#2E2F36',
         padding: 20,
         borderRadius: 100
     },
@@ -124,13 +125,13 @@ module.exports = StyleSheet.create({
     buttonInverted: {
         background: 'white',
         borderWidth: 2,
-        borderColor: 'black',
+        borderColor: '#2E2F36',
         padding: 20,
         borderRadius: 100,
         marginBottom: 12
     },
     buttonInvertedText: {
-      color: 'black',
+      color: '#2E2F36',
       fontWeight: 'bold',
       fontSize: 16,
       textAlign: 'center'
@@ -139,7 +140,7 @@ module.exports = StyleSheet.create({
       backgroundColor: 'white'
     },
     buttonWhiteText: {
-      color: 'black',
+      color: '#2E2F36',
       fontWeight: 'bold',
       fontSize: 16,
       textAlign: 'center'
@@ -188,7 +189,7 @@ module.exports = StyleSheet.create({
       marginBottom: 30
     },
     modalBottomButton: {
-      backgroundColor: 'black',
+      backgroundColor: '#2E2F36',
       padding: 20,
       borderRadius: 0,
       marginLeft: -50,
@@ -227,10 +228,11 @@ module.exports = StyleSheet.create({
         borderColor: '#F4ECDF'
       },
       CardText: {
-        fontSize: 20,
+        fontSize: 18,
+        lineHeight: 24
       },
       CardSelected: {
-        borderColor: 'black'
+        borderColor: '#2E2F36'
       },
       darkCard: {
         backgroundColor: '#4F505A',
@@ -261,7 +263,8 @@ module.exports = StyleSheet.create({
         backgroundColor: '#2E2F36'
       },
       PreviewFullScreenCardText: {
-        fontSize: 36,
+        fontSize: 34,
+        lineHeight: 44,
         textAlign: 'center',
         color: 'white'
       },

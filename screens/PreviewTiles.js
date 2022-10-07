@@ -84,8 +84,8 @@ function PreviewTiles(props) {
             </View>
             
             <View style={Styles.containerPadding}>
-                {previousScreen === 'VisionCustomizer' &&
-                    <Text style={[Styles.heading3, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
+                {previousScreen === 'VisionViewCustomizer' &&
+                    <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
 
                 <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
                 
