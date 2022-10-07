@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { FlatList, Pressable, View, SafeAreaView, Text } from 'react-native';
+import { FlatList, Image, Pressable, View, SafeAreaView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -44,13 +44,14 @@ function VisionBuilder(props) {
     const [selectedCards, setSelectedCards] = useState([]);
     const exampleCards = [
       { id: 1, text: "My partner is kind.", type: "text" },
-      { id: 2, text: "My partner sees me for who I am.", type: "text" },
-      { id: 3, text: "We are a power couple.", type: "text" },
-      { id: 4, text: "We support each other.", type: "text" },
-      { id: 5, text: "My partner is honest.", type: "text" },
+      { id: 2, filePath: '../assets/images/example1.jpg', type: "image" },
+      { id: 3, filePath: '../assets/images/example2.jpg', type: "image" },
+      { id: 4, text: "We are a power couple.", type: "text" },
+      { id: 5, text: "We support each other.", type: "text" },
       { id: 6, text: "My partner is patient.", type: "text" },
       { id: 7, text: "My partner is faithful.", type: "text" },
-      { id: 8, text: "My partner is generous.", type: "text" }
+      { id: 8, text: "My partner is generous.", type: "text" },
+      { id: 9, text: "My partner sees me for who I am.", type: "text" },
     ];
 
     // select/deselect card
@@ -124,19 +125,35 @@ function VisionBuilder(props) {
       });
     }
 
-    const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => (
-      // <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      //   <Text style={[styles.title, textColor]}>{item.title}</Text>
-      // </TouchableOpacity>
+    let i = 0;
+    const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
+      if(item.type === 'image') {
+        if(i === 0) {
+          i++;
+          return (<Pressable
+            style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
+            selected={isSelected}
+            onPress={onPress}>
+              <Image source={require('../assets/images/example1.jpg')} style={{flex:1 , width: '100%', height: undefined}} />
+            </Pressable>)
+        } else {
+          return (<Pressable
+            style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
+            selected={isSelected}
+            onPress={onPress}>
+              <Image source={require('../assets/images/example2.jpg')} style={{flex:1 , width: '100%', height: undefined}} />
+            </Pressable>)
+        }
+      }
       
-      <Pressable
-        style={[Styles.Card, isSelected ? Styles.CardSelected : '']}
+      return (<Pressable
+        style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
         selected={isSelected}
         onPress={onPress}>
-          {/* <Text style={Styles.CardText}>{item.text}</Text> */}
-          <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>
-        </Pressable>
-    );
+          {item.type === 'text' && <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>}
+          {/* {item.type === 'image' && <Image source={image} style={{flex:1 , width: '100%', height: undefined}} />} */}
+        </Pressable>)
+    }
 
     const renderItem = ({ item }) => {
       // const selectedId = true;

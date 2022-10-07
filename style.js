@@ -217,7 +217,7 @@ module.exports = StyleSheet.create({
         width: '45%',
         justifyContent: 'space-around', // vertically centers content
         alignItems: 'center',
-        minHeight: 165,
+        height: 215,
         marginBottom: 20,
         marginRight: 20,
         padding: 25,
