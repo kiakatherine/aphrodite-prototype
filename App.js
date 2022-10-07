@@ -27,11 +27,12 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function App(props) {
-  const [cards, setCards] = useState([]);
+  const [noCards, setNoCards] = useState(true);
 
   // Firebase references
   const app = getApp();
   const auth = getAuth(app);
+  const db = getDatabase();
   const isLoggedIn = auth.currentUser ? true : false;
 
   // Set an initializing state whilst Firebase connects
@@ -40,15 +41,21 @@ function App(props) {
   // Handle user state changes
   function onAuthStateChanged(user) {
     if (initializing) setInitializing(false);
-    // if (!user) {
-    //   props.navigation.navigate('Landing');
-    // } else {
-    //   props.navigation.navigate('Dashboard');
-    // }
   }
 
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    
+    if(auth.currentUser) {
+      const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    
+      onValue(cardsRef, (snapshot) => {
+        if(snapshot.val()) {
+          setNoCards(false);
+        }
+      });
+    }
+
     return subscriber; // unsubscribe on unmount
   }, []);
 
@@ -116,7 +123,7 @@ function App(props) {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
-        <Tab.Screen name="Home" component={DashboardScreen} options={(route) => ({ headerShown: false })} />
+        <Tab.Screen name="Home" component={noCards === true ? WelcomeScreen : DashboardScreen} options={(route) => ({ headerShown: false })} />
         <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
@@ -133,7 +140,9 @@ function App(props) {
   // }
 
   function getInitialRoute() {
-    if(isLoggedIn) {
+    if(isLoggedIn && noCards) {
+      return "Welcome"
+    } else if(isLoggedIn) {
       return "Dashboard"
     } else {
       return "Landing"
@@ -145,12 +154,12 @@ function App(props) {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={getInitialRoute()}>
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Welcome" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
             {props => <PhoneNumberScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
 
           <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>

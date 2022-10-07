@@ -22,7 +22,7 @@ function Welcome(props) {
         Poppins_500Medium,
         Poppins_600SemiBold,
         Poppins_700Bold,
-      });
+        });
 
     return (
         <View style={[Styles.centerContainer, Styles.lightBackground]}>
