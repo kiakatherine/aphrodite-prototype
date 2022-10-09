@@ -72,12 +72,12 @@ function AccountScreen(props) {
   }
 
   return (<>
-    {currentUser && <View style={Styles.containerWithoutHeader}>
+    {currentUser && <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
       {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible && (
-        <View style={[Styles.containerPadding, {marginTop: 20}]}>
+        <View style={[Styles.containerPadding, , Styles.lightBackground, {marginTop: 20}]}>
           <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>

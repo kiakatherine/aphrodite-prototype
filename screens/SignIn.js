@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Styles from "../style.js";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -51,7 +51,7 @@ function SignIn(props) {
     // }
 
     return (
-        <SafeAreaView style={[Styles.centerContainer, Styles.fullScreen]}>
+        <View style={[Styles.centerContainer, Styles.fullScreen]}>
             <View style={Styles.centerContainer}>
               <Pressable
                   style={Styles.topRightCloseButton}
@@ -131,7 +131,7 @@ function SignIn(props) {
                   {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
                 </>}
             </View>
-         </SafeAreaView>
+         </View>
     );
 };
 

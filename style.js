@@ -13,7 +13,8 @@ module.exports = StyleSheet.create({
       paddingTop: 0
     },
     containerWithoutHeader: {
-      marginTop: 55
+      paddingTop: 55,
+      height: '100%'
     },
     customHeader: {
       display: 'flex',

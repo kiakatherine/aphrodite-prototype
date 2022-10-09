@@ -26,7 +26,7 @@ function NotificationsScreen({ navigation }) {
   }
 
   return (
-    <View style={[Styles.centerContainer, Styles.textAlignCenter]}>
+    <View style={[Styles.centerContainer, Styles.textAlignCenter, Styles.lightBackground]}>
       <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_500Medium' }]}>Working on it!</Text>
       {/* {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}

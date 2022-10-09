@@ -15,6 +15,7 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { StatusBar } from 'expo-status-bar';
 
 function PreviewTiles(props) {
     let [fontsLoaded] = useFonts({
@@ -59,14 +60,14 @@ function PreviewTiles(props) {
     //       </Pressable>
     //   );
   
-      const renderItem = ({ item }) => {  
+    const renderItem = ({ item }) => {  
         return (
             <Card key={item.text} card={item} darkTheme={true} onCardPress={clickCard} />
         );
-      };
+    };
 
     return (
-        <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>                
+        <View style={[Styles.darkBackground, {flex: 1}]}>
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
