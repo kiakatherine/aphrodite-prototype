@@ -13,7 +13,7 @@ module.exports = StyleSheet.create({
       paddingTop: 0
     },
     containerWithoutHeader: {
-      paddingTop: 55,
+      paddingTop: 35,
       height: '100%'
     },
     customHeader: {
@@ -153,7 +153,7 @@ module.exports = StyleSheet.create({
       borderRadius: 100
     },
     buttonLink: {
-      padding: 25
+      padding: 10
     },
     buttonDisabled: {
         backgroundColor: '#ddd',

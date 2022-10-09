@@ -67,7 +67,7 @@ function PreviewTiles(props) {
     };
 
     return (
-        <View style={[Styles.darkBackground, {flex: 1}]}>
+        <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
@@ -81,10 +81,16 @@ function PreviewTiles(props) {
                         <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
                 </Pressable>}
 
-                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && <Pressable
+                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length === 0) && <Pressable
                     style={[Styles.buttonWhite, Styles.buttonSmall]}
                     onPress={() => props.navigation.navigate("Sending")}>
                         <Text style={Styles.buttonWhiteText}>Create</Text>
+                </Pressable>}
+
+                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length > 0) && <Pressable
+                    style={[Styles.buttonWhite, Styles.buttonSmall]}
+                    onPress={() => props.navigation.navigate("Sending")}>
+                        <Text style={Styles.buttonWhiteText}>Save</Text>
                 </Pressable>}
             </View>
             
