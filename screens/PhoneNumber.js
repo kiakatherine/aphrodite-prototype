@@ -29,14 +29,15 @@ function PhoneNumber(props) {
     const attemptInvisibleVerification = false;
 
     return (
-        <SafeAreaView style={[Styles.centerContainer, Styles.fullScreen]}>
-            <View style={Styles.centerContainer}>
-              <Pressable
-                  style={Styles.topRightCloseButton}
-                  onPress={() => props.navigation.navigate('Landing')}>
-                    <Ionicons name="close-outline" size={48}></Ionicons>
-              </Pressable>
-              
+      <>
+        <Pressable
+          style={[Styles.topRightCloseButton, {zIndex: 2}]}
+          onPress={() => props.navigation.navigate('Landing')}>
+            <Ionicons name="close-outline" size={48}></Ionicons>
+        </Pressable>
+
+        <View style={[Styles.centerContainer]}>
+            <View>
               {view === 'phone' && 
               <><FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
@@ -115,7 +116,8 @@ function PhoneNumber(props) {
                   {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
                 </>}
             </View>
-         </SafeAreaView>
+         </View>
+      </>
     );
 };
 

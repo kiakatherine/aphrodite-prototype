@@ -193,8 +193,8 @@ module.exports = StyleSheet.create({
       backgroundColor: '#2E2F36',
       padding: 20,
       borderRadius: 0,
-      marginLeft: -50,
-      marginRight: -50,
+      marginLeft: -30,
+      marginRight: -30,
       // justifyContent: 'flex-end'
     },
     bottomDrawer: {

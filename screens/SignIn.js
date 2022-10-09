@@ -51,87 +51,89 @@ function SignIn(props) {
     // }
 
     return (
-        <View style={[Styles.centerContainer, Styles.fullScreen]}>
-            <View style={Styles.centerContainer}>
-              <Pressable
-                  style={Styles.topRightCloseButton}
+        <>
+            <Pressable
+                  style={[Styles.topRightCloseButton, {zIndex: 2}]}
                   onPress={() => props.navigation.navigate('Landing')}>
                     <Ionicons name="close-outline" size={48}></Ionicons>
-              </Pressable>
-              
-              {view === 'phone' && 
-              <><FirebaseRecaptchaVerifierModal
-                ref={recaptchaVerifier}
-                firebaseConfig={app.options}
-                attemptInvisibleVerification={true}
-              />
-              <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
-              <TextInput
-                style={Styles.textInput}
-                placeholder="+1 999 999 9999"
-                autoFocus
-                autoCompleteType="tel"
-                keyboardType="phone-pad"
-                textContentType="telephoneNumber"
-                onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
-              />
-              <Pressable
-                style={[Styles.button, Styles.modalBottomButton]}
-                disabled={!phoneNumber}
-                onPress={async () => {
-                  // The FirebaseRecaptchaVerifierModal ref implements the
-                  // FirebaseAuthApplicationVerifier interface and can be
-                  // passed directly to `verifyPhoneNumber`.
-                  try {
-                    const phoneProvider = new PhoneAuthProvider(auth);
-                    const verificationId = await phoneProvider.verifyPhoneNumber(
-                      phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
-                      recaptchaVerifier.current
-                    );
-                    setVerificationId(verificationId);
-                    showMessage({
-                      text: 'Verification code has been sent to your phone.',
-                    });
-                    setView('verify');
-                  } catch (err) {
-                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                  }
-                }}>
-                  <Text style={Styles.buttonText}>Send verification code</Text>
-              </Pressable>
-              </>}
-              
-              {view === 'verify' &&
-                <>
-                  <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Validation code</Text>
-                  <TextInput
+            </Pressable>
+
+            <View style={[Styles.centerContainer]}>
+                <View>              
+                {view === 'phone' && 
+                <><FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerifier}
+                    firebaseConfig={app.options}
+                    attemptInvisibleVerification={true}
+                />
+                <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
+                <TextInput
                     style={Styles.textInput}
-                    editable={!!verificationId}
-                    placeholder="123456"
-                    onChangeText={setVerificationCode}
-                  />
-
-                  {message && <Text style={Styles.message}>{message.text}</Text>}
-
-                  <Pressable
+                    placeholder="+1 999 999 9999"
+                    autoFocus
+                    autoCompleteType="tel"
+                    keyboardType="phone-pad"
+                    textContentType="telephoneNumber"
+                    onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
+                />
+                <Pressable
                     style={[Styles.button, Styles.modalBottomButton]}
-                    disabled={!verificationId}
+                    disabled={!phoneNumber}
                     onPress={async () => {
-                      try {
-                        const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-                        let userData = await signInWithCredential(auth, credential);
-                        showMessage({ text: 'Phone authentication successful 👍' });
-                        props.navigation.navigate('Dashboard');
-                      } catch (err) {
+                    // The FirebaseRecaptchaVerifierModal ref implements the
+                    // FirebaseAuthApplicationVerifier interface and can be
+                    // passed directly to `verifyPhoneNumber`.
+                    try {
+                        const phoneProvider = new PhoneAuthProvider(auth);
+                        const verificationId = await phoneProvider.verifyPhoneNumber(
+                        phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
+                        recaptchaVerifier.current
+                        );
+                        setVerificationId(verificationId);
+                        showMessage({
+                        text: 'Verification code has been sent to your phone.',
+                        });
+                        setView('verify');
+                    } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                      }
+                    }
                     }}>
-                      <Text style={Styles.buttonText}>Next</Text>
-                  </Pressable>
-                  {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+                    <Text style={Styles.buttonText}>Send verification code</Text>
+                </Pressable>
                 </>}
+                
+                {view === 'verify' &&
+                    <>
+                    <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Validation code</Text>
+                    <TextInput
+                        style={Styles.textInput}
+                        editable={!!verificationId}
+                        placeholder="123456"
+                        onChangeText={setVerificationCode}
+                    />
+
+                    {message && <Text style={Styles.message}>{message.text}</Text>}
+
+                    <Pressable
+                        style={[Styles.button, Styles.modalBottomButton]}
+                        disabled={!verificationId}
+                        onPress={async () => {
+                        try {
+                            const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+                            let userData = await signInWithCredential(auth, credential);
+                            showMessage({ text: 'Phone authentication successful 👍' });
+                            props.navigation.navigate('Dashboard');
+                        } catch (err) {
+                            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                        }
+                        }}>
+                        <Text style={Styles.buttonText}>Next</Text>
+                    </Pressable>
+                    {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+                    </>}
+                </View>
             </View>
-         </View>
+        </>
     );
 };
 
