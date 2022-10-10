@@ -27,7 +27,8 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function App(props) {
-  // const [noCards, setNoCards] = useState(true);
+  const [noCards, setNoCards] = useState(true);
+  const [cards, setCards] = useState([]);
 
   // Firebase references
   const app = getApp();
@@ -45,7 +46,7 @@ function App(props) {
 
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
-    
+
     // check number of cards to see what to show in dashboard
     // if(auth.currentUser) {
     //   const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
@@ -53,6 +54,14 @@ function App(props) {
     //   onValue(cardsRef, (snapshot) => {
     //     if(snapshot.val()) {
     //       setNoCards(false);
+    //       const cards = snapshot.val();
+    //       let cardsArr = [];
+    //       for (var key in cards) {
+    //         cardsArr.push(cards[key])
+    //       }
+    //       setCards(cardsArr);
+    //     } else {
+    //       setNoCards(true);
     //     }
     //   });
     // }

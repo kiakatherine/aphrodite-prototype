@@ -27,6 +27,9 @@ function VisionBuilder(props) {
     });
 
     useEffect(() => {
+      let isMounted = true;
+
+      if(isMounted) {
         const app = getApp();
         const auth = getAuth(app);
         const db = getDatabase();
@@ -39,6 +42,9 @@ function VisionBuilder(props) {
             }
             setSelectedCards(cardsArr);
         });
+      }
+
+      return () => { isMounted = false };
     }, [])
 
     const [selectedCards, setSelectedCards] = useState([]);
@@ -161,14 +167,14 @@ function VisionBuilder(props) {
             style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
             selected={isSelected}
             onPress={onPress}>
-              <Image source={require('../assets/images/example1.jpg')} style={{flex:1 , width: '100%', height: undefined}} />
+              <Image source={require('../assets/images/example1.jpg')} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />
             </Pressable>)
         } else {
           return (<Pressable
             style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
             selected={isSelected}
             onPress={onPress}>
-              <Image source={require('../assets/images/example2.jpg')} style={{flex:1 , width: '100%', height: undefined}} />
+              <Image source={require('../assets/images/example2.jpg')} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />
             </Pressable>)
         }
       }
@@ -201,7 +207,7 @@ function VisionBuilder(props) {
     };
     
     return (
-      <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
+      <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
         <View style={[Styles.customHeader, {marginBottom: 30}]}>
           <Pressable
             style={[Styles.textAlignRight, Styles.flexOne]}

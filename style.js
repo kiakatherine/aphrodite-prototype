@@ -271,8 +271,10 @@ module.exports = StyleSheet.create({
         color: 'white'
       },
       CardWithImage: {
-        display: 'flex',
-        padding: 0
+        // display: 'flex',
+        padding: 0,
+        borderColor: '#a9a6a2',
+        borderWidth: 1
       },
       progressDotBar: {
         display: 'flex',

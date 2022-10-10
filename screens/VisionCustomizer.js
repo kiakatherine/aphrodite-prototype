@@ -35,8 +35,12 @@ function VisionCustomizer({ navigation }) {
   let [myVisionCards, setMyVisionCards] = useState([]);
 
   useEffect(() => {
+    // don't re-render when making changes to individual cards
+    let isMounted = true;    
+    
+    if(isMounted) {
       const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-      onValue(cardsRef, (snapshot) => {
+      return onValue(cardsRef, (snapshot) => {
           const cards = snapshot.val();
           let cardsArr = [];
           for (var key in cards) {
@@ -44,6 +48,8 @@ function VisionCustomizer({ navigation }) {
           }
           setMyVisionCards(cardsArr);
       });
+    }
+    return () => { isMounted = false };
   }, [])
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -54,10 +60,15 @@ function VisionCustomizer({ navigation }) {
     const response = await fetch(uri);
     const blob = await response.blob();
     const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-
-    const newCard = push(userRef, blob);
+    const newCard = push(userRef, {blob});
+    // const imageURL = newCard.getDownloadURL().then((url) => {
+    //   debugger;
+    //   return url;
+    // });
+    // console.log(url)
     const uid = newCard.key;
-    update(newCard, {id: uid, 'type': 'image'});
+    const newCardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
+    update(newCardRef, {id: uid, 'type': 'image'});
     
     // const updatedCard = {
     //   'type': 'image',
@@ -115,6 +126,7 @@ function VisionCustomizer({ navigation }) {
 
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
+    // debugger
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
     const updatedCards = myVisionCards.filter(selectedCard =>
       selectedCard.text !== card.text);
@@ -164,7 +176,7 @@ function VisionCustomizer({ navigation }) {
   }
 
   return (
-    <View style={[Styles.containerWithoutHeader, {flex: 1}]}>
+    <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
       {isModalVisible &&
         <AddTextModal onSave={handleSaveText} onCancel={handleCancel} />}
       

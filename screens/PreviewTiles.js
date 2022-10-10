@@ -28,18 +28,24 @@ function PreviewTiles(props) {
     let [cards, setCards] = useState([]);
 
     useEffect(() => {
-        const app = getApp();
-        const auth = getAuth(app);
-        const db = getDatabase();
-        const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-        onValue(cardsRef, (snapshot) => {
-            const cards = snapshot.val();
-            let cardsArr = [];
-            for (var key in cards) {
-                cardsArr.push(cards[key])
-            }
-            setCards(cardsArr);
-        });
+        let isMounted = true;
+
+        if(isMounted) {
+            const app = getApp();
+            const auth = getAuth(app);
+            const db = getDatabase();
+            const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+            onValue(cardsRef, (snapshot) => {
+                const cards = snapshot.val();
+                let cardsArr = [];
+                for (var key in cards) {
+                    cardsArr.push(cards[key])
+                }
+                setCards(cardsArr);
+            });
+        }
+        
+        return () => { isMounted = false };
     }, [])
 
     function clickCard(card) {
@@ -100,13 +106,13 @@ function PreviewTiles(props) {
 
                 <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
                 
-                {cards.length > 0 &&  <Pressable
+                {/* {cards.length > 0 &&  <Pressable
                     style={[Styles.buttonOutline, {marginBottom: 40}]}
                     onPress={() => props.navigation.navigate("PreviewFullScreen")}>
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
-                </Pressable>}
+                </Pressable>} */}
 
-                <SafeAreaView style={{height: '69%'}}>
+                <SafeAreaView style={{height: '86%'}}>
                     {cards.length === 0 &&
                         <Pressable
                         style={[Styles.buttonOutline, {marginBottom: 40}]}
