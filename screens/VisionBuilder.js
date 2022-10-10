@@ -121,32 +121,35 @@ function VisionBuilder(props) {
 
     // save all cards
     function clickDone() {
-      // save cards with unique id
-      selectedCards.forEach(card => {
-        let newCards = [];
+      if(selectedCards.length > 0)  {
+        // save cards with unique id
+        selectedCards.forEach(card => {
+          let newCards = [];
 
-        // check for duplicates before adding to database
-        const cardsToAdd = selectedCards.filter((card, index) => {
-          return card.text !== selectedCards[index].text; 
-        });
-
-        if(cardsToAdd.length === 0) {
-          // no new cards to add
-          props.navigation.navigate("VisionCustomizer", {selectedCards});
-        } else {
-          const addedCard = push(cardsRef, card);
-          const uid = addedCard.key;
-          update(addedCard, { id: uid });
-          newCards.push({
-            'text': card.text,
-            'type': card.type,
-            'id': uid
+          // check for duplicates before adding to database
+          const cardsToAdd = selectedCards.filter((card, index) => {
+            return card.text !== selectedCards[index].text; 
           });
-        }
-        
-        setSelectedCards(newCards);
-        props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
+
+          if(cardsToAdd.length === 0) {
+            // no new cards to add
+            props.navigation.navigate("VisionCustomizer", {selectedCards});
+          } else {
+            const addedCard = push(cardsRef, card);
+            const uid = addedCard.key;
+            update(addedCard, { id: uid });
+            newCards.push({
+              'text': card.text,
+              'type': card.type,
+              'id': uid
+            });
+          }
+          
+          setSelectedCards(newCards);
+          props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
       });
+      }
+      props.navigation.navigate("VisionCustomizer");
     }
 
     let i = 0;
@@ -207,8 +210,7 @@ function VisionBuilder(props) {
           </Pressable>
 
           <Pressable
-            style={[Styles.button, Styles.buttonSmall, selectedCards.length === 0 && Styles.buttonDisabled]}
-            disabled={selectedCards.length === 0}
+            style={[Styles.button, Styles.buttonSmall]}
             onPress={() => clickDone()}>
               <Text style={[Styles.buttonText]}>Done</Text>
           </Pressable>
@@ -217,7 +219,7 @@ function VisionBuilder(props) {
         <View style={Styles.containerPadding}>
           <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
         
-          <SafeAreaView style={{height: '80%'}}>
+          <SafeAreaView style={{height: '83%'}}>
             <FlatList
               data={exampleCards}
               renderItem={renderItem}

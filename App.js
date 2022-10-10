@@ -124,6 +124,7 @@ function App(props) {
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
           })}>
+          {/* FIX: switch welcome screen and dashboard */}
         <Tab.Screen name="Home" component={DashboardScreen} options={(route) => ({ headerShown: false })} />
         <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
