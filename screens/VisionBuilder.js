@@ -147,7 +147,7 @@ function VisionBuilder(props) {
           
           setSelectedCards(newCards);
           props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
-      });
+        });
       }
       props.navigation.navigate("VisionCustomizer");
     }

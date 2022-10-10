@@ -186,8 +186,9 @@ module.exports = StyleSheet.create({
     modalTextInput: {
       flexGrow: 1,
       fontSize: 28,
-      marginTop: 100,
-      marginBottom: 30
+      marginTop: 120,
+      marginBottom: 30,
+      padding: 20
     },
     modalBottomButton: {
       backgroundColor: '#2E2F36',

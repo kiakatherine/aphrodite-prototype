@@ -32,6 +32,7 @@ function AddTextModal(props) {
             <TextInput
                 style={[Styles.modalTextInput, {fontFamily: 'Poppins_600SemiBold'}]}
                 placeholder="Type here"
+                multiline={true}
                 value={newText}
                 onChangeText={onChangeText} />
 
