@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -15,7 +15,6 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { StatusBar } from 'expo-status-bar';
 
 function PreviewTiles(props) {
     let [fontsLoaded] = useFonts({
@@ -74,6 +73,7 @@ function PreviewTiles(props) {
 
     return (
         <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>
+            <StatusBar barStyle="light-content" />
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
