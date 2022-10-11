@@ -60,10 +60,11 @@ function VisionCustomizer({ navigation }) {
     const response = await fetch(uri);
     const blob = await response.blob();
     const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const newCard = push(userRef, {blob});
+    const newCard = push(userRef, {blob, uri});
     const uid = newCard.key;
 
     update(newCard, {id: uid, 'type': 'image'});
+    refRBSheet.current.close();
     
     // const updatedCard = {
     //   'type': 'image',
@@ -121,7 +122,6 @@ function VisionCustomizer({ navigation }) {
 
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
-    // debugger
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
     // const updatedCards = myVisionCards.filter(selectedCard =>
     //   selectedCard.text !== card.text);

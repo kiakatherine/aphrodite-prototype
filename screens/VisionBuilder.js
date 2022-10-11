@@ -93,7 +93,6 @@ function VisionBuilder(props) {
       }
 
       if(isSelectedAlready.length === 0) {
-        debugger
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
 
         if(card.type === 'text') {
@@ -106,7 +105,7 @@ function VisionBuilder(props) {
             'id': uid
           };        
           setSelectedCards([...selectedCards, newCard]);
-        } else if(card.type === 'image') {
+        } else {
           // FIX: upload image to firebase
           // how to get image uri?
           // uploadImage(card.filePath);

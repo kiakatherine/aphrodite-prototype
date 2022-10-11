@@ -24,11 +24,12 @@ function RemovableCard(props) {
   });
 
   return (
-      <View style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']} key={props.card.id}>
+      <View style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']}>
           <Pressable
-              style={Styles.RemovableCardButton}
-              onPress={() => props.onRemovableCardPress(props.card)}>
-                <Text><Ionicons name='trash' size={28} /></Text>
+            key={props.card.id}
+            style={Styles.RemovableCardButton}
+            onPress={() => props.onRemovableCardPress(props.card)}>
+              <Text><Ionicons name='trash' size={28} /></Text>
           </Pressable>
 
           {props.card.text && <Text style={[Styles.CardText, {fontFamily: 'Poppins_500Medium'}]}>{props.card.text}</Text>}
