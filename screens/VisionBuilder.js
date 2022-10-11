@@ -26,6 +26,9 @@ function VisionBuilder(props) {
       Poppins_700Bold,
     });
 
+    const [selectedCards, setSelectedCards] = useState([]);
+    const [exampleCards, setExampleCards] = useState([]);
+
     useEffect(() => {
       let isMounted = true;
 
@@ -34,6 +37,8 @@ function VisionBuilder(props) {
         const auth = getAuth(app);
         const db = getDatabase();
         const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+
+        // get user's cards
         onValue(cardsRef, (snapshot) => {
             const cards = snapshot.val();
             let cardsArr = [];
@@ -42,23 +47,52 @@ function VisionBuilder(props) {
             }
             setSelectedCards(cardsArr);
         });
+        const imagesRef = ref(db, 'images');
+
+        // get example images
+        onValue(imagesRef, (snapshot) => {
+            const cards = snapshot.val();
+            let cardsArr = [];
+            for (var key in cards) {
+                cardsArr.push(cards[key])
+            }
+            const examples = [
+              { id: 1, text: "My partner is kind.", type: "text" },
+              { id: 4, text: "We are a power couple.", type: "text" },
+              { id: 5, text: "We support each other.", type: "text" },
+              { id: 6, text: "My partner is patient.", type: "text" },
+              { id: 7, text: "My partner is faithful.", type: "text" },
+              { id: 8, text: "My partner is generous.", type: "text" },
+              { id: 9, text: "My partner sees me for who I am.", type: "text" },
+            ];
+            setExampleCards([
+              { id: 1, text: "My partner is kind.", type: "text" },
+              cardsArr[0],
+              cardsArr[1],
+              { id: 4, text: "We are a power couple.", type: "text" },
+              { id: 5, text: "We support each other.", type: "text" },
+              { id: 6, text: "My partner is patient.", type: "text" },
+              { id: 7, text: "My partner is faithful.", type: "text" },
+              { id: 8, text: "My partner is generous.", type: "text" },
+              { id: 9, text: "My partner sees me for who I am.", type: "text" },
+            ]);
+        });
       }
 
       return () => { isMounted = false };
     }, [])
 
-    const [selectedCards, setSelectedCards] = useState([]);
-    const exampleCards = [
-      { id: 1, text: "My partner is kind.", type: "text" },
-      { id: 2, filePath: '../assets/images/example1.jpg', type: "example-image-1" },
-      { id: 3, filePath: '../assets/images/example2.jpg', type: "example-image-2" },
-      { id: 4, text: "We are a power couple.", type: "text" },
-      { id: 5, text: "We support each other.", type: "text" },
-      { id: 6, text: "My partner is patient.", type: "text" },
-      { id: 7, text: "My partner is faithful.", type: "text" },
-      { id: 8, text: "My partner is generous.", type: "text" },
-      { id: 9, text: "My partner sees me for who I am.", type: "text" },
-    ];
+    // const examples = [
+    //   { id: 1, text: "My partner is kind.", type: "text" },
+    //   exampleImages[0],
+    //   exampleImages[1],
+    //   { id: 4, text: "We are a power couple.", type: "text" },
+    //   { id: 5, text: "We support each other.", type: "text" },
+    //   { id: 6, text: "My partner is patient.", type: "text" },
+    //   { id: 7, text: "My partner is faithful.", type: "text" },
+    //   { id: 8, text: "My partner is generous.", type: "text" },
+    //   { id: 9, text: "My partner sees me for who I am.", type: "text" },
+    // ];
 
     const uploadImage = async(uri) => {
       const response = await fetch(uri);
@@ -107,8 +141,7 @@ function VisionBuilder(props) {
           setSelectedCards([...selectedCards, newCard]);
         } else {
           // FIX: upload image to firebase
-          // how to get image uri?
-          // uploadImage(card.filePath);
+          uploadImage(card.uri);
         }
       } else {
         const uid = isSelectedAlready[0].id;

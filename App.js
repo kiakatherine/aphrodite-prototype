@@ -46,26 +46,6 @@ function App(props) {
 
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
-
-    // check number of cards to see what to show in dashboard
-    // if(auth.currentUser) {
-    //   const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    
-    //   onValue(cardsRef, (snapshot) => {
-    //     if(snapshot.val()) {
-    //       setNoCards(false);
-    //       const cards = snapshot.val();
-    //       let cardsArr = [];
-    //       for (var key in cards) {
-    //         cardsArr.push(cards[key])
-    //       }
-    //       setCards(cardsArr);
-    //     } else {
-    //       setNoCards(true);
-    //     }
-    //   });
-    // }
-
     return subscriber; // unsubscribe on unmount
   }, []);
 

@@ -17,6 +17,8 @@ function Card(props) {
     Poppins_700Bold,
   });
 
+  // debugger
+
   return (
     <Pressable style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '',
             props.isSelected ? Styles.CardSelected : '',

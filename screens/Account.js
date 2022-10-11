@@ -39,9 +39,15 @@ function AccountScreen(props) {
   const [currentVal, setCurrentVal] = useState(null);
 
   useEffect(() => {
-    onValue(userRef, (snapshot) => {
-      setCurrentUser(snapshot.val());
-    });
+    let isMounted = true;    
+    
+    if(isMounted) {
+      onValue(userRef, (snapshot) => {
+        setCurrentUser(snapshot.val());
+      });
+    }
+
+    return () => { isMounted = false };
   }, [])
 
   function handleEditClick(field, fieldData) {
