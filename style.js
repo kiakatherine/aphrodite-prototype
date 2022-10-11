@@ -238,8 +238,14 @@ module.exports = StyleSheet.create({
         fontSize: 18,
         lineHeight: 24
       },
+      CardWithImage: {
+        padding: 0,
+        borderColor: '#a9a6a2',
+        borderWidth: 1
+      },
       CardSelected: {
-        borderColor: '#2E2F36'
+        borderColor: '#2E2F36',
+        borderWidth: 3
       },
       darkCard: {
         backgroundColor: '#4F505A',
@@ -274,11 +280,6 @@ module.exports = StyleSheet.create({
         lineHeight: 44,
         textAlign: 'center',
         color: 'white'
-      },
-      CardWithImage: {
-        padding: 0,
-        borderColor: '#a9a6a2',
-        borderWidth: 1
       },
       progressDotBar: {
         display: 'flex',

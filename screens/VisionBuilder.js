@@ -26,6 +26,10 @@ function VisionBuilder(props) {
       Poppins_700Bold,
     });
 
+    const app = getApp();
+    const auth = getAuth(app);
+    const db = getDatabase();
+
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([]);
 
@@ -33,9 +37,6 @@ function VisionBuilder(props) {
       let isMounted = true;
 
       if(isMounted) {
-        const app = getApp();
-        const auth = getAuth(app);
-        const db = getDatabase();
         const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
 
         // get user's cards
@@ -82,38 +83,18 @@ function VisionBuilder(props) {
       return () => { isMounted = false };
     }, [])
 
-    // const examples = [
-    //   { id: 1, text: "My partner is kind.", type: "text" },
-    //   exampleImages[0],
-    //   exampleImages[1],
-    //   { id: 4, text: "We are a power couple.", type: "text" },
-    //   { id: 5, text: "We support each other.", type: "text" },
-    //   { id: 6, text: "My partner is patient.", type: "text" },
-    //   { id: 7, text: "My partner is faithful.", type: "text" },
-    //   { id: 8, text: "My partner is generous.", type: "text" },
-    //   { id: 9, text: "My partner sees me for who I am.", type: "text" },
-    // ];
-
     const uploadImage = async(uri) => {
       const response = await fetch(uri);
       const blob = await response.blob();
       const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
   
-      const newCard = push(userRef, blob);
+      const newCard = push(userRef, {blob, uri});
       const uid = newCard.key;
       update(newCard, {id: uid, 'type': 'image'});
-      
-      // const updatedCard = {
-      //   'type': 'image',
-      //   'id': uid,
-      //   'image': blob
-      // }
-  
-      // setMyVisionCards(rest => [...rest, updatedCard]);
     }
 
     // select/deselect card
-    function clickCard(card) {
+    const clickCard = async(card) => {
       const app = getApp();
       const auth = getAuth(app);
       const db = getDatabase();
@@ -125,6 +106,8 @@ function VisionBuilder(props) {
         isSelectedAlready = selectedCards.filter(selectedCard =>
           selectedCard.text == card.text);
       }
+
+      debugger
 
       if(isSelectedAlready.length === 0) {
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
@@ -138,19 +121,18 @@ function VisionBuilder(props) {
             'type': card.type,
             'id': uid
           };        
-          setSelectedCards([...selectedCards, newCard]);
+          // setSelectedCards([...selectedCards, newCard]);
         } else {
-          // FIX: upload image to firebase
           uploadImage(card.uri);
         }
       } else {
-        const uid = isSelectedAlready[0].id;
-        cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
+        const isSelectedAlreadyId = isSelectedAlready[0].id;
+        cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + isSelectedAlreadyId);
         const updatedCards = selectedCards.length > 0 ? selectedCards.filter(selectedCard =>
           selectedCard.text !== card.text) : null;
-        if(selectedCards.length > 0) {
-          setSelectedCards(updatedCards);
-        }
+        // if(selectedCards.length > 0) {
+        //   setSelectedCards(updatedCards);
+        // }
         remove(cardsRef).then(() => {
           // alert('Card removed');
         }).catch(error => {
@@ -210,7 +192,7 @@ function VisionBuilder(props) {
 
         <View style={Styles.containerPadding}>
           <ScrollView
-            style={[Styles.twoColumn, {height: '85%'}]}
+            style={[Styles.twoColumn, {height: '90%'}]}
             showsVerticalScrollIndicator={false}>
             
             <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
@@ -247,7 +229,6 @@ function VisionBuilder(props) {
 
             {exampleCards.map(card => 
               <Card
-                key={card.id}
                 card={card}
                 isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
                 onCardPress={() => clickCard(card)} />)}
