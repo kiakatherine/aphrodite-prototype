@@ -104,10 +104,8 @@ function VisionBuilder(props) {
       // if user already has cards
       if(selectedCards.length > 0) {
         isSelectedAlready = selectedCards.filter(selectedCard =>
-          selectedCard.text == card.text);
+          card.type === 'text' ? selectedCard.text == card.text : selectedCard.uri == card.uri);
       }
-
-      debugger
 
       if(isSelectedAlready.length === 0) {
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
@@ -128,8 +126,8 @@ function VisionBuilder(props) {
       } else {
         const isSelectedAlreadyId = isSelectedAlready[0].id;
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + isSelectedAlreadyId);
-        const updatedCards = selectedCards.length > 0 ? selectedCards.filter(selectedCard =>
-          selectedCard.text !== card.text) : null;
+        // const updatedCards = selectedCards.length > 0 ? selectedCards.filter(selectedCard =>
+        //   selectedCard.text !== card.text) : null;
         // if(selectedCards.length > 0) {
         //   setSelectedCards(updatedCards);
         // }
@@ -230,7 +228,7 @@ function VisionBuilder(props) {
             {exampleCards.map(card => 
               <Card
                 card={card}
-                isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+                isSelected={selectedCards.filter(selectedCard => selectedCard.type === 'text' ? selectedCard.text == card.text : selectedCard.uri == card.uri).length > 0}
                 onCardPress={() => clickCard(card)} />)}
           </ScrollView>
         </View>
