@@ -122,8 +122,10 @@ function PreviewTiles(props) {
                                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
                         </Pressable>}
                     
-                    {cards.length > 0 &&
-                        cards.map(card => <Card key={card.text} card={card} darkTheme={true} onCardPress={clickCard} />)}
+                    <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
+                        {cards.length > 0 &&
+                            cards.map(card => <Card card={card} darkTheme={true} onCardPress={clickCard} />)}
+                    </ScrollView>
 
                     {/* {cards.length > 0 &&
                         // <FlatList

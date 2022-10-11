@@ -190,11 +190,11 @@ function VisionBuilder(props) {
 
         <View style={Styles.containerPadding}>
           <ScrollView
-            style={[Styles.twoColumn, {height: '90%'}]}
+            style={{height: '90%'}}
             showsVerticalScrollIndicator={false}>
             
             <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
-            <Text style={[Styles.heading2, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Tap any that apply</Text>
+            <Text style={[Styles.heading2, {fontFamily: 'Poppins_500Medium', marginBottom: 20}]}>Tap any that apply</Text>
           
             <ScrollView
               horizontal={true}
@@ -225,11 +225,13 @@ function VisionBuilder(props) {
               showsVerticalScrollIndicator={false}
               /> */}
 
-            {exampleCards.map(card => 
-              <Card
-                card={card}
-                isSelected={selectedCards.filter(selectedCard => selectedCard.type === 'text' ? selectedCard.text == card.text : selectedCard.uri == card.uri).length > 0}
-                onCardPress={() => clickCard(card)} />)}
+            <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
+              {exampleCards.map(card => 
+                <Card
+                  card={card}
+                  isSelected={selectedCards.filter(selectedCard => selectedCard.type === 'text' ? selectedCard.text == card.text : selectedCard.uri == card.uri).length > 0}
+                  onCardPress={() => clickCard(card)} />)}
+            </ScrollView>
           </ScrollView>
         </View>
       </View>

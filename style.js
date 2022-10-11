@@ -33,6 +33,7 @@ module.exports = StyleSheet.create({
     },
     twoColumnLayout: {
       display: 'flex',
+      // backgroundColor: 'pink',
       flexDirection: 'row',
       flexWrap: 'wrap'
     },
@@ -222,9 +223,9 @@ module.exports = StyleSheet.create({
       borderBottomWidth: 2
     },
     Card: {
-        width: '45%',
-        justifyContent: 'space-around', // vertically centers content
+        width: '43%',
         alignItems: 'center',
+        justifyContent: 'space-around', // vertically centers content
         height: 215,
         marginBottom: 20,
         marginRight: 20,
@@ -241,7 +242,7 @@ module.exports = StyleSheet.create({
       CardWithImage: {
         padding: 0,
         borderColor: '#a9a6a2',
-        borderWidth: 1
+        borderWidth: 1,
       },
       CardSelected: {
         borderColor: '#2E2F36',
