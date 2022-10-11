@@ -1,4 +1,4 @@
-import { Pressable, Text } from 'react-native';
+import { Image, Pressable, Text } from 'react-native';
 import Styles from "../style.js";
 
 import {
@@ -19,10 +19,16 @@ function Card(props) {
 
   return (
       <Pressable
-          style={[Styles.Card, props.isSelected ? Styles.CardSelected : '', props.darkTheme ? Styles.darkCard : '']}
+          style={[
+            (props.card.type === 'image' || props.card.type === 'example-image') ? Styles.CardWithImage : Styles.Card,
+            props.isSelected ? Styles.CardSelected : '',
+            props.darkTheme ? Styles.darkCard : '']}
           selected={props.isSelected}
           onPress={() => props.onCardPress(props.card)}>
-            <Text style={[Styles.CardText, props.darkTheme ? Styles.textWhite : '', {fontFamily: 'Poppins_600SemiBold'}]}>{props.card.text}</Text>
+            {props.card.text && <Text style={[Styles.CardText, props.darkTheme ? Styles.textWhite : '', {fontFamily: 'Poppins_600SemiBold'}]}>{props.card.text}</Text>}
+            {props.card.type === 'image' && <Image source={{ uri: props.card.uri }} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />}
+            {props.card.type === 'example-image-1' && <Image source={require('../assets/images/example1.jpg')} style={{borderRadius: 8, flex:1, width: '100%', height: undefined}} />}
+            {props.card.type === 'example-image-2' && <Image source={require('../assets/images/example2.jpg')} style={{borderRadius: 8, flex:1, width: '100%', height: undefined}} />}
           </Pressable>
   );
 }

@@ -50,8 +50,8 @@ function VisionBuilder(props) {
     const [selectedCards, setSelectedCards] = useState([]);
     const exampleCards = [
       { id: 1, text: "My partner is kind.", type: "text" },
-      { id: 2, filePath: '../assets/images/example1.jpg', type: "image" },
-      { id: 3, filePath: '../assets/images/example2.jpg', type: "image" },
+      { id: 2, filePath: '../assets/images/example1.jpg', type: "example-image-1" },
+      { id: 3, filePath: '../assets/images/example2.jpg', type: "example-image-2" },
       { id: 4, text: "We are a power couple.", type: "text" },
       { id: 5, text: "We support each other.", type: "text" },
       { id: 6, text: "My partner is patient.", type: "text" },
@@ -107,6 +107,7 @@ function VisionBuilder(props) {
           setSelectedCards([...selectedCards, newCard]);
         } else if(card.type === 'image') {
           // FIX: upload image to firebase
+          // how to get image uri?
           // uploadImage(card.filePath);
         }
       } else {
@@ -155,57 +156,9 @@ function VisionBuilder(props) {
           props.navigation.navigate("VisionCustomizer", {selectedCards: newCards});
         });
       }
-      props.navigation.navigate("VisionCustomizer");
+      props.navigation.navigate("VisionCustomizer", {selectedCards});
     }
 
-    let i = 0;
-    const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
-      if(item.type === 'image') {
-        if(i === 0) {
-          i++;
-          return (<Pressable
-            style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
-            selected={isSelected}
-            onPress={onPress}>
-              <Image source={require('../assets/images/example1.jpg')} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />
-            </Pressable>)
-        } else {
-          return (<Pressable
-            style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
-            selected={isSelected}
-            onPress={onPress}>
-              <Image source={require('../assets/images/example2.jpg')} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />
-            </Pressable>)
-        }
-      }
-      
-      return (<Pressable
-        style={[Styles.Card, isSelected ? Styles.CardSelected : '', item.type === 'image' ? Styles.CardWithImage : '']}
-        selected={isSelected}
-        onPress={onPress}>
-          {item.type === 'text' && <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>}
-          {/* {item.type === 'image' && <Image source={image} style={{flex:1 , width: '100%', height: undefined}} />} */}
-        </Pressable>)
-    }
-
-    const renderItem = ({ item }) => {
-      let isSelected = false;
-      
-      if(item.type === 'text') {
-        isSelected = selectedCards.filter(selectedCard => selectedCard.text == item.text).length > 0;
-      } else {
-        isSelected = selectedCards.filter(selectedCard => selectedCard.filePath == item.filePath).length > 0;
-      }
-
-      return (
-        <ListItem
-          item={item}
-          onPress={() => clickCard(item)}
-          isSelected={isSelected}
-        />
-      );
-    };
-    
     return (
       <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
         <View style={[Styles.customHeader, {marginBottom: 30}]}>
@@ -223,45 +176,49 @@ function VisionBuilder(props) {
         </View>
 
         <View style={Styles.containerPadding}>
-          <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
-          <Text style={[Styles.heading2, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Tap any that apply</Text>
-
           <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            style={[Styles.displayFlex, Styles.chipsContainer, {height: 500}]}>
-            <Pressable style={Styles.chip}>
-              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>all</Text>
-            </Pressable>
-            <Pressable style={Styles.chip}>
-              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>lifestyle</Text>
-            </Pressable>
-            <Pressable style={Styles.chip}>
-              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>qualities</Text>
-            </Pressable>
-            <Pressable style={Styles.chip}>
-              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>career</Text>
-            </Pressable>
-            <Pressable style={Styles.chip}>
-              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>health</Text>
-            </Pressable>
-          </ScrollView>
+            style={[Styles.twoColumn, {height: '85%'}]}
+            showsVerticalScrollIndicator={false}>
+            
+            <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
+            <Text style={[Styles.heading2, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Tap any that apply</Text>
+          
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              style={[Styles.displayFlex, Styles.chipsContainer]}>
+                <Pressable style={Styles.chip}>
+                  <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>all</Text>
+                </Pressable>
+                <Pressable style={Styles.chip}>
+                  <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>lifestyle</Text>
+                </Pressable>
+                <Pressable style={Styles.chip}>
+                  <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>qualities</Text>
+                </Pressable>
+                <Pressable style={Styles.chip}>
+                  <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>career</Text>
+                </Pressable>
+                <Pressable style={Styles.chip}>
+                  <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>health</Text>
+                </Pressable>
+            </ScrollView>
 
-          <SafeAreaView style={{height: '83%'}}>
-            <FlatList
+            {/* <FlatList
               data={exampleCards}
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
               numColumns={2}
               showsVerticalScrollIndicator={false}
-              />
-              {/* {exampleCards.map(card => 
-                <Card
-                  key={card.text}
-                  card={card}
-                  isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
-                  onCardPress={() => clickCard(card)} />)} */}
-          </SafeAreaView>
+              /> */}
+
+            {exampleCards.map(card => 
+              <Card
+                key={card.id}
+                card={card}
+                isSelected={selectedCards.filter(selectedCard => selectedCard.text == card.text).length > 0}
+                onCardPress={() => clickCard(card)} />)}
+          </ScrollView>
         </View>
       </View>
     )
