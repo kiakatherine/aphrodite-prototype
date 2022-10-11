@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -44,7 +44,7 @@ function PreviewTiles(props) {
                 setCards(cardsArr);
             });
         }
-        
+
         return () => { isMounted = false };
     }, [])
 
@@ -66,11 +66,11 @@ function PreviewTiles(props) {
     //       </Pressable>
     //   );
   
-    const renderItem = ({ item }) => {  
-        return (
-            <Card key={item.text} card={item} darkTheme={true} onCardPress={clickCard} />
-        );
-    };
+    // const renderItem = ({ item }) => {  
+    //     return (
+    //         <Card key={item.text} card={item} darkTheme={true} onCardPress={clickCard} />
+    //     );
+    // };
 
     return (
         <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>
@@ -101,10 +101,7 @@ function PreviewTiles(props) {
             </View>
             
             <View style={Styles.containerPadding}>
-                {previousScreen === 'VisionViewCustomizer' &&
-                    <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
-
-                <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
+                
                 
                 {/* {cards.length > 0 &&  <Pressable
                     style={[Styles.buttonOutline, {marginBottom: 40}]}
@@ -112,24 +109,33 @@ function PreviewTiles(props) {
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
                 </Pressable>} */}
 
-                <SafeAreaView style={{height: '86%'}}>
+                <ScrollView style={{height: '86%'}}>
+                    {previousScreen === 'VisionViewCustomizer' &&
+                        <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
+
+                    <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
+
                     {cards.length === 0 &&
                         <Pressable
-                        style={[Styles.buttonOutline, {marginBottom: 40}]}
-                        onPress={() => props.navigation.navigate('VisionBuilder')}>
-                            <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
+                            style={[Styles.buttonOutline, {marginBottom: 40}]}
+                            onPress={() => props.navigation.navigate('VisionBuilder')}>
+                                <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
                         </Pressable>}
-
+                    
                     {cards.length > 0 &&
-                        <FlatList
-                            data={cards}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                            numColumns={2}
-                            showsVerticalScrollIndicator={false}
-                            scrollEnabled={cards.length > 4}
-                            />}
-                    </SafeAreaView>
+                        cards.map(card => <Card key={card.text} card={card} darkTheme={true} onCardPress={clickCard} />)}
+
+                    {/* {cards.length > 0 &&
+                        // <FlatList
+                        //     data={cards}
+                        //     renderItem={renderItem}
+                        //     keyExtractor={(item) => item.id}
+                        //     numColumns={2}
+                        //     showsVerticalScrollIndicator={false}
+                        //     scrollEnabled={cards.length > 4}
+                        //     />}
+                    } */}
+                    </ScrollView>
             </View>
         </View>
     );
