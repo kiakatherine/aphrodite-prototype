@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import RemovableCard from '../components/RemovableCard.js';
 import AddTextModal from '../components/AddTextModal.js';
@@ -134,45 +134,61 @@ function VisionCustomizer({ navigation }) {
     remove(cardRef);
   }
 
-  const firstCard = myVisionCards[0];
+  const ListItems = (props) => {
+    if(myVisionCards.length) {      
+      return (
+        <>
+          <Pressable
+            style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
+            onPress={() => refRBSheet.current.open()}>
+              <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
+          </Pressable>
+          {myVisionCards.map(card => 
+            <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>)}
+        </>)
+    } else {
+      return (
+        <Pressable
+          style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
+          onPress={() => refRBSheet.current.open()}>
+            <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
+        </Pressable>);
+    }
+  };
 
-  const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
-    const isFirstCard = firstCard.text === item.text;
+  // const firstCard = myVisionCards[0];
 
-    return(
-      <>
-        {isFirstCard &&
-          <>
-            <Pressable
-              style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
-              onPress={() => refRBSheet.current.open()}>
-                <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
-            </Pressable>
+  // const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
+  //   const isFirstCard = firstCard.text === item.text;
 
-            <RemovableCard
-              key={item.text ? item.text : item}
-              card={item}
-              onRemovableCardPress={item => confirmRemovableCardPress(item)} />
-          </>}
+  //   return(
+  //     <>
+  //       {isFirstCard &&
+  //         <>
+  //           <Pressable
+  //             style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
+  //             onPress={() => refRBSheet.current.open()}>
+  //               <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
+  //           </Pressable>
 
-        {!isFirstCard &&
-          <RemovableCard
-            key={item.text ? item.text : item}
-            card={item}
-            onRemovableCardPress={item => confirmRemovableCardPress(item)} />}
-      </>
-    )
-  }
+  //           <RemovableCard
+  //             key={item.text ? item.text : item}
+  //             card={item}
+  //             onRemovableCardPress={item => confirmRemovableCardPress(item)} />
+  //         </>}
+
+  //       {!isFirstCard &&
+  //         <RemovableCard
+  //           key={item.text ? item.text : item}
+  //           card={item}
+  //           onRemovableCardPress={item => confirmRemovableCardPress(item)} />}
+  //     </>
+  //   )
+  // }
 
   function clickExamples() {
     refRBSheet.current.close();
     navigation.navigate('VisionBuilder', {myVisionCards});
-  }
-
-  const renderItem = ({ item }) => {
-    return (
-      <ListItem item={item} />
-    )
   }
 
   return (
@@ -197,21 +213,24 @@ function VisionCustomizer({ navigation }) {
             </Pressable>
           </View>
 
-          <View style={Styles.containerPadding}>
-            <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
-            
-            <SafeAreaView
-              style={{height: '85%'}}
+          <View style={Styles.containerPadding}>            
+            <ScrollView
+              style={{height: '90%'}}
               showsVerticalScrollIndicator={false}>
-              <FlatList
-                  data={myVisionCards}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.id}
-                  numColumns={2}
-                  showsVerticalScrollIndicator={false}
-                  scrollEnabled={myVisionCards.length > 4}
-                  />
-            </SafeAreaView>
+                <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
+                <View style={Styles.twoColumnLayout}>
+                  <ListItems selectedCards={myVisionCards} />
+                </View>
+                
+                {/* <FlatList
+                    data={myVisionCards}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    scrollEnabled={myVisionCards.length > 4}
+                    /> */}
+            </ScrollView>
 
             <RBSheet
               ref={refRBSheet}

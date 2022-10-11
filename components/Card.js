@@ -29,7 +29,7 @@ function Card(props) {
             {props.card.type === 'image' && <Image source={{ uri: props.card.uri }} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />}
             {props.card.type === 'example-image-1' && <Image source={require('../assets/images/example1.jpg')} style={{borderRadius: 8, flex:1, width: '100%', height: undefined}} />}
             {props.card.type === 'example-image-2' && <Image source={require('../assets/images/example2.jpg')} style={{borderRadius: 8, flex:1, width: '100%', height: undefined}} />}
-          </Pressable>
+      </Pressable>
   );
 }
 

@@ -31,6 +31,11 @@ module.exports = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
     },
+    twoColumnLayout: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+    },
     lightBackground: {
       backgroundColor: 'white'
     },
