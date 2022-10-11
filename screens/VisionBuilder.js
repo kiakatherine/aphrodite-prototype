@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { FlatList, Image, Pressable, View, SafeAreaView, Text } from 'react-native';
+import { FlatList, Image, Pressable, View, SafeAreaView, ScrollView, Text } from 'react-native';
 import Styles from "../style.js";
 import Card from '../components/Card.js';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -224,7 +224,29 @@ function VisionBuilder(props) {
 
         <View style={Styles.containerPadding}>
           <Text style={[Styles.heading1, {marginBottom: 20, fontFamily: 'Poppins_600SemiBold'}]}>What do you want in your relationship?</Text>
-        
+          <Text style={[Styles.heading2, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Tap any that apply</Text>
+
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            style={[Styles.displayFlex, Styles.chipsContainer, {height: 500}]}>
+            <Pressable style={Styles.chip}>
+              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>all</Text>
+            </Pressable>
+            <Pressable style={Styles.chip}>
+              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>lifestyle</Text>
+            </Pressable>
+            <Pressable style={Styles.chip}>
+              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>qualities</Text>
+            </Pressable>
+            <Pressable style={Styles.chip}>
+              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>career</Text>
+            </Pressable>
+            <Pressable style={Styles.chip}>
+              <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>health</Text>
+            </Pressable>
+          </ScrollView>
+
           <SafeAreaView style={{height: '83%'}}>
             <FlatList
               data={exampleCards}

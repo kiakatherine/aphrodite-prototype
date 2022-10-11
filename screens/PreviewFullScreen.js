@@ -85,10 +85,10 @@ function PreviewFullScreen(props) {
                         {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
                 </GestureRecognizer>}
 
-                <View style={Styles.progressDotBar}>
+                {/* <View style={Styles.progressDotBar}>
                     {myVisionCards.map((visionCard, i) =>
                         <Text key={i} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
-                </View>
+                </View> */}
         </View>
     );
 }

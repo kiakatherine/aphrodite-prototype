@@ -292,6 +292,26 @@ module.exports = StyleSheet.create({
         color: 'white',
         opacity: 1
       },
+      chipsContainer: {
+        marginBottom: 30
+      },
+      chip: {
+        borderRadius: 100,
+        borderWidth: 2,
+        borderColor: '#2E2F36',
+        padding: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
+        flex: '0 1 auto',
+        marginRight: 10,
+        alignContent: 'center',
+      },
+      chipText: {
+        color: '#2E2F36',
+        fontSize: 18,
+        lineHeight: 28,
+        textAlign: 'center',
+      },
       accountInfoLine: {
         display: 'flex',
         flexDirection: 'row',
