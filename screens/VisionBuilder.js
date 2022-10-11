@@ -93,6 +93,7 @@ function VisionBuilder(props) {
       }
 
       if(isSelectedAlready.length === 0) {
+        debugger
         cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
 
         if(card.type === 'text') {

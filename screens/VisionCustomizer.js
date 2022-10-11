@@ -59,16 +59,11 @@ function VisionCustomizer({ navigation }) {
   const uploadImage = async(uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
+    const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
     const newCard = push(userRef, {blob});
-    // const imageURL = newCard.getDownloadURL().then((url) => {
-    //   debugger;
-    //   return url;
-    // });
-    // console.log(url)
     const uid = newCard.key;
-    const newCardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
-    update(newCardRef, {id: uid, 'type': 'image'});
+
+    update(newCard, {id: uid, 'type': 'image'});
     
     // const updatedCard = {
     //   'type': 'image',
@@ -84,7 +79,7 @@ function VisionCustomizer({ navigation }) {
     let file = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [2, 3],
+      aspect: [3, 4],
       quality: 1,
     });
 
@@ -128,9 +123,9 @@ function VisionCustomizer({ navigation }) {
     // FIX: add confirmation
     // debugger
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
-    const updatedCards = myVisionCards.filter(selectedCard =>
-      selectedCard.text !== card.text);
-    setMyVisionCards(updatedCards);
+    // const updatedCards = myVisionCards.filter(selectedCard =>
+    //   selectedCard.text !== card.text);
+    // setMyVisionCards(updatedCards);
     remove(cardRef);
   }
 
@@ -144,7 +139,7 @@ function VisionCustomizer({ navigation }) {
               <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
           </Pressable>
           {myVisionCards.map(card => 
-            <RemovableCard key={card.text ? card.text : card} card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>)}
+            <RemovableCard card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>)}
         </>)
     } else {
       return (
@@ -221,7 +216,7 @@ function VisionCustomizer({ navigation }) {
                 <View style={Styles.twoColumnLayout}>
                   <ListItems selectedCards={myVisionCards} />
                 </View>
-                
+
                 {/* <FlatList
                     data={myVisionCards}
                     renderItem={renderItem}

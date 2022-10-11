@@ -23,22 +23,8 @@ function RemovableCard(props) {
       Poppins_700Bold,
   });
 
-//   useEffect(() => {
-//     if(props.card.type === 'image') {
-//       const app = getApp();
-//       const auth = getAuth(app);
-//       const db = getDatabase();
-//       // const storage = getStorage();
-//       const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + props.card.id);
-
-//       cardRef.getDownloadURL().then(snapshot => {
-//         debugger
-//       });
-//     }
-// }, [])
-
   return (
-      <View style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']}>
+      <View style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']} key={props.card.id}>
           <Pressable
               style={Styles.RemovableCardButton}
               onPress={() => props.onRemovableCardPress(props.card)}>
@@ -47,7 +33,7 @@ function RemovableCard(props) {
 
           {props.card.text && <Text style={[Styles.CardText, {fontFamily: 'Poppins_500Medium'}]}>{props.card.text}</Text>}
           
-          {props.card.type === 'image' && <Image source={{ uri: props.card.uri }} style={{flex:1 , width: '100%', height: undefined}} />}
+          {props.card.type === 'image' && <Image source={{ uri: props.card.uri }} style={{borderRadius: 8, flex:1 , width: '100%', height: undefined}} />}
       </View>
   );
 }
