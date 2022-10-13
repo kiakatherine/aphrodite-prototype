@@ -33,6 +33,7 @@ function VisionCustomizer({ navigation }) {
   const storage = getStorage();
 
   let [myVisionCards, setMyVisionCards] = useState([]);
+  let [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
     // don't re-render when making changes to individual cards
@@ -101,28 +102,41 @@ function VisionCustomizer({ navigation }) {
     setIsModalVisible(false);
   }
 
-  function handleSaveText(newInput) {
+  function handleSaveText(card, newInput) {
     setIsModalVisible(false);
 
-    let newCard = null;
-    const card = {
-      text: newInput,
-      type: 'text'
-    };
-    const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const addedCard = push(cardsRef, card);
-    const uid = addedCard.key;
-    update(addedCard, { id: uid });
-    // setMyVisionCards(rest => [...rest, newCard]);
+    debugger
+
+    if(card) {
+      const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
+      update(cardRef, {text: newInput});
+    } else {
+      const newCard = {
+        text: newInput,
+        type: 'text'
+      };
+      const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+      const addedCard = push(cardsRef, newCard);
+      const uid = addedCard.key;
+      update(addedCard, { id: uid });
+    }
   }
 
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
-    // const updatedCards = myVisionCards.filter(selectedCard =>
-    //   selectedCard.text !== card.text);
-    // setMyVisionCards(updatedCards);
     remove(cardRef);
+  }
+
+  function clickCardToEdit(card) {
+    if(card.type === 'image') {
+      return;
+    }
+
+    if(card) {
+      setSelectedCard(card);
+      setIsModalVisible(true);
+    }
   }
 
   const ListItems = (props) => {
@@ -135,7 +149,7 @@ function VisionCustomizer({ navigation }) {
               <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
           </Pressable>
           {myVisionCards.map(card => 
-            <RemovableCard card={card} onRemovableCardPress={card => confirmRemovableCardPress(card)}></RemovableCard>)}
+            <RemovableCard card={card} onCardPress={card => clickCardToEdit(card)} onRemoveCard={card => confirmRemovableCardPress(card)}></RemovableCard>)}
         </>)
     } else {
       return (
@@ -147,36 +161,6 @@ function VisionCustomizer({ navigation }) {
     }
   };
 
-  // const firstCard = myVisionCards[0];
-
-  // const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => {
-  //   const isFirstCard = firstCard.text === item.text;
-
-  //   return(
-  //     <>
-  //       {isFirstCard &&
-  //         <>
-  //           <Pressable
-  //             style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
-  //             onPress={() => refRBSheet.current.open()}>
-  //               <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
-  //           </Pressable>
-
-  //           <RemovableCard
-  //             key={item.text ? item.text : item}
-  //             card={item}
-  //             onRemovableCardPress={item => confirmRemovableCardPress(item)} />
-  //         </>}
-
-  //       {!isFirstCard &&
-  //         <RemovableCard
-  //           key={item.text ? item.text : item}
-  //           card={item}
-  //           onRemovableCardPress={item => confirmRemovableCardPress(item)} />}
-  //     </>
-  //   )
-  // }
-
   function clickExamples() {
     refRBSheet.current.close();
     navigation.navigate('VisionBuilder', {myVisionCards});
@@ -185,7 +169,7 @@ function VisionCustomizer({ navigation }) {
   return (
     <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
       {isModalVisible &&
-        <AddTextModal onSave={handleSaveText} onCancel={handleCancel} />}
+        <AddTextModal card={selectedCard} value={selectedCard.text} onSave={handleSaveText} onCancel={handleCancel} />}
       
       {!isModalVisible &&
         <>
@@ -212,15 +196,6 @@ function VisionCustomizer({ navigation }) {
                 <View style={Styles.twoColumnLayout}>
                   <ListItems selectedCards={myVisionCards} />
                 </View>
-
-                {/* <FlatList
-                    data={myVisionCards}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    scrollEnabled={myVisionCards.length > 4}
-                    /> */}
             </ScrollView>
 
             <RBSheet

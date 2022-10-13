@@ -38,7 +38,7 @@ function AddTextModal(props) {
 
             <Pressable
                 style={Styles.modalBottomButton}
-                onPress={() => props.onSave(newText)}>
+                onPress={() => props.onSave(props.card, newText)}>
                     <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
             </Pressable>
         </View>
