@@ -109,7 +109,7 @@ function PreviewTiles(props) {
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
                 </Pressable>} */}
 
-                <ScrollView style={{height: '86%'}}>
+                <ScrollView style={{height: '86%'}} showsVerticalScrollIndicator={false}>
                     {previousScreen === 'VisionViewCustomizer' &&
                         <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
 

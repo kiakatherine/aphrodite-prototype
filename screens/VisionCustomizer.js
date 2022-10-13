@@ -94,6 +94,7 @@ function VisionCustomizer({ navigation }) {
 
   function openAddTextModal() {
     setIsModalVisible(true);
+    refRBSheet.current.close();
   }
 
   function handleCancel() {
@@ -103,7 +104,7 @@ function VisionCustomizer({ navigation }) {
   function handleSaveText(newInput) {
     setIsModalVisible(false);
 
-    let newCards = [];
+    let newCard = null;
     const card = {
       text: newInput,
       type: 'text'
@@ -112,12 +113,7 @@ function VisionCustomizer({ navigation }) {
     const addedCard = push(cardsRef, card);
     const uid = addedCard.key;
     update(addedCard, { id: uid });
-    newCards.push({
-      'text': card.text,
-      'type': card.type,
-      'id': uid
-    });
-    setMyVisionCards(rest => [...rest, newCards]);
+    // setMyVisionCards(rest => [...rest, newCard]);
   }
 
   function confirmRemovableCardPress(card) {

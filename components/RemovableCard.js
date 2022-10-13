@@ -10,10 +10,6 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
-import { initializeApp, getApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue } from 'firebase/database';
-import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 
 function RemovableCard(props) {
   let [fontsLoaded] = useFonts({
