@@ -121,6 +121,37 @@ function App(props) {
     );
   }
 
+  const HomeTabsWelcome = () => {
+    return (
+      <Tab.Navigator
+          screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
+            
+                if (route.name === 'Home') {
+                    iconName = focused
+                    ? 'home-outline'
+                    : 'home-outline';
+                } else if (route.name === 'Notifications') {
+                    iconName = focused ? 'notifications-outline' : 'notifications-outline';
+                } else if (route.name === 'Account') {
+                    iconName = focused ? 'settings-outline' : 'settings-outline';
+                }
+            
+                // You can return any component that you like here!
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+              tabBarActiveTintColor: '#000',
+              tabBarInactiveTintColor: '#aaa',
+          })}>
+          {/* FIX: switch welcome screen and dashboard */}
+        <Tab.Screen name="Home" component={WelcomeScreen} options={(route) => ({ headerShown: false })} />
+        <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Account" component={AccountScreen} options={{ headerShown: false }} />
+      </Tab.Navigator>
+    );
+  }
+
   if (initializing) return null;
 
   // FIX
@@ -135,7 +166,7 @@ function App(props) {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Welcome" component={HomeTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="Welcome" component={HomeTabsWelcome} options={{ headerShown: false }} />
           <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
             {props => <PhoneNumberScreen {...props} />}

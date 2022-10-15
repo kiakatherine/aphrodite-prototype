@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
