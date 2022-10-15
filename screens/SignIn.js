@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Styles from "../style.js";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,8 +12,10 @@ import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/d
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio.js';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
+import useKeyboardHeight from 'react-native-use-keyboard-height';
 
 function SignIn(props) {
+    const keyboardHeight = useKeyboardHeight();
     const [view, setView] = useState('phone');
     
     // Firebase references
@@ -51,14 +53,14 @@ function SignIn(props) {
     // }
 
     return (
-        <>
+        <View style={{flex:1}}>
             <Pressable
                   style={[Styles.topRightCloseButton, {zIndex: 2}]}
                   onPress={() => props.navigation.navigate('Landing')}>
                     <Ionicons name="close-outline" size={48}></Ionicons>
             </Pressable>
 
-            <View style={[Styles.centerContainer]}>
+            <View style={[Styles.centerContainer, {paddingBottom: view === 'phone' ? 50 : 95}]}>
                 <View>              
                 {view === 'phone' && 
                 <><FirebaseRecaptchaVerifierModal
@@ -91,7 +93,7 @@ function SignIn(props) {
                         );
                         setVerificationId(verificationId);
                         showMessage({
-                        text: 'Verification code has been sent to your phone.',
+                        text: 'Verification code sent to your phone.',
                         });
                         setView('verify');
                     } catch (err) {
@@ -133,7 +135,7 @@ function SignIn(props) {
                     </>}
                 </View>
             </View>
-        </>
+        </View>
     );
 };
 

@@ -130,26 +130,10 @@ function App(props) {
   //   );
   // }
 
-  function getInitialRoute() {
-    // if(isLoggedIn && noCards) {
-    //   return "Welcome"
-    // } else if(isLoggedIn) {
-    //   return "Dashboard"
-    // } else {
-    //   return "Landing"
-    // }
-
-    if(isLoggedIn) {
-      return "Dashboard"
-    } else {
-      return "Landing"
-    }
-  }
-
   return (
     <>      
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={getInitialRoute()}>
+        <Stack.Navigator>
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Welcome" component={HomeTabs} options={{ headerShown: false }} />
           <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />

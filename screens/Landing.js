@@ -22,8 +22,8 @@ function Landing({navigation}) {
         <View style={[Styles.centerContainer, {display: 'flex', height: '100%', backgroundColor: 'white'}]}>
             <Image source={require('../assets/images/moon.png')} style={{alignSelf: 'center', position: 'absolute', top: 100, maxWidth: 160, maxHeight: 160}} />
             
-            <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold', textTransform: 'uppercase', letterSpacing: 3}]}>Aphrodite</Text>
-            <Text style={[Styles.heading2, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Manifest your dream relationship.</Text>
+            <Text style={[Styles.heading1, Styles.textAlignCenter, {textTransform: 'uppercase', letterSpacing: 3}]}>Aphrodite</Text>
+            <Text style={[Styles.heading2, Styles.textAlignCenter]}>Manifest your dream relationship.</Text>
             <Pressable
                 style={[Styles.button, {marginBottom: 20}]}
                 onPress={() => navigation.navigate('PhoneNumber')}>
