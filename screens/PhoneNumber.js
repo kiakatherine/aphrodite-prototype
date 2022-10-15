@@ -36,7 +36,7 @@ function PhoneNumber(props) {
             <Ionicons name="close-outline" size={48}></Ionicons>
         </Pressable>
 
-        <View style={[Styles.centerContainer]}>
+        <View style={[Styles.centerContainer, {paddingBottom: view === 'verify' ? 95 : 50}]}>
             <View>
               {view === 'phone' && 
               <><FirebaseRecaptchaVerifierModal
@@ -69,7 +69,7 @@ function PhoneNumber(props) {
                     );
                     setVerificationId(verificationId);
                     showMessage({
-                      text: 'Verification code has been sent to your phone.',
+                      text: 'Verification code sent to your phone.',
                     });
                     setView('verify');
                   } catch (err) {

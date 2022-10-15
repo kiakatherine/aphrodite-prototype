@@ -74,7 +74,7 @@ function NewUser(props) {
     }
 
     return (
-        <View style={[Styles.centerContainer, Styles.fullScreen]}>
+        <View style={[Styles.centerContainer, Styles.fullScreen, {paddingBottom: 40}]}>
             <Pressable
                 style={Styles.topRightCloseButton}
                 onPress={() => props.navigation.navigate('Landing')}>
