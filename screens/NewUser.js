@@ -86,6 +86,7 @@ function NewUser(props) {
                     <Text style={Styles.leftHeading1}>First name</Text>
                     <TextInput
                         style={Styles.textInput}
+                        autoFocus={true}
                         onChangeText={(text) => {
                             onChangeFirstName(text);
                         }} />
@@ -101,6 +102,7 @@ function NewUser(props) {
                     <Text style={Styles.leftHeading1}>Last name</Text>
                     <TextInput
                         style={Styles.textInput}
+                        autoFocus={true}
                         onChangeText={(text) => {
                             onChangeLastName(text);
                         }} />
@@ -117,6 +119,7 @@ function NewUser(props) {
                     <View style={Styles.displayFlex}>
                         <TextInput
                             style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
+                            autoFocus={true}
                             keyboardType='numeric'
                             placeholder="MM"
                             value={birthdayMonth}
@@ -155,6 +158,7 @@ function NewUser(props) {
                     <Text style={Styles.leftHeading1}>Email</Text>
                     <TextInput
                         style={Styles.textInput}
+                        autoFocus={true}
                         value={email}
                         onChangeText={(text) => {
                             onChangeEmail(text);
@@ -256,11 +260,13 @@ function NewUser(props) {
                 </View>}
 
             {screen === 'Terms' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>Terms & Conditions</Text>
-                    <Text style={Styles.bodyText}>Text here</Text>
+                <View style={{flex: 1}}>
+                    <View style={Styles.centerContainer}>
+                        <Text style={Styles.leftHeading1}>Terms & Conditions</Text>
+                        <Text style={Styles.bodyText}>Text here</Text>
+                    </View>
                     <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
+                        style={[Styles.button, Styles.modalBottomButton, {justifyContent: 'flex-end'}]}
                         onPress={saveUser}>
                         <Text style={Styles.buttonText}>I agree</Text>
                     </Pressable>
