@@ -162,6 +162,9 @@ module.exports = StyleSheet.create({
     buttonLink: {
       padding: 10
     },
+    buttonLinkText: {
+      fontSize: 16
+    },
     buttonDisabled: {
         backgroundColor: '#ddd',
         color: 'gray'

@@ -5,7 +5,7 @@ import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/d
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddTextModal from '../components/AddTextModal.js';
 import { initializeApp, getApp } from 'firebase/app';
-import { getAuth, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
+import { getAuth, deleteUser, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 
 import {
   useFonts,
@@ -75,6 +75,19 @@ function AccountScreen(props) {
   function clickLogOut() {
     auth.signOut();
     props.navigation.navigate('Landing');
+  }
+
+  function deleteAccount() {
+    // debugger
+    deleteUser(auth.currentUser)
+      .then(() => {
+        console.log('Successfully deleted user');
+        // auth.signOut();
+        props.navigation.navigate('Landing');
+      })
+      .catch((error) => {
+        console.log('Error deleting user:', error);
+      });
   }
 
   return (<>
@@ -153,7 +166,13 @@ function AccountScreen(props) {
               style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
               onPress={() => clickLogOut()}>
                 <Text style={Styles.buttonText}>Logout</Text>
-              </Pressable>
+          </Pressable>
+
+          <Pressable
+            style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
+            onPress={() => deleteAccount()}>
+              <Text style={Styles.buttonLinkText}>Delete account</Text>
+          </Pressable>
         </View>
     )}
 
