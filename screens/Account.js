@@ -78,7 +78,6 @@ function AccountScreen(props) {
   }
 
   function deleteAccount() {
-    // debugger
     deleteUser(auth.currentUser)
       .then(() => {
         console.log('Successfully deleted user');

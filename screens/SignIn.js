@@ -38,20 +38,6 @@ function SignIn(props) {
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
 
-    // function checkExistingUser(id) {
-    //   const db = getDatabase();
-    //   const currUser = ref(db, 'users/' + id);
-    //   onValue(currUser, (snapshot) => {
-    //     // check if new user
-    //     debugger
-    //     if(snapshot.val()) {
-    //       props.navigation.navigate('Dashboard', {user: snapshot.val()});
-    //     } else {
-    //       props.navigation.navigate('NewUser', {phoneNumber: id});
-    //     }
-    //   });
-    // }
-
     return (
         <View style={{flex:1}}>
             <Pressable

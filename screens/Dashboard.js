@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -23,9 +23,11 @@ function Dashboard(props) {
     Poppins_700Bold,
   });
 
-  // const app = getApp();
-  // const auth = getAuth(app);
-  // const user = auth.currentUser;
+  let [hasCards, setHasCards] = useState(props.route.params ? props.route.params.hasCards : false);
+
+  const app = getApp();
+  const auth = getAuth(app);
+  const db = getDatabase();
 
   // function storeFirstThing() {
   //   const db = getDatabase();
@@ -35,8 +37,27 @@ function Dashboard(props) {
   //   });
   // }
 
+  useEffect(() => {
+    let isMounted = true;    
+    
+    if(isMounted) {
+      const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+
+      onValue(cardsRef, (snapshot) => {
+        if(snapshot.val()) {
+          setHasCards(true);
+        } else {
+          setHasCards(false);
+        }
+      });
+    }
+
+    return () => { isMounted = false };
+  }, [])
+
   return (
-    <View style={[Styles.lightBackground]}>
+    <>
+      {hasCards && <View style={[Styles.lightBackground]}>
         <Pressable
           style={Styles.DashboardVisionView}
           onPress={() => props.navigation.navigate('PreviewTiles', {previousScreen: 'Dashboard'})}>
@@ -44,7 +65,19 @@ function Dashboard(props) {
             <Ionicons style={{color: 'white'}} name='play-circle' size={64} /> */}
             <Image source={require('../assets/images/play.png')} style={{width: '100%', height: '100%'}} />
         </Pressable>
-    </View>
+      </View>}
+
+      {!hasCards && <View style={[Styles.centerContainer, Styles.lightBackground]}>
+        <Image source={require('../assets/images/ladder.png')} resizeMode='contain' style={{alignSelf: 'center', height: '55%'}}  />
+        <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
+        <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
+        <Pressable
+            style={Styles.button}
+            onPress={() => props.navigation.navigate('VisionBuilder')}>
+            <Text style={Styles.buttonText}>Begin</Text>
+        </Pressable>
+      </View>}
+    </>
   );
 }
   

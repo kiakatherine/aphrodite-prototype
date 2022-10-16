@@ -25,7 +25,7 @@ function Sending(props) {
       });
 
     useEffect(() => {
-        props.navigation.navigate('Dashboard');
+        props.navigation.navigate('Dashboard', {hasCards: true});
     }, [])
 
     return (

@@ -177,7 +177,7 @@ function VisionBuilder(props) {
         <View style={[Styles.customHeader, {marginBottom: 30}]}>
           <Pressable
             style={[Styles.textAlignRight, Styles.flexOne]}
-            onPress={() => selectedCards.length > 0 ? props.navigation.navigate('Dashboard') : props.navigation.navigate('Welcome')}>
+            onPress={() => selectedCards.length > 0 ? props.navigation.navigate('Dashboard', {hasCards: true}) : props.navigation.navigate('Dashboard', {hasCards: false})}>
               <Ionicons name='arrow-back-outline' size={24} />
           </Pressable>
 

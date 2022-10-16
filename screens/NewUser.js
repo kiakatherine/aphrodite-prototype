@@ -44,11 +44,6 @@ function NewUser(props) {
         } else if(screen == 'Identity') {
             setScreen('Terms');
         }
-        // else if(screen == 'Terms') {
-        //     setScreen('Creating');
-        // } else if(screen == 'Creating') {
-        //     props.navigation.navigate('Dashboard');
-        // }
     }
     
     function saveUser() {
@@ -67,7 +62,7 @@ function NewUser(props) {
         const db = getDatabase();
         const reference = ref(db, 'users/' + auth.currentUser.uid);
         update(reference, userData).then(() => {
-            props.navigation.navigate('Welcome');
+            props.navigation.navigate('Dashboard', {hasCards: false});
         }).catch((error) => {
             alert('Error');
         });
