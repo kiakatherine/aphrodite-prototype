@@ -25,8 +25,6 @@ function AccountScreen(props) {
     props.navigation.navigate('Landing');
   }
   
-  const userRef = ref(db, 'users/' + auth.currentUser.uid);
-
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -42,6 +40,7 @@ function AccountScreen(props) {
     let isMounted = true;    
     
     if(isMounted) {
+      const userRef = ref(db, 'users/' + auth.currentUser.uid);
       onValue(userRef, (snapshot) => {
         setCurrentUser(snapshot.val());
       });
@@ -78,10 +77,12 @@ function AccountScreen(props) {
   }
 
   function deleteAccount() {
+    const userRef = ref(db, 'users/' + auth.currentUser.uid);
+    
     deleteUser(auth.currentUser)
       .then(() => {
+        remove(userRef);
         console.log('Successfully deleted user');
-        // auth.signOut();
         props.navigation.navigate('Landing');
       })
       .catch((error) => {
