@@ -105,8 +105,6 @@ function VisionCustomizer({ navigation }) {
   function handleSaveText(card, newInput) {
     setIsModalVisible(false);
 
-    debugger
-
     if(card) {
       const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
       update(cardRef, {text: newInput});
@@ -204,7 +202,7 @@ function VisionCustomizer({ navigation }) {
               closeOnPressMask={false}
               customStyles={{
                 wrapper: {
-                  backgroundColor: 'transparent'
+                  backgroundColor: 'rgba(0, 0, 0, 0.6)'
                 },
                 draggableIcon: {
                   backgroundColor: '#000'
