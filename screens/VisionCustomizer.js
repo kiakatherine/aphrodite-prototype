@@ -10,6 +10,7 @@ import { getDatabase, ref, onValue, set, remove, push, put, update } from 'fireb
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
 import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref as sRef } from 'firebase/storage';
 
 import {
   useFonts,
@@ -60,11 +61,23 @@ function VisionCustomizer({ navigation }) {
   const uploadImage = async(uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const newCard = push(userRef, {blob, uri});
-    const uid = newCard.key;
 
-    update(newCard, {id: uid, 'type': 'image'});
+    // upload reference in the database
+    const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    const newCard = push(cardsRef, {'type': 'image', blob});
+    const uid = newCard.key;
+    update(newCard, {id: uid});
+
+    // upload file to storage
+    // const imagesRef = sRef(storage, 'images/examples');
+    // const example1Ref = sRef(storage, 'images/examples/example1.jpg');
+    // const example2Ref = sRef(storage, 'images/examples/example2.jpg');
+    // uploadBytes(example2Ref, blob).then((snapshot) => {
+    //   console.log('Uploaded a blob or file!');
+    // }).catch(err => {
+    //   console.log('yikes!')
+    // });
+
     refRBSheet.current.close();
     
     // const updatedCard = {

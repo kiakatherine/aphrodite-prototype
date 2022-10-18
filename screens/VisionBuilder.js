@@ -7,6 +7,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref as sRef } from 'firebase/storage';
 
 import {
   useFonts,
@@ -29,9 +31,12 @@ function VisionBuilder(props) {
     const app = getApp();
     const auth = getAuth(app);
     const db = getDatabase();
+    const storage = getStorage();
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([]);
+
+    // const url = async() => await sRef(storage, 'images/example-1.jpg').getDownloadURL().then(x => {debugger});
 
     useEffect(() => {
       let isMounted = true;
@@ -48,36 +53,44 @@ function VisionBuilder(props) {
             }
             setSelectedCards(cardsArr);
         });
-        const imagesRef = ref(db, 'images');
+
+        // let example1Url = getDownloadURL(sRef(storage, 'images/examples/example1.jpg')).then(url => { return url });
+        // let example2Url = getDownloadURL(sRef(storage, 'images/examples/example2.jpg')).then(url => { return url });
 
         // get example images
-        onValue(imagesRef, (snapshot) => {
-            const cards = snapshot.val();
-            let cardsArr = [];
-            for (var key in cards) {
-                cardsArr.push(cards[key])
-            }
-            const examples = [
-              { id: 1, text: "My partner is kind.", type: "text" },
-              { id: 4, text: "We are a power couple.", type: "text" },
-              { id: 5, text: "We support each other.", type: "text" },
-              { id: 6, text: "My partner is patient.", type: "text" },
-              { id: 7, text: "My partner is faithful.", type: "text" },
-              { id: 8, text: "My partner is generous.", type: "text" },
-              { id: 9, text: "My partner sees me for who I am.", type: "text" },
-            ];
-            setExampleCards([
-              { id: 1, text: "My partner is kind.", type: "text" },
-              cardsArr[0],
-              cardsArr[1],
-              { id: 4, text: "We are a power couple.", type: "text" },
-              { id: 5, text: "We support each other.", type: "text" },
-              { id: 6, text: "My partner is patient.", type: "text" },
-              { id: 7, text: "My partner is faithful.", type: "text" },
-              { id: 8, text: "My partner is generous.", type: "text" },
-              { id: 9, text: "My partner sees me for who I am.", type: "text" },
-            ]);
-        });
+        getDownloadURL(sRef(storage, 'images/examples/example1.jpg'))
+          .then(snapshot => { example1Url = snapshot })
+          .catch(err => console.log('uh oh!'));
+
+          getDownloadURL(sRef(storage, 'images/examples/example2.jpg'))
+            .then(snapshot => { example2Url = snapshot })
+            .then(() => {
+              setExampleCards([
+                { id: 1, text: "My partner is kind.", type: "text" },
+                { id: 2, 'uri': example1Url, type: "image" },
+                { id: 3, 'uri': example2Url, type: "image" },
+                { id: 4, text: "We are a power couple.", type: "text" },
+                { id: 5, text: "We support each other.", type: "text" },
+                { id: 6, text: "My partner is patient.", type: "text" },
+                { id: 7, text: "My partner is faithful.", type: "text" },
+                { id: 8, text: "My partner is generous.", type: "text" },
+                { id: 9, text: "My partner sees me for who I am.", type: "text" },
+              ]);
+            })
+            .catch(err => console.log('uh oh!'));
+
+          // setExampleCards([
+          //   { id: 1, text: "My partner is kind.", type: "text" },
+          //   { id: 2, 'uri': example1Url, type: "image" },
+          //   // exampleCardsArr[1],
+          //   { id: 4, text: "We are a power couple.", type: "text" },
+          //   { id: 5, text: "We support each other.", type: "text" },
+          //   { id: 6, text: "My partner is patient.", type: "text" },
+          //   { id: 7, text: "My partner is faithful.", type: "text" },
+          //   { id: 8, text: "My partner is generous.", type: "text" },
+          //   { id: 9, text: "My partner sees me for who I am.", type: "text" },
+          // ]);
+        // });
       }
 
       return () => { isMounted = false };
@@ -88,7 +101,7 @@ function VisionBuilder(props) {
       const blob = await response.blob();
       const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
   
-      const newCard = push(userRef, {blob, uri});
+      const newCard = push(userRef, {blob, uri, dateAdded: Date.now()});
       const uid = newCard.key;
       update(newCard, {id: uid, 'type': 'image'});
     }

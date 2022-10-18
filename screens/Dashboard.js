@@ -69,8 +69,8 @@ function Dashboard(props) {
 
       {!hasCards && <View style={[Styles.centerContainer, Styles.lightBackground]}>
         <Image source={require('../assets/images/ladder.png')} resizeMode='contain' style={{alignSelf: 'center', height: '55%'}}  />
-        <Text style={[Styles.heading1, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Create Vision</Text>
-        <Text style={[Styles.bodyText, Styles.textAlignCenter, {fontFamily: 'Poppins_400Regular'}]}>Clarify what you want & need in your dream relationship.</Text>
+        <Text style={[Styles.heading1, Styles.textAlignCenter]}>Create Vision</Text>
+        <Text style={[Styles.bodyText, Styles.textAlignCenter]}>Clarify what you want & need in your dream relationship.</Text>
         <Pressable
             style={Styles.button}
             onPress={() => props.navigation.navigate('VisionBuilder')}>
