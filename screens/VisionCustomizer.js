@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, put, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
-import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
+import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
 
 import {
@@ -64,19 +64,27 @@ function VisionCustomizer({ navigation }) {
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const newCard = push(cardsRef, {'type': 'image', blob});
+    const newCard = push(cardsRef, {
+      name: blob.data.name,
+      type: 'image',
+      blob,
+      dateAdded: Date.now()
+    });
     const uid = newCard.key;
     update(newCard, {id: uid});
 
     // upload file to storage
-    // const imagesRef = sRef(storage, 'images/examples');
-    // const example1Ref = sRef(storage, 'images/examples/example1.jpg');
-    // const example2Ref = sRef(storage, 'images/examples/example2.jpg');
-    // uploadBytes(example2Ref, blob).then((snapshot) => {
-    //   console.log('Uploaded a blob or file!');
-    // }).catch(err => {
-    //   console.log('yikes!')
-    // });
+    const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+    uploadBytes(imageRef, blob).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
+        .then(uri => {
+          update(newCard, {uri})
+        })
+        .catch(err => console.log('uh oh! could not get uri'));
+    }).catch(err => {
+      console.log('yikes!')
+    });
 
     refRBSheet.current.close();
     
@@ -137,6 +145,9 @@ function VisionCustomizer({ navigation }) {
     // FIX: add confirmation
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
     remove(cardRef);
+
+    const cardStorageRef = sRef(storage, `images/${auth.currentUser.uid}/${card.name}`);
+    deleteObject(cardStorageRef);
   }
 
   function clickCardToEdit(card) {

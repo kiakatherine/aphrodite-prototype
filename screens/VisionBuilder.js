@@ -97,13 +97,20 @@ function VisionBuilder(props) {
     }, [])
 
     const uploadImage = async(uri) => {
+      // push example image ref to user in database
       const response = await fetch(uri);
       const blob = await response.blob();
+
+      // upload reference in the database
       const userRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/');
-  
-      const newCard = push(userRef, {blob, uri, dateAdded: Date.now()});
+      const newCard = push(userRef, {
+        name: blob.data.name,
+        type: 'image',
+        blob,
+        dateAdded: Date.now()
+      });
       const uid = newCard.key;
-      update(newCard, {id: uid, 'type': 'image'});
+      update(newCard, {id: uid});
     }
 
     // select/deselect card
