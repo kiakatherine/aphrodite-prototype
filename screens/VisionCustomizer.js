@@ -143,11 +143,13 @@ function VisionCustomizer({ navigation }) {
 
   function confirmRemovableCardPress(card) {
     // FIX: add confirmation
+
+    // delete from database
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
     remove(cardRef);
 
-    const cardStorageRef = sRef(storage, `images/${auth.currentUser.uid}/${card.name}`);
-    deleteObject(cardStorageRef);
+    // delete from storage
+    deleteObject(sRef(storage, `images/${auth.currentUser.uid}/${card.name}`));
   }
 
   function clickCardToEdit(card) {
