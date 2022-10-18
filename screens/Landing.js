@@ -20,9 +20,9 @@ function Landing({navigation}) {
 
     return (
         <View style={[Styles.centerContainer, {display: 'flex', height: '100%', backgroundColor: 'white'}]}>
-            <Image source={require('../assets/images/moon.png')} style={{alignSelf: 'center', position: 'absolute', top: 100, maxWidth: 160, maxHeight: 160}} />
+            <Image source={require('../assets/images/moon.png')} style={{alignSelf: 'center', position: 'absolute', top: 90, maxWidth: 160, maxHeight: 160}} />
             
-            <Text style={[Styles.heading1, Styles.textAlignCenter, {textTransform: 'uppercase', letterSpacing: 3}]}>Aphrodite</Text>
+            <Image source={require('../assets/images/aphrodite_logo.png')} style={{alignSelf: 'center', maxWidth: 200, maxHeight: 20, marginBottom: 30}} />
             <Text style={[Styles.heading2, Styles.textAlignCenter]}>Manifest your dream relationship.</Text>
             <Pressable
                 style={[Styles.button, {marginBottom: 20}]}
