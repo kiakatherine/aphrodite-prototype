@@ -12,6 +12,7 @@ import { initializeApp, getApp } from 'firebase/app';
 import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
 import {app, auth, db, storage } from '../firebase.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   useFonts,
@@ -72,14 +73,18 @@ function VisionCustomizer({ navigation }) {
     // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
     uploadBytes(imageRef, blob).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
+      alert('Uploaded photo!');
       getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
         .then(uri => {
           update(newCard, {uri})
         })
-        .catch(err => console.log('uh oh! could not get uri'));
+        .catch(err => {
+          alert('uh oh!', err);
+          setAlertMessage(err);
+        });
     }).catch(err => {
-      console.log('yikes!')
+      alert('yikes!', err);
+      setAlertMessage(err);
     });
 
     refRBSheet.current.close();

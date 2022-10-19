@@ -54,7 +54,6 @@ function AccountScreen(props) {
   }
 
   function handleSaveText(text) {
-    debugger
     update(userRef, {
       [currentField]: text
     });
