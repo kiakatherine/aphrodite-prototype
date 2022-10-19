@@ -32,16 +32,20 @@ function VisionBuilder(props) {
     const auth = getAuth(app);
     const db = getDatabase();
     const storage = getStorage();
+    let isCancelled = React.useRef(false);
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([]);
-
-    // const url = async() => await sRef(storage, 'images/example-1.jpg').getDownloadURL().then(x => {debugger});
+    let [example1Url, setExample1Url] = useState();
+    let [example2Url, setExample2Url] = useState();
 
     useEffect(() => {
-      let isMounted = true;
+      getCards();
+      return () => { isCancelled = true };
+    }, [])
 
-      if(isMounted) {
+    function getCards() {
+      if(!isCancelled.current) {
         const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
 
         // get user's cards
@@ -54,17 +58,15 @@ function VisionBuilder(props) {
             setSelectedCards(cardsArr);
         });
 
-        // let example1Url = getDownloadURL(sRef(storage, 'images/examples/example1.jpg')).then(url => { return url });
-        // let example2Url = getDownloadURL(sRef(storage, 'images/examples/example2.jpg')).then(url => { return url });
-
         // get example images
         getDownloadURL(sRef(storage, 'images/examples/example1.jpg'))
-          .then(snapshot => { example1Url = snapshot })
+          .then(snapshot => { setExample1Url(snapshot) })
           .catch(err => console.log('uh oh!'));
 
           getDownloadURL(sRef(storage, 'images/examples/example2.jpg'))
-            .then(snapshot => { example2Url = snapshot })
+            .then(snapshot => { setExample2Url(snapshot) })
             .then(() => {
+              console.log('example urls', example1Url, example2Url);
               setExampleCards([
                 { id: 1, text: "My partner is kind.", type: "text" },
                 { id: 2, 'uri': example1Url, type: "image" },
@@ -78,23 +80,8 @@ function VisionBuilder(props) {
               ]);
             })
             .catch(err => console.log('uh oh!'));
-
-          // setExampleCards([
-          //   { id: 1, text: "My partner is kind.", type: "text" },
-          //   { id: 2, 'uri': example1Url, type: "image" },
-          //   // exampleCardsArr[1],
-          //   { id: 4, text: "We are a power couple.", type: "text" },
-          //   { id: 5, text: "We support each other.", type: "text" },
-          //   { id: 6, text: "My partner is patient.", type: "text" },
-          //   { id: 7, text: "My partner is faithful.", type: "text" },
-          //   { id: 8, text: "My partner is generous.", type: "text" },
-          //   { id: 9, text: "My partner sees me for who I am.", type: "text" },
-          // ]);
-        // });
-      }
-
-      return () => { isMounted = false };
-    }, [])
+        }
+    }
 
     const uploadImage = async(uri) => {
       // push example image ref to user in database
@@ -107,7 +94,8 @@ function VisionBuilder(props) {
         name: blob.data.name,
         type: 'image',
         blob,
-        dateAdded: Date.now()
+        dateAdded: Date.now(),
+        uri: blob.data.name === 'example1.jpg' ? example1Url : example2Url
       });
       const uid = newCard.key;
       update(newCard, {id: uid});
@@ -248,6 +236,7 @@ function VisionBuilder(props) {
             <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
               {exampleCards.map(card => 
                 <Card
+                  key={card.id}
                   card={card}
                   isSelected={selectedCards.filter(selectedCard => selectedCard.type === 'text' ? selectedCard.text == card.text : selectedCard.uri == card.uri).length > 0}
                   onCardPress={() => clickCard(card)} />)}

@@ -20,6 +20,7 @@ function AccountScreen(props) {
   const app = getApp();
   const auth = getAuth(app);
   const db = getDatabase();
+  const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   if(!auth.currentUser) {
     props.navigation.navigate('Landing');
@@ -40,7 +41,6 @@ function AccountScreen(props) {
     let isMounted = true;    
     
     if(isMounted) {
-      const userRef = ref(db, 'users/' + auth.currentUser.uid);
       onValue(userRef, (snapshot) => {
         setCurrentUser(snapshot.val());
       });
@@ -57,6 +57,7 @@ function AccountScreen(props) {
   }
 
   function handleSaveText(text) {
+    debugger
     update(userRef, {
       [currentField]: text
     });
