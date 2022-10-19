@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
     useFonts,

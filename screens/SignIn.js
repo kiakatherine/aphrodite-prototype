@@ -13,15 +13,12 @@ import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 import { get } from 'react-native/Libraries/Utilities/PixelRatio.js';
 import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps/index.js';
 import useKeyboardHeight from 'react-native-use-keyboard-height';
+import {app, auth, db, storage } from '../firebase.js';
 
 function SignIn(props) {
     const keyboardHeight = useKeyboardHeight();
     const [view, setView] = useState('phone');
     
-    // Firebase references
-    const app = getApp();
-    const auth = getAuth(app);
-
     // Double-check that we can run the example
     if (!app?.options || Platform.OS === 'web') {
       throw new Error(

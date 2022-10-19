@@ -5,6 +5,7 @@ import { getDatabase, ref, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getAuth } from 'firebase/auth';
 import { getApp } from 'firebase/app';
+import {app, auth, db, storage } from '../firebase.js';
 
 function NewUser(props) {
     const [screen, setScreen] = useState('FirstName');
@@ -47,8 +48,6 @@ function NewUser(props) {
     }
     
     function saveUser() {
-        const app = getApp();
-        const auth = getAuth(app);
         const userData = {
             firstName,
             lastName,

@@ -6,6 +6,7 @@ import '../firebase.js';
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -25,12 +26,7 @@ function Dashboard(props) {
 
   let [hasCards, setHasCards] = useState(props.route.params ? props.route.params.hasCards : false);
 
-  const app = getApp();
-  const auth = getAuth(app);
-  const db = getDatabase();
-
   // function storeFirstThing() {
-  //   const db = getDatabase();
   //   const reference = ref(db, 'users/' + 'Alexa');
   //   set(reference, {
   //     highscore: 10,

@@ -24,15 +24,11 @@ import AccountScreen from "./screens/Account";
 // firebase
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import {app, auth, db, storage } from './firebase.js';
 
 function App(props) {
   const [noCards, setNoCards] = useState(true);
   const [cards, setCards] = useState([]);
-
-  // Firebase references
-  const app = getApp();
-  const auth = getAuth(app);
-  const db = getDatabase();
   const isLoggedIn = auth.currentUser ? true : false;
 
   // Set an initializing state whilst Firebase connects

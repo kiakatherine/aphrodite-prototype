@@ -9,6 +9,7 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import { getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -28,10 +29,6 @@ function VisionBuilder(props) {
       Poppins_700Bold,
     });
 
-    const app = getApp();
-    const auth = getAuth(app);
-    const db = getDatabase();
-    const storage = getStorage();
     let isCancelled = React.useRef(false);
 
     const [selectedCards, setSelectedCards] = useState([]);
@@ -103,9 +100,6 @@ function VisionBuilder(props) {
 
     // select/deselect card
     const clickCard = async(card) => {
-      const app = getApp();
-      const auth = getAuth(app);
-      const db = getDatabase();
       let isSelectedAlready = [];
       let cardsRef = [];
 

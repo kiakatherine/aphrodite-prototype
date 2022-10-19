@@ -11,6 +11,7 @@ import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 
 import { initializeApp, getApp } from 'firebase/app';
 import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -27,11 +28,6 @@ function VisionCustomizer({ navigation }) {
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
-
-  const app = getApp();
-  const auth = getAuth(app);
-  const db = getDatabase();
-  const storage = getStorage();
 
   let [myVisionCards, setMyVisionCards] = useState([]);
   let [selectedCard, setSelectedCard] = useState(null);

@@ -28,13 +28,13 @@
 
 
 import { initializeApp } from 'firebase/app';
+import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 // Optionally import the services that you want to use
-//import {...} from "firebase/auth";
-//import {...} from "firebase/database";
-//import {...} from "firebase/firestore";
-//import {...} from "firebase/functions";
-//import {...} from "firebase/storage";
+// import {...} from "firebase/firestore";
+// import {...} from "firebase/functions";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -48,4 +48,16 @@ const firebaseConfig = {
     measurementId: "G-Y6DNB1WE9B"
   };
 
-initializeApp(firebaseConfig);
+// initializeApp(firebaseConfig);
+
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication and get a reference to the service
+export const auth = getAuth(app);
+
+// Initialize Realtime Database and get a reference to the service
+export const db = getDatabase(app);
+
+// Initialize Cloud Storage and get a reference to the service
+export const storage = getStorage(app);

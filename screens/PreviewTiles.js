@@ -7,6 +7,7 @@ import Card from '../components/Card.js';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue } from 'firebase/database';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -30,9 +31,6 @@ function PreviewTiles(props) {
         let isMounted = true;
 
         if(isMounted) {
-            const app = getApp();
-            const auth = getAuth(app);
-            const db = getDatabase();
             const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
             onValue(cardsRef, (snapshot) => {
                 const cards = snapshot.val();

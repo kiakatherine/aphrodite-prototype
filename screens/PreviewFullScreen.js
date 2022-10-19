@@ -6,6 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -22,10 +23,6 @@ function PreviewFullScreen(props) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
-
-    const app = getApp();
-    const auth = getAuth(app);
-    const db = getDatabase();
 
     let [myVisionCards, setMyVisionCards] = useState(props.route.params.cards);
     const [currentCard, setCurrentCard] = useState(props.route.params.currentCard ? props.route.params.currentCard : props.route.params.cards[0]);

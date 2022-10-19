@@ -6,6 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AddTextModal from '../components/AddTextModal.js';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, deleteUser, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
+import {app, auth, db, storage } from '../firebase.js';
 
 import {
   useFonts,
@@ -16,10 +17,6 @@ import {
 } from '@expo-google-fonts/poppins';
 
 function AccountScreen(props) {
-  // Firebase references
-  const app = getApp();
-  const auth = getAuth(app);
-  const db = getDatabase();
   const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
   if(!auth.currentUser) {
