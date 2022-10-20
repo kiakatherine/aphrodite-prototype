@@ -22,7 +22,7 @@ function Swipe(props) {
       });
   const [lastDirection, setLastDirection] = useState();
   let [myVisionCards, setMyVisionCards] = useState(props.route.params.cards);
-  let [shownVisionCards, setShownVisionCards] = useState([...myVisionCards.reverse()]);
+  let [shownVisionCards, setShownVisionCards] = useState([...myVisionCards]);
   const [currentCard, setCurrentCard] = useState(props.route.params.currentCard ? props.route.params.currentCard : props.route.params.cards[0]);
 
   const styles = {

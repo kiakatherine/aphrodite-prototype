@@ -73,7 +73,7 @@ function VisionCustomizer({ navigation }) {
     // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
     uploadBytes(imageRef, blob).then((snapshot) => {
-      alert('Uploaded photo!');
+      // alert('Uploaded photo!');
       getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
         .then(uri => {
           update(newCard, {uri})
@@ -209,7 +209,7 @@ function VisionCustomizer({ navigation }) {
                 style={[Styles.button, Styles.buttonSmall]}
                 disabled={myVisionCards.length === 0}
                 onPress={() => navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'})}>
-                  <Text style={Styles.buttonSmallText}>Preview</Text>
+                  <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>
             </Pressable>
           </View>
 

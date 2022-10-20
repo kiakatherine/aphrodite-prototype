@@ -5,7 +5,7 @@ import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/d
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AddTextModal from '../components/AddTextModal.js';
 import { initializeApp, getApp } from 'firebase/app';
-import { getAuth, deleteUser, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
+import { getAuth, deleteUser, reauthenticateWithCredential, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 import {app, auth, db, storage } from '../firebase.js';
 
 import {
@@ -18,6 +18,7 @@ import {
 
 function AccountScreen(props) {
   const userRef = ref(db, 'users/' + auth.currentUser.uid);
+  const credential = props.route.params ? props.route.params.credential : null;
 
   if(!auth.currentUser) {
     props.navigation.navigate('Landing');
@@ -75,16 +76,22 @@ function AccountScreen(props) {
 
   function deleteAccount() {
     const userRef = ref(db, 'users/' + auth.currentUser.uid);
-    
-    deleteUser(auth.currentUser)
-      .then(() => {
-        remove(userRef);
-        console.log('Successfully deleted user');
-        props.navigation.navigate('Landing');
-      })
-      .catch((error) => {
-        console.log('Error deleting user:', error);
-      });
+
+    // const credential = promptForCredentials();
+    reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+      deleteUser(auth.currentUser)
+        .then(() => {
+          remove(userRef);
+          console.log('Successfully deleted user');
+          props.navigation.navigate('Landing');
+        })
+        .catch((error) => {
+          alert('Verify account before deleting')
+          props.navigation.navigate('SignIn', {previousScreen: 'Account'});
+        });
+    }).catch((error) => {
+      debugger
+    });
   }
 
   return (<>
@@ -162,13 +169,13 @@ function AccountScreen(props) {
           <Pressable
               style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
               onPress={() => clickLogOut()}>
-                <Text style={Styles.buttonText}>Logout</Text>
+                <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Logout</Text>
           </Pressable>
 
           <Pressable
             style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
             onPress={() => deleteAccount()}>
-              <Text style={Styles.buttonLinkText}>Delete account</Text>
+              <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_400Regular'}]}>Delete account</Text>
           </Pressable>
         </View>
     )}

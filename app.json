@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kia.aphrodite.my-app",
-      "buildNumber": "13"
+      "buildNumber": "14"
     },
     "android": {
       "adaptiveIcon": {

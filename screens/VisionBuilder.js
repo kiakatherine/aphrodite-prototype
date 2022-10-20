@@ -174,7 +174,7 @@ function VisionBuilder(props) {
           <Pressable
             style={[Styles.button, Styles.buttonSmall]}
             onPress={() => clickDone()}>
-              <Text style={[Styles.buttonText]}>Done</Text>
+              <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Done</Text>
           </Pressable>
         </View>
 

@@ -94,7 +94,7 @@ function PreviewTiles(props) {
                 {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length > 0) && <Pressable
                     style={[Styles.buttonWhite, Styles.buttonSmall]}
                     onPress={() => props.navigation.navigate("Sending")}>
-                        <Text style={Styles.buttonWhiteText}>Save</Text>
+                        <Text style={[Styles.buttonWhiteText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
                 </Pressable>}
             </View>
             

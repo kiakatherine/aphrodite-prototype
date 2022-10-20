@@ -18,6 +18,7 @@ import {app, auth, db, storage } from '../firebase.js';
 function SignIn(props) {
     const keyboardHeight = useKeyboardHeight();
     const [view, setView] = useState('phone');
+    const previousScreen = props.route.params ? props.route.params.previousScreen : null;
     
     // Double-check that we can run the example
     if (!app?.options || Platform.OS === 'web') {
@@ -53,7 +54,7 @@ function SignIn(props) {
                 />
                 <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
                 <TextInput
-                    style={Styles.textInput}
+                    style={[Styles.textInput, {fontFamily: 'Poppins_400Regular'}]}
                     placeholder="+1 999 999 9999"
                     autoFocus
                     autoCompleteType="tel"
@@ -83,7 +84,7 @@ function SignIn(props) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                     }
                     }}>
-                    <Text style={Styles.buttonText}>Send verification code</Text>
+                    <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Send verification code</Text>
                 </Pressable>
                 </>}
                 
@@ -91,13 +92,13 @@ function SignIn(props) {
                     <>
                     <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Validation code</Text>
                     <TextInput
-                        style={Styles.textInput}
+                        style={[Styles.textInput, {fontFamily: 'Poppins_400Regular'}]}
                         editable={!!verificationId}
                         placeholder="123456"
                         onChangeText={setVerificationCode}
                     />
 
-                    {message && <Text style={Styles.message}>{message.text}</Text>}
+                    {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
                     <Pressable
                         style={[Styles.button, Styles.modalBottomButton]}
@@ -107,12 +108,15 @@ function SignIn(props) {
                             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                             let userData = await signInWithCredential(auth, credential);
                             showMessage({ text: 'Phone authentication successful 👍' });
+                            if(previousScreen === 'Account') {
+                                props.navigation.navigate('Account', {auth, credential});
+                            }
                             props.navigation.navigate('Dashboard');
                         } catch (err) {
                             showMessage({ text: `Error: ${err.message}`, color: 'red' });
                         }
                         }}>
-                        <Text style={Styles.buttonText}>Next</Text>
+                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Next</Text>
                     </Pressable>
                     {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
                     </>}

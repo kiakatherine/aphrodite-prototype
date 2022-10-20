@@ -45,19 +45,23 @@ module.exports = StyleSheet.create({
       backgroundColor: '#2E2F36'
     },
     heading: {
+      color: '#2E2F36',
       fontSize: 24,
       marginBottom: 20
     },
     heading1: {
+      color: '#2E2F36',
       fontSize: 26,
       fontWeight: 'bold',
       marginBottom: 10
     },
     heading2: {
+      color: '#2E2F36',
       fontSize: 18,
-      marginBottom: 40
+      marginBottom: 40,
     },
     heading3: {
+      color: '#2E2F36',
       textTransform: 'uppercase',
       letterSpacing: 3,
       fontSize: 14,
@@ -121,7 +125,7 @@ module.exports = StyleSheet.create({
     },
     button: {
         backgroundColor: '#2E2F36',
-        padding: 20,
+        padding: 23,
         borderRadius: 100
     },
     buttonText: {
@@ -134,7 +138,7 @@ module.exports = StyleSheet.create({
         background: 'white',
         borderWidth: 2,
         borderColor: '#2E2F36',
-        padding: 20,
+        padding: 23,
         borderRadius: 100,
         marginBottom: 12
     },
