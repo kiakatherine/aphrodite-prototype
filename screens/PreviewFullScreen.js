@@ -1,93 +1,128 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import Styles from "../style.js";
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
-import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
-import { initializeApp, getApp } from 'firebase/app';
+import TinderCard from 'react-tinder-card';
 import {app, auth, db, storage } from '../firebase.js';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from '@expo-google-fonts/poppins';
+    useFonts,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  } from '@expo-google-fonts/poppins';
 
-function PreviewFullScreen(props) {
+function Swipe(props) {
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
         Poppins_500Medium,
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
+  const [lastDirection, setLastDirection] = useState();
+  let [myVisionCards, setMyVisionCards] = useState(props.route.params.cards);
+  let [shownVisionCards, setShownVisionCards] = useState([...myVisionCards.reverse()]);
+  const [currentCard, setCurrentCard] = useState(props.route.params.currentCard ? props.route.params.currentCard : props.route.params.cards[0]);
 
-    let [myVisionCards, setMyVisionCards] = useState(props.route.params.cards);
-    const [currentCard, setCurrentCard] = useState(props.route.params.currentCard ? props.route.params.currentCard : props.route.params.cards[0]);
-    
-    const config = {
-        velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
-      };
-    
-    // useEffect(() => {
-    //     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    //     onValue(cardsRef, (snapshot) => {
-    //         const cards = snapshot.val();
-    //         let cardsArr = [];
-    //         for (var key in cards) {
-    //             cardsArr.push(cards[key])
-    //         }
-    //         setMyVisionCards(cardsArr);
-    //         setCurrentCard(cardsArr[0]);
-    //     });
-    // }, [])
+  const styles = {
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: '100%'
+    },
+    cardContainer: {
+      width: '90%',
+      maxWidth: 300,
+      height: 400,
+    },
+    card: {
+      position: 'absolute',
+      backgroundColor: '#F2EDE4',
+      width: '100%',
+      maxWidth: 300,
+      height: 400,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 30,
+    //   shadowColor: 'black',
+    //   shadowOpacity: 0.2,
+    //   shadowRadius: 20,
+      borderRadius: 20,
+      resizeMode: 'cover',
+    },
+    cardImage: {
+      width: '100%',
+      height: '100%',
+      overflow: 'hidden',
+      borderRadius: 20,
+    },
+    // cardTitle: {
+    //   position: 'absolute',
+    //   bottom: 0,
+    //   margin: 10,
+    //   color: '#fff',
+    // },
+    // infoText: {
+    //   height: 28,
+    //   justifyContent: 'center',
+    //   display: 'flex',
+    //   zIndex: -100,
+    // }
+  }
 
-    function handleNextClick() {
-        let currentCardIndex = myVisionCards.indexOf(currentCard);
+  const swiped = (direction, card) => {
+    console.log('removing: ' + card)
+    setLastDirection(direction)
 
-        if((currentCardIndex + 1) < myVisionCards.length) {
-            setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) + 1]);
-        } else {
-            setCurrentCard(myVisionCards[myVisionCards.length - 1]);
+    // let updatedVisionCards = myVisionCards.filter(visionCard => { 
+    //     return card.type === 'text' ? card.text == visionCard.text : card.uri == visionCard.uri
+    // })
+
+    const currCardIndex = shownVisionCards.indexOf(card);
+    if (currCardIndex !== -1) {
+        shownVisionCards.splice(currCardIndex, 1);
+        // debugger
+        setShownVisionCards(shownVisionCards);
+        console.log('MY VISION CARDS', shownVisionCards.length)
+        if(shownVisionCards.length === 0) {
+            props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
         }
+      }
+
+    if(direction === 'down') {
+        props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
     }
+  }
 
-    function handleBackClick() {
-        let currentCardIndex = myVisionCards.indexOf(currentCard);
-        
-        if(currentCardIndex > 0) {
-            setCurrentCard(myVisionCards[myVisionCards.indexOf(currentCard) - 1]);
-        } else {
-            setCurrentCard(myVisionCards[0]);
-        }
-    }
+  const outOfFrame = (name) => {
+    console.log(name + ' left the screen!')
+  }
 
-    return (
-        <View style={[Styles.centerContainer, Styles.PreviewFullScreenCard]}>
-            <Pressable
-                style={Styles.topRightCloseButton}
-                onPress={() => props.navigation.goBack()}>
-                    <Ionicons style={{ color: 'white' }} name="close-outline" size={48}></Ionicons>
-            </Pressable>
+  return (
+    <View style={[styles.container, Styles.darkBackground]}>
+        <Pressable
+            style={[Styles.topRightCloseButton, {zIndex: 2}]}
+            onPress={() => props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})}>
+            <Ionicons name="close-outline" size={48} style={{color: 'white'}}></Ionicons>
+        </Pressable>
 
-            {currentCard &&
-                <GestureRecognizer
-                    onSwipeLeft={handleNextClick}
-                    onSwipeRight={handleBackClick}
-                    config={config}>
-                        {currentCard.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
-                        {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
-                </GestureRecognizer>}
-
-                {/* <View style={Styles.progressDotBar}>
-                    {myVisionCards.map((visionCard, i) =>
-                        <Text key={i} style={[Styles.progressDot, myVisionCards.indexOf(currentCard) === myVisionCards.indexOf(visionCard) ? Styles.progressDotSelected : '']}>•</Text>)}
-                </View> */}
+        <View style={[styles.cardContainer]}>
+            {shownVisionCards.map((card) =>
+                <TinderCard key={card.name} onSwipe={(dir) => swiped(dir, card)} onCardLeftScreen={() => outOfFrame(card.name)}>
+                    <View style={[styles.card, Styles.darkCard]}>
+                        {card.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{card.text}</Text>}
+                        {!card.text && <Image source={{ uri: card.uri }} style={{ width: 200, height: 200 }} />}
+                    </View>
+                </TinderCard>
+            )}
         </View>
-    );
+
+        {/* {lastDirection ? <Text style={styles.infoText}>You swiped {lastDirection}</Text> : <Text style={styles.infoText} />} */}
+    </View>
+  )
 }
-  
-export default PreviewFullScreen;
+
+export default Swipe;

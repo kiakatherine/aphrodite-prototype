@@ -79,7 +79,7 @@ function PreviewTiles(props) {
                         <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                 </Pressable>
 
-                {previousScreen === 'Dashboard' && <Pressable
+                {(previousScreen === 'Dashboard' || previousScreen === 'PreviewFullScreen') && <Pressable
                     style={[Styles.buttonLink]}
                     onPress={() => props.navigation.navigate("VisionCustomizer")}>
                         <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
@@ -122,23 +122,12 @@ function PreviewTiles(props) {
                     
                     <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
                         {cards.length > 0 &&
-                            cards.map(card => <Card card={card} darkTheme={true} onCardPress={clickCard} />)}
+                            cards.map(card => <Card key={card.id} card={card} darkTheme={true} onCardPress={clickCard} />)}
                     </ScrollView>
-
-                    {/* {cards.length > 0 &&
-                        // <FlatList
-                        //     data={cards}
-                        //     renderItem={renderItem}
-                        //     keyExtractor={(item) => item.id}
-                        //     numColumns={2}
-                        //     showsVerticalScrollIndicator={false}
-                        //     scrollEnabled={cards.length > 4}
-                        //     />}
-                    } */}
-                    </ScrollView>
+                </ScrollView>
             </View>
         </View>
     );
 }
-  
+
 export default PreviewTiles;

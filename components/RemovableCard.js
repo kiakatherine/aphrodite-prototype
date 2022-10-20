@@ -21,8 +21,9 @@ function RemovableCard(props) {
 
   return (
       <Pressable
-            style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']}
-            onPress={() => props.onCardPress(props.card)}>
+          key={props.card.id}
+          style={[Styles.Card, !props.card.text ? Styles.CardWithImage : '']}
+          onPress={() => props.onCardPress(props.card)}>
           <Pressable
             key={props.card.id}
             style={Styles.RemovableCardButton}

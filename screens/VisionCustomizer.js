@@ -12,7 +12,6 @@ import { initializeApp, getApp } from 'firebase/app';
 import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
 import {app, auth, db, storage } from '../firebase.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   useFonts,
@@ -32,6 +31,7 @@ function VisionCustomizer({ navigation }) {
 
   let [myVisionCards, setMyVisionCards] = useState([]);
   let [selectedCard, setSelectedCard] = useState(null);
+  let [alertMessage, setAlertMessage] = useState(null);
 
   useEffect(() => {
     // don't re-render when making changes to individual cards
@@ -218,6 +218,7 @@ function VisionCustomizer({ navigation }) {
               style={{height: '90%'}}
               showsVerticalScrollIndicator={false}>
                 <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
+                {/* <Text>{alertMessage}</Text> */}
                 <View style={Styles.twoColumnLayout}>
                   <ListItems selectedCards={myVisionCards} />
                 </View>
