@@ -33,16 +33,16 @@ function VisionBuilder(props) {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([]);
-    // let [example1Url, setExample1Url] = useState();
-    // let [example2Url, setExample2Url] = useState();
+    let [example1Url, setExample1Url] = useState();
+    let [example2Url, setExample2Url] = useState();
 
     useEffect(() => {
-      let isMounted = true;
+      getSelectedCards();
+    }, [])
 
-      if(isMounted) {
+    function getSelectedCards() {
+      if(!isCancelled.current) {
         const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-        let example1Url = null;
-        let example2Url = null;
 
         // get user's cards
         onValue(cardsRef, (snapshot) => {
@@ -54,70 +54,19 @@ function VisionBuilder(props) {
             setSelectedCards(cardsArr);
         });
 
-        // get example images
-        getDownloadURL(sRef(storage, 'images/examples/example1.jpg'))
-          .then(snapshot => { example1Url = snapshot; })
-          .catch(err => console.log('uh oh!'));
-
-          getDownloadURL(sRef(storage, 'images/examples/example2.jpg'))
-            .then(snapshot => { example2Url = snapshot; })
-            .then(() => {
-              console.log('example urls', example1Url, example2Url);
-              setExampleCards([
-                { id: 1, text: "My partner is kind.", type: "text" },
-                { id: 2, uri: example1Url, type: "image" },
-                { id: 3, uri: example2Url, type: "image" },
-                { id: 4, text: "We are a power couple.", type: "text" },
-                { id: 5, text: "We support each other.", type: "text" },
-                { id: 6, text: "My partner is patient.", type: "text" },
-                { id: 7, text: "My partner is faithful.", type: "text" },
-                { id: 8, text: "My partner is generous.", type: "text" },
-                { id: 9, text: "My partner sees me for who I am.", type: "text" },
-              ]);
-            })
-            .catch(err => console.log('uh oh!'));
-        }
-      return () => { isMounted = false };
-    }, [])
-
-    // function getCards() {
-    //   if(!isCancelled.current) {
-    //     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-
-    //     // get user's cards
-    //     onValue(cardsRef, (snapshot) => {
-    //         const cards = snapshot.val();
-    //         let cardsArr = [];
-    //         for (var key in cards) {
-    //             cardsArr.push(cards[key])
-    //         }
-    //         setSelectedCards(cardsArr);
-    //     });
-
-    //     // get example images
-    //     getDownloadURL(sRef(storage, 'images/examples/example1.jpg'))
-    //       .then(snapshot => { setExample1Url(snapshot) })
-    //       .catch(err => console.log('uh oh!'));
-
-    //       getDownloadURL(sRef(storage, 'images/examples/example2.jpg'))
-    //         .then(snapshot => { setExample2Url(snapshot) })
-    //         .then(() => {
-    //           console.log('example urls', example1Url, example2Url);
-    //           setExampleCards([
-    //             { id: 1, text: "My partner is kind.", type: "text" },
-    //             { id: 2, uri: example1Url, type: "image" },
-    //             { id: 3, uri: example2Url, type: "image" },
-    //             { id: 4, text: "We are a power couple.", type: "text" },
-    //             { id: 5, text: "We support each other.", type: "text" },
-    //             { id: 6, text: "My partner is patient.", type: "text" },
-    //             { id: 7, text: "My partner is faithful.", type: "text" },
-    //             { id: 8, text: "My partner is generous.", type: "text" },
-    //             { id: 9, text: "My partner sees me for who I am.", type: "text" },
-    //           ]);
-    //         })
-    //         .catch(err => console.log('uh oh!'));
-    //     }
-    // }
+        setExampleCards([
+          { id: 1, text: "My partner is kind.", type: "text" },
+          { id: 2, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample1.jpg?alt=media&token=7675714d-7806-44af-b396-289944ebaae6', type: "image" },
+          { id: 3, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample2.jpg?alt=media&token=7b349f73-f3da-4d6b-ac24-a415b6bfac3d', type: "image" },
+          { id: 4, text: "We are a power couple.", type: "text" },
+          { id: 5, text: "We support each other.", type: "text" },
+          { id: 6, text: "My partner is patient.", type: "text" },
+          { id: 7, text: "My partner is faithful.", type: "text" },
+          { id: 8, text: "My partner is generous.", type: "text" },
+          { id: 9, text: "My partner sees me for who I am.", type: "text" },
+        ]);
+      }
+    }
 
     const uploadImage = async(uri) => {
       // push example image ref to user in database
@@ -131,7 +80,7 @@ function VisionBuilder(props) {
         type: 'image',
         blob,
         dateAdded: Date.now(),
-        uri: blob.data.name === 'example1.jpg' ? example1Url : example2Url
+        uri: blob.data.name === 'example1.jpg' ? 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample1.jpg?alt=media&token=7675714d-7806-44af-b396-289944ebaae6' : 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample2.jpg?alt=media&token=7b349f73-f3da-4d6b-ac24-a415b6bfac3d'
       });
       const uid = newCard.key;
       update(newCard, {id: uid});
