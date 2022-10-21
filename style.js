@@ -311,7 +311,7 @@ module.exports = StyleSheet.create({
       },
       chip: {
         borderRadius: 100,
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: '#2E2F36',
         padding: 10,
         paddingLeft: 20,
@@ -325,6 +325,9 @@ module.exports = StyleSheet.create({
         fontSize: 18,
         lineHeight: 28,
         textAlign: 'center',
+      },
+      selectedChip: {
+        borderWidth: 3
       },
       accountInfoLine: {
         display: 'flex',

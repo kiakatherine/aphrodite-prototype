@@ -33,8 +33,10 @@ function VisionBuilder(props) {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([]);
+    let [shownVisionCards, setShownVisionCards] = useState([...exampleCards]);
     let [example1Url, setExample1Url] = useState();
     let [example2Url, setExample2Url] = useState();
+    let [category, setCategory] = useState('all');
 
     useEffect(() => {
       getSelectedCards();
@@ -55,16 +57,19 @@ function VisionBuilder(props) {
         });
 
         setExampleCards([
-          { id: 1, text: "My partner is kind.", type: "text" },
+          { id: 1, text: "My partner is kind.", type: "text", category: "qualities" },
           { id: 2, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample1.jpg?alt=media&token=7675714d-7806-44af-b396-289944ebaae6', type: "image" },
           { id: 3, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample2.jpg?alt=media&token=7b349f73-f3da-4d6b-ac24-a415b6bfac3d', type: "image" },
-          { id: 4, text: "We are a power couple.", type: "text" },
-          { id: 5, text: "We support each other.", type: "text" },
-          { id: 6, text: "My partner is patient.", type: "text" },
-          { id: 7, text: "My partner is faithful.", type: "text" },
-          { id: 8, text: "My partner is generous.", type: "text" },
-          { id: 9, text: "My partner sees me for who I am.", type: "text" },
+          { id: 4, text: "We are a power couple.", type: "text", category: "career" },
+          { id: 5, text: "We support each other.", type: "text", category: "qualities" },
+          { id: 6, text: "My partner is patient.", type: "text", category: "qualities" },
+          { id: 7, text: "My partner is faithful.", type: "text", category: "qualities" },
+          { id: 8, text: "My partner is generous.", type: "text", category: "qualities" },
+          { id: 9, text: "My partner sees me for who I am.", type: "text", category: "qualities" },
+          { id: 10, text: "My partner is healthy.", type: "text", category: "health" },
+          { id: 11, text: "We go out to eat once a week.", type: "text", category: "lifestyle" },
         ]);
+        setShownVisionCards([...exampleCards]);
       }
     }
 
@@ -162,6 +167,21 @@ function VisionBuilder(props) {
       props.navigation.navigate("VisionCustomizer", {selectedCards});
     }
 
+    function clickChip(category) {
+      setCategory(category);
+      if(category === 'all') {
+        setShownVisionCards(exampleCards);
+      } else if(category === 'lifestyle') {
+        setShownVisionCards(exampleCards.filter(card => { return card.category === 'lifestyle' }));
+      } else if(category === 'qualities') {
+        setShownVisionCards(exampleCards.filter(card => { return card.category === 'qualities' }));
+      } else if(category === 'career') {
+        setShownVisionCards(exampleCards.filter(card => { return card.category === 'career' }));
+      } else if(category === 'health') {
+        setShownVisionCards(exampleCards.filter(card => { return card.category === 'health' }));
+      }
+    }
+
     return (
       <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
         <View style={[Styles.customHeader, {marginBottom: 30}]}>
@@ -190,19 +210,24 @@ function VisionBuilder(props) {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               style={[Styles.displayFlex, Styles.chipsContainer]}>
-                <Pressable style={Styles.chip}>
+                <Pressable style={[Styles.chip, category === 'all' ? Styles.selectedChip : null]}
+                    onPress={() => clickChip('all')}>
                   <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>all</Text>
                 </Pressable>
-                <Pressable style={Styles.chip}>
+                <Pressable style={[Styles.chip, category === 'lifestyle' ? Styles.selectedChip : null]}
+                    onPress={() => clickChip('lifestyle')}>
                   <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>lifestyle</Text>
                 </Pressable>
-                <Pressable style={Styles.chip}>
+                <Pressable style={[Styles.chip, category === 'qualities' ? Styles.selectedChip : null]}
+                    onPress={() => clickChip('qualities')}>
                   <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>qualities</Text>
                 </Pressable>
-                <Pressable style={Styles.chip}>
+                <Pressable style={[Styles.chip, category === 'career' ? Styles.selectedChip : null]}
+                    onPress={() => clickChip('career')}>
                   <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>career</Text>
                 </Pressable>
-                <Pressable style={Styles.chip}>
+                <Pressable style={[Styles.chip, category === 'health' ? Styles.selectedChip : null]}
+                    onPress={() => clickChip('health')}>
                   <Text style={[Styles.chipText, {fontFamily: 'Poppins_600SemiBold'}]}>health</Text>
                 </Pressable>
             </ScrollView>
@@ -216,7 +241,7 @@ function VisionBuilder(props) {
               /> */}
 
             <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
-              {exampleCards.map(card => 
+              {shownVisionCards.map(card => 
                 <Card
                   key={card.id}
                   card={card}
