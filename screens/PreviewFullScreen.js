@@ -40,7 +40,7 @@ function Swipe(props) {
     },
     card: {
       position: 'absolute',
-      backgroundColor: '#F2EDE4',
+      backgroundColor: '#2E2F36',
       width: '100%',
       maxWidth: 300,
       height: 400,

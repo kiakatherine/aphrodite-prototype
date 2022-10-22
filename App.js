@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AppLoading from 'expo-app-loading';
 
 // navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -26,7 +27,22 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import {app, auth, db, storage } from './firebase.js';
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
+
 function App(props) {
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  })
+
   const [noCards, setNoCards] = useState(true);
   const [cards, setCards] = useState([]);
   const isLoggedIn = auth.currentUser ? true : false;
@@ -89,6 +105,16 @@ function App(props) {
     return (
       <Tab.Navigator
           screenOptions={({ route }) => ({
+              tabBarLabelStyle: {
+                fontFamily: 'Poppins_500Medium',
+                fontSize: 14
+              },
+              tabBarStyle: {
+                height: 90,
+                paddingBottom: 25,
+                paddingTop: 10,
+                borderTopColor: '#C3C4CE'
+              },
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
             
@@ -103,7 +129,7 @@ function App(props) {
                 }
             
                 // You can return any component that you like here!
-                return <Ionicons name={iconName} size={size} color={color} />;
+                return <Ionicons name={iconName} size={28} color={color} />;
               },
               tabBarActiveTintColor: '#000',
               tabBarInactiveTintColor: '#aaa',
@@ -132,35 +158,39 @@ function App(props) {
     }
   }
 
-  return (
-    <>      
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={getInitialRoute()}>
-          <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
-          <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-            {props => <PhoneNumberScreen {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <>      
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName={getInitialRoute()}>
+            <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
+            <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+              {props => <PhoneNumberScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
 
-          <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-            {props => <VisionBuilderScreen {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
-            {props => <VisionCustomizerScreen {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="PreviewTiles" options={{ headerShown: false }}>
-            {props => <PreviewTiles {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
-            {props => <PreviewFullScreen {...props} />}
-          </Stack.Screen>
-          <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-  );
-};
+            <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
+              {props => <VisionBuilderScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
+              {props => <VisionCustomizerScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="PreviewTiles" options={{ headerShown: false }}>
+              {props => <PreviewTiles {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
+              {props => <PreviewFullScreen {...props} />}
+            </Stack.Screen>
+            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
+    )
+  }
+}
 
 export default App;

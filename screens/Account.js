@@ -90,7 +90,7 @@ function AccountScreen(props) {
           props.navigation.navigate('SignIn', {previousScreen: 'Account'});
         });
     }).catch((error) => {
-      debugger
+      alert(error)
     });
   }
 

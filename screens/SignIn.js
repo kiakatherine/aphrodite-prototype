@@ -66,23 +66,23 @@ function SignIn(props) {
                     style={[Styles.button, Styles.modalBottomButton]}
                     disabled={!phoneNumber}
                     onPress={async () => {
-                    // The FirebaseRecaptchaVerifierModal ref implements the
-                    // FirebaseAuthApplicationVerifier interface and can be
-                    // passed directly to `verifyPhoneNumber`.
-                    try {
-                        const phoneProvider = new PhoneAuthProvider(auth);
-                        const verificationId = await phoneProvider.verifyPhoneNumber(
-                        phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
-                        recaptchaVerifier.current
-                        );
-                        setVerificationId(verificationId);
-                        showMessage({
-                        text: 'Verification code sent to your phone.',
-                        });
-                        setView('verify');
-                    } catch (err) {
-                        showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                    }
+                        // The FirebaseRecaptchaVerifierModal ref implements the
+                        // FirebaseAuthApplicationVerifier interface and can be
+                        // passed directly to `verifyPhoneNumber`.
+                        try {
+                            const phoneProvider = new PhoneAuthProvider(auth);
+                            const verificationId = await phoneProvider.verifyPhoneNumber(
+                            phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
+                            recaptchaVerifier.current
+                            );
+                            setVerificationId(verificationId);
+                            showMessage({
+                            text: 'Verification code sent to your phone.',
+                            });
+                            setView('verify');
+                        } catch (err) {
+                            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                        }
                     }}>
                     <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Send verification code</Text>
                 </Pressable>
@@ -108,9 +108,7 @@ function SignIn(props) {
                             const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                             let userData = await signInWithCredential(auth, credential);
                             showMessage({ text: 'Phone authentication successful 👍' });
-                            if(previousScreen === 'Account') {
-                                props.navigation.navigate('Account', {auth, credential});
-                            }
+                            debugger
                             props.navigation.navigate('Dashboard');
                         } catch (err) {
                             showMessage({ text: `Error: ${err.message}`, color: 'red' });
