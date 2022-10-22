@@ -101,7 +101,7 @@ function AccountScreen(props) {
 
       {!isModalVisible && (
         <View style={[Styles.containerPadding, , Styles.lightBackground, {marginTop: 20}]}>
-          <Text style={[Styles.heading1, {fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
+          <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
@@ -172,11 +172,11 @@ function AccountScreen(props) {
                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Logout</Text>
           </Pressable>
 
-          <Pressable
+          {/* <Pressable
             style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
             onPress={() => deleteAccount()}>
               <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_400Regular'}]}>Delete account</Text>
-          </Pressable>
+          </Pressable> */}
         </View>
     )}
 
