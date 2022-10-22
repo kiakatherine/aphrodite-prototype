@@ -79,11 +79,13 @@ function PreviewTiles(props) {
                         <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                 </Pressable>
 
-                {(previousScreen === 'Dashboard' || previousScreen === 'PreviewFullScreen') && <Pressable
-                    style={[Styles.buttonLink]}
-                    onPress={() => props.navigation.navigate("VisionCustomizer")}>
-                        <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
-                </Pressable>}
+                {/* {(previousScreen === 'Dashboard' || previousScreen === 'PreviewFullScreen') &&  */}
+                    <Pressable
+                        style={[Styles.buttonLink]}
+                        onPress={() => props.navigation.navigate("VisionCustomizer")}>
+                            <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
+                    </Pressable>
+                {/* } */}
 
                 {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length === 0) && <Pressable
                     style={[Styles.buttonWhite, Styles.buttonSmall]}
@@ -91,11 +93,13 @@ function PreviewTiles(props) {
                         <Text style={Styles.buttonWhiteText}>Create</Text>
                 </Pressable>}
 
-                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length > 0) && <Pressable
-                    style={[Styles.buttonWhite, Styles.buttonSmall]}
-                    onPress={() => props.navigation.navigate("Sending")}>
-                        <Text style={[Styles.buttonWhiteText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
-                </Pressable>}
+                {/* {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length > 0) &&
+                    <Pressable
+                        style={[Styles.buttonWhite, Styles.buttonSmall]}
+                        onPress={() => props.navigation.navigate("Sending")}>
+                            <Text style={[Styles.buttonWhiteText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
+                    </Pressable>
+                } */}
             </View>
             
             <View style={Styles.containerPadding}>
@@ -108,10 +112,11 @@ function PreviewTiles(props) {
                 </Pressable>} */}
 
                 <ScrollView style={{height: '86%'}} showsVerticalScrollIndicator={false}>
-                    {previousScreen === 'VisionViewCustomizer' &&
-                        <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>}
+                    {/* {previousScreen === 'VisionViewCustomizer' &&
+                        <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>} */}
 
-                    <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold', marginBottom: 25}]}>Relationship Vision</Text>
+                <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+                <Text style={[Styles.heading2, Styles.textAlignCenter, Styles.textWhite, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
 
                     {cards.length === 0 &&
                         <Pressable

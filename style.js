@@ -22,9 +22,9 @@ module.exports = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center', // vertically centers content
       borderBottomWidth: 1,
-      borderBottomColor: '#C3C4CE',
-      paddingLeft: 10,
-      paddingRight: 10,
+      borderBottomColor: '#70727E',
+      paddingLeft: 20,
+      paddingRight: 20,
       paddingTop: 20,
       paddingBottom: 20
     },
@@ -57,6 +57,7 @@ module.exports = StyleSheet.create({
     },
     heading2: {
       color: '#2E2F36',
+      opacity: 0.7,
       fontSize: 18,
       marginBottom: 40,
     },
@@ -64,7 +65,7 @@ module.exports = StyleSheet.create({
       color: '#2E2F36',
       textTransform: 'uppercase',
       letterSpacing: 3,
-      fontSize: 14,
+      fontSize: 16,
       marginBottom: 10
     },
     inner: {

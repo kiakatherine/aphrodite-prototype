@@ -84,9 +84,7 @@ function Swipe(props) {
     const currCardIndex = shownVisionCards.indexOf(card);
     if (currCardIndex !== -1) {
         shownVisionCards.splice(currCardIndex, 1);
-        // debugger
         setShownVisionCards(shownVisionCards);
-        console.log('MY VISION CARDS', shownVisionCards.length)
         if(shownVisionCards.length === 0) {
             props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
         }
@@ -112,7 +110,7 @@ function Swipe(props) {
         <View style={[styles.cardContainer]}>
             {shownVisionCards.map((card) =>
                 <TinderCard key={card.name} onSwipe={(dir) => swiped(dir, card)} onCardLeftScreen={() => outOfFrame(card.name)}>
-                    <View style={[styles.card, Styles.darkCard]}>
+                    <View style={styles.card}>
                         {card.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{card.text}</Text>}
                         {!card.text && <Image source={{ uri: card.uri }} style={{ width: 200, height: 200 }} />}
                     </View>

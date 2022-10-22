@@ -158,6 +158,12 @@ function App(props) {
     }
   }
 
+  const forFade = ({ current }) => ({
+    cardStyle: {
+      opacity: current.progress,
+    },
+  });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -176,16 +182,16 @@ function App(props) {
             <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
               {props => <VisionBuilderScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="VisionCustomizer" options={{ headerShown: false }}>
+            <Stack.Screen name="VisionCustomizer" options={{ headerShown: false, animation: 'none' }}>
               {props => <VisionCustomizerScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="PreviewTiles" options={{ headerShown: false }}>
+            <Stack.Screen name="PreviewTiles" options={{ headerShown: false, animation: 'fade' }}>
               {props => <PreviewTiles {...props} />}
             </Stack.Screen>
             <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
               {props => <PreviewFullScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'none' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </>

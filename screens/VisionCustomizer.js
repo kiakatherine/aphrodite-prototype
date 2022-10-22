@@ -171,7 +171,7 @@ function VisionCustomizer({ navigation }) {
           <Pressable
             style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
             onPress={() => refRBSheet.current.open()}>
-              <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
+              <Text style={{ color: '#4F505A' }}><Ionicons name='add' size={44} /></Text>
           </Pressable>
           {myVisionCards.map(card => 
             <RemovableCard card={card} onCardPress={card => clickCardToEdit(card)} onRemoveCard={card => confirmRemovableCardPress(card)}></RemovableCard>)}
@@ -202,14 +202,14 @@ function VisionCustomizer({ navigation }) {
             <Pressable
                 style={[Styles.textAlignRight, Styles.flexOne]}
                 onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}>
-                    <Ionicons name='arrow-back-outline' size={24} />
+                    <Ionicons name='close-outline' size={32} />
             </Pressable>
 
             <Pressable
                 style={[Styles.button, Styles.buttonSmall]}
                 disabled={myVisionCards.length === 0}
-                onPress={() => navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'})}>
-                  <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>
+                onPress={() => navigation.navigate("Sending")}>
+                  <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
             </Pressable>
           </View>
 
@@ -217,7 +217,8 @@ function VisionCustomizer({ navigation }) {
             <ScrollView
               style={{height: '90%'}}
               showsVerticalScrollIndicator={false}>
-                <Text style={[Styles.heading1, {marginBottom: 30, fontFamily: 'Poppins_600SemiBold'}]}>My vision</Text>
+                <Text style={[Styles.heading1, Styles.textAlignCenter, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+                <Text style={[Styles.heading2, Styles.textAlignCenter, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
                 {/* <Text>{alertMessage}</Text> */}
                 <View style={Styles.twoColumnLayout}>
                   <ListItems selectedCards={myVisionCards} />
