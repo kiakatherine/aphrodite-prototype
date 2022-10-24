@@ -194,14 +194,14 @@ function VisionCustomizer({ navigation }) {
   return (
     <View style={[Styles.containerWithoutHeader, Styles.lightBackground, {flex: 1}]}>
       {isModalVisible &&
-        <AddTextModal card={selectedCard} value={selectedCard.text} onSave={handleSaveText} onCancel={handleCancel} />}
+        <AddTextModal card={selectedCard ? selectedCard : null} value={selectedCard ? selectedCard.text : null} onSave={handleSaveText} onCancel={handleCancel} />}
       
       {!isModalVisible &&
         <>
-          <View style={[Styles.customHeader, {marginBottom: 30}]}>
+          <View style={[Styles.customHeader, {borderBottomColor: '#C3C4CE', marginBottom: 30}]}>
             <Pressable
                 style={[Styles.textAlignRight, Styles.flexOne]}
-                onPress={() => navigation.navigate('VisionBuilder', {myVisionCards})}>
+                onPress={() => navigation.goBack()}>
                     <Ionicons name='close-outline' size={32} />
             </Pressable>
 
@@ -217,10 +217,10 @@ function VisionCustomizer({ navigation }) {
             <ScrollView
               style={{height: '90%'}}
               showsVerticalScrollIndicator={false}>
-                <Text style={[Styles.heading1, Styles.textAlignCenter, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
-                <Text style={[Styles.heading2, Styles.textAlignCenter, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
+                {/* <Text style={[Styles.heading1, Styles.textAlignCenter, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+                <Text style={[Styles.heading2, Styles.textAlignCenter, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text> */}
                 {/* <Text>{alertMessage}</Text> */}
-                <View style={Styles.twoColumnLayout}>
+                <View style={[Styles.twoColumnLayout, {marginTop: 10}]}>
                   <ListItems selectedCards={myVisionCards} />
                 </View>
             </ScrollView>
@@ -228,7 +228,8 @@ function VisionCustomizer({ navigation }) {
             <RBSheet
               ref={refRBSheet}
               closeOnDragDown={true}
-              closeOnPressMask={false}
+              closeOnPressMask={true}
+              height={295}
               customStyles={{
                 wrapper: {
                   backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -251,7 +252,7 @@ function VisionCustomizer({ navigation }) {
                   
                   <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
 
-                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={clickExamples}><Ionicons name='search' size={20} />  Examples</Text>
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={clickExamples}><Ionicons name='search' size={20} />  Library</Text>
                 </View>
               </RBSheet>
           </View>

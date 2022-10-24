@@ -22,24 +22,25 @@ function AddTextModal(props) {
     const [newText, onChangeText] = useState(props.value);
 
     return (
-        <View style={Styles.fullScreen}>
+        <View style={[Styles.fullScreen, {height: '59%'}]}>
             <Pressable
                 style={Styles.topRightCloseButton}
                 onPress={() => props.onCancel()}>
-                    <Ionicons name="close-outline" size={48}></Ionicons>
+                    <Ionicons name="close-outline" size={40}></Ionicons>
             </Pressable>
 
             <TextInput
                 style={[Styles.modalTextInput, {fontFamily: 'Poppins_600SemiBold'}]}
                 placeholder="Type here"
                 multiline={true}
+                autoFocus={true}
                 value={newText}
                 onChangeText={onChangeText} />
 
             <Pressable
-                style={Styles.modalBottomButton}
+                style={[Styles.modalBottomButton, {position: 'absolute', bottom: 0, right: 0, left: 0}]}
                 onPress={() => props.onSave(props.card, newText)}>
-                    <Text style={[Styles.buttonText, {fontFamily: 'Poppins_500Medium'}]}>Save</Text>
+                    <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
             </Pressable>
         </View>
     );

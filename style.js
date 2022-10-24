@@ -207,7 +207,7 @@ module.exports = StyleSheet.create({
     },
     modalBottomButton: {
       backgroundColor: '#2E2F36',
-      padding: 20,
+      padding: 25,
       borderRadius: 0,
       marginLeft: -30,
       marginRight: -30,
