@@ -191,7 +191,7 @@ function App(props) {
             <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
               {props => <PreviewFullScreen {...props} />}
             </Stack.Screen>
-            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'none' }} />
+            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'fade' }} />
           </Stack.Navigator>
         </NavigationContainer>
       </>

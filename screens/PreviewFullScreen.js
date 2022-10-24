@@ -81,14 +81,31 @@ function Swipe(props) {
     //     return card.type === 'text' ? card.text == visionCard.text : card.uri == visionCard.uri
     // })
 
-    const currCardIndex = shownVisionCards.indexOf(card);
+    const currCardIndex = myVisionCards.indexOf(card);
     if (currCardIndex !== -1) {
         shownVisionCards.splice(currCardIndex, 1);
         setShownVisionCards(shownVisionCards);
+
+        if(direction === 'left') {
+            if(currCardIndex < myVisionCards.length - 1) {
+                setCurrentCard(myVisionCards[(currCardIndex + 1 < myVisionCards.length + 1) ? (currCardIndex + 1) : myVisionCards.length]);
+            } else {
+                props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
+            }
+        } else if(direction === 'right') {
+            if(currCardIndex > 0) {
+                setCurrentCard(myVisionCards[(currCardIndex - 1 > -1) ? (currCardIndex - 1) : 0]);
+            } else {
+                props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
+            }
+        }
+
         if(shownVisionCards.length === 0) {
             props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
         }
-      }
+    } else {
+        props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
+    }
 
     if(direction === 'down') {
         props.navigation.navigate('PreviewTiles', {previousScreen: 'PreviewFullScreen'})
@@ -109,10 +126,16 @@ function Swipe(props) {
 
         <View style={[styles.cardContainer]}>
             {shownVisionCards.map((card) =>
-                <TinderCard key={card.name} onSwipe={(dir) => swiped(dir, card)} onCardLeftScreen={() => outOfFrame(card.name)}>
+                <TinderCard
+                    key={currentCard.id}
+                    onSwipe={(dir) => swiped(dir, currentCard)}
+                    onCardLeftScreen={() => outOfFrame(currentCard.name)}
+                    swipeRequirementType='position'
+                    swipeThreshold={1}
+                    preventSwipe={['up', 'down']}>
                     <View style={styles.card}>
-                        {card.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{card.text}</Text>}
-                        {!card.text && <Image source={{ uri: card.uri }} style={{ width: 200, height: 200 }} />}
+                        {currentCard.text && <Text style={[Styles.PreviewFullScreenCardText, {fontFamily: 'Poppins_500Medium'}]}>{currentCard.text}</Text>}
+                        {!currentCard.text && <Image source={{ uri: currentCard.uri }} style={{ width: 200, height: 200 }} />}
                     </View>
                 </TinderCard>
             )}
