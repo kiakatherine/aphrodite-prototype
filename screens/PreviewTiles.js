@@ -102,9 +102,7 @@ function PreviewTiles(props) {
                 } */}
             </View>
             
-            <View style={Styles.containerPadding}>
-                
-                
+            <View style={{paddingLeft: 25, paddingRight: 25}}>
                 {/* {cards.length > 0 &&  <Pressable
                     style={[Styles.buttonOutline, {marginBottom: 40}]}
                     onPress={() => props.navigation.navigate("PreviewFullScreen")}>
@@ -115,8 +113,10 @@ function PreviewTiles(props) {
                     {/* {previousScreen === 'VisionViewCustomizer' &&
                         <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>} */}
 
-                <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
-                <Text style={[Styles.heading2, Styles.textAlignCenter, Styles.textWhite, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
+                    <View>
+                        <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
+                        <Text style={[Styles.heading2, Styles.textAlignCenter, Styles.textWhite, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
+                    </View>
 
                     {cards.length === 0 &&
                         <Pressable
@@ -125,7 +125,7 @@ function PreviewTiles(props) {
                                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='add' size={18} /> Add cards</Text>
                         </Pressable>}
                     
-                    <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={[Styles.twoColumnLayout, {justifyContent: 'space-between'}]} showsVerticalScrollIndicator={false}>
                         {cards.length > 0 &&
                             cards.map(card => <Card key={card.id} card={card} darkTheme={true} onCardPress={clickCard} />)}
                     </ScrollView>

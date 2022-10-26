@@ -232,12 +232,12 @@ module.exports = StyleSheet.create({
       borderBottomWidth: 2
     },
     Card: {
-        width: '43%',
+        width: '47%',
         alignItems: 'center',
         justifyContent: 'space-around', // vertically centers content
         height: 215,
         marginBottom: 20,
-        marginRight: 20,
+        // marginRight: 20,
         padding: 25,
         backgroundColor: '#F2EDE4',
         borderWidth: 3,
@@ -259,7 +259,11 @@ module.exports = StyleSheet.create({
       },
       darkCard: {
         backgroundColor: '#4F505A',
-        borderWidth: 0
+        borderWidth: 0,
+        // borderRadius: 20,
+        // marginBottom: 0,
+        // marginRight: 0,
+        // borderColor: '#2E2F36'
       },
       DashboardVisionView: {
         margin: 20,

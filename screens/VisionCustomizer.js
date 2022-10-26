@@ -220,9 +220,9 @@ function VisionCustomizer({ navigation }) {
                 {/* <Text style={[Styles.heading1, Styles.textAlignCenter, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
                 <Text style={[Styles.heading2, Styles.textAlignCenter, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text> */}
                 {/* <Text>{alertMessage}</Text> */}
-                <View style={[Styles.twoColumnLayout, {marginTop: 10}]}>
+                <ScrollView contentContainerStyle={[Styles.twoColumnLayout, {justifyContent: 'space-between', marginTop: 10}]}>
                   <ListItems selectedCards={myVisionCards} />
-                </View>
+                </ScrollView>
             </ScrollView>
 
             <RBSheet

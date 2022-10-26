@@ -237,7 +237,7 @@ function VisionBuilder(props) {
               showsVerticalScrollIndicator={false}
               /> */}
 
-            <ScrollView contentContainerStyle={Styles.twoColumnLayout} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={[Styles.twoColumnLayout, {justifyContent: 'space-between'}]} showsVerticalScrollIndicator={false}>
               {shownVisionCards.map(card => 
                 <Card
                   key={card.id}
