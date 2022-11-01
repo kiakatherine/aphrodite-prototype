@@ -128,6 +128,11 @@ function NewUser(props) {
                                 placeholder="MM"
                                 value={birthdayMonth}
                                 maxLength={2}
+                                onBlur={() => {
+                                    if(birthdayMonth.length === 1) {
+                                        onChangeBirthdayMonth('0' + birthdayMonth);
+                                    }
+                                }}
                                 onChangeText={(text) => {
                                     onChangeBirthdayMonth(text);
                                 }}/>
@@ -137,6 +142,11 @@ function NewUser(props) {
                                 placeholder="DD"
                                 maxLength={2}
                                 value={birthdayDay}
+                                onBlur={() => {
+                                    if(birthdayDay.length === 1) {
+                                        onChangeBirthdayDay('0' + birthdayDay);
+                                    }
+                                }}
                                 onChangeText={(text) => {
                                     onChangeBirthdayDay(text);
                                 }}/>
@@ -167,6 +177,9 @@ function NewUser(props) {
                             onChangeText={(text) => {
                                 onChangeEmail(text);
                             }} />
+
+                        <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>We promise we won't spam you.</Text>
+
                         <Pressable
                             style={[Styles.button, Styles.modalBottomButton, (!email) ? Styles.buttonDisabled : null]}
                             onPress={handleNextClick}>

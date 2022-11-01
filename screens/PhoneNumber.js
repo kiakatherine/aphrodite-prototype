@@ -18,7 +18,7 @@ import ProgressBar from '../components/ProgressBar.js';
 function PhoneNumber(props) {    
     // Ref or state management hooks
     const recaptchaVerifier = useRef(null);
-    const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : false);
+    const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : true);
     const [phoneNumber, setPhoneNumber] = useState(props.route.params ? props.route.params.phoneNumber : null);
     const [verificationId, setVerificationId] = useState();
     const [verificationCode, setVerificationCode] = useState();
@@ -26,14 +26,13 @@ function PhoneNumber(props) {
     const [currentStep, setCurrentStep] = useState(props.route.params ? props.route.params.currentStep : 1);
     const attemptInvisibleVerification = false;
 
-    const userRef = ref(db, 'users/' + auth.currentUser.uid);
-
     function removePhoneFormatting(input) {
       const cleanNumber = input.replace('+1', '');
       return cleanNumber.replace('-', '');
     }
 
     function handleSavePhoneNumber() {
+      const userRef = ref(db, 'users/' + auth.currentUser.uid);
       update(userRef, {phoneNumber: '+1' + phoneNumber});
       props.navigation.navigate('Account');
     }
@@ -72,7 +71,7 @@ function PhoneNumber(props) {
                   </Pressable>}
             </View>}
 
-            <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 170}]}>
+            <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 165}]}>
               <View>
                 {currentStep === 1 &&
                   <><FirebaseRecaptchaVerifierModal
@@ -87,7 +86,7 @@ function PhoneNumber(props) {
                     <TextInput
                       style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
                       autoFocus={true}
-                      value={removePhoneFormatting(phoneNumber)}
+                      value={isNewUser ? phoneNumber : removePhoneFormatting(phoneNumber)}
                       keyboardType='numeric'
                       textContentType="telephoneNumber"
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
