@@ -51,6 +51,7 @@ function NewUser(props) {
             birthdayDay,
             birthdayYear,
             email,
+            phoneNumber,
             pronouns,
             identity
         };

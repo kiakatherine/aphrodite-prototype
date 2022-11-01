@@ -3,7 +3,7 @@ import { Pressable, SafeAreaView, Text, View } from 'react-native';
 import Styles from "../style.js";
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AddTextModal from '../components/AddTextModal.js';
+import EditProfile from '../components/EditProfile.js';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, deleteUser, reauthenticateWithCredential, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 import {app, auth, db, storage } from '../firebase.js';
@@ -33,6 +33,7 @@ function AccountScreen(props) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentField, setCurrentField] = useState(null);
+  const [currentFieldKey, setCurrentFieldKey] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
 
   useEffect(() => {
@@ -47,24 +48,58 @@ function AccountScreen(props) {
     return () => { isMounted = false };
   }, [])
 
+  function makeFieldKey(field) {
+    if(field === 'first name') {
+      return 'firstName';
+    } else if(field === 'last name') {
+      return 'lastName';
+    } else if(field === 'email') {
+      return 'email';
+    } else if(field === 'phone number') {
+      return 'phoneNumber';
+    } else if(field === 'birthday') {
+      // to do
+    } else if(field === 'pronouns') {
+      return 'pronouns';
+    } else if(field === 'identity') {
+      return 'identity';
+    }
+  }
+
   function handleEditClick(field, fieldData) {
-    // FIX FOR BIRTHDAY
     setCurrentField(field);
     setCurrentVal(fieldData);
     setIsModalVisible(true);
+
+    if(field === 'birthday') {
+      setCurrentFieldKey(['birthdayMonth', 'birthdayDay', 'birthdayYear']);
+    } else {
+      setCurrentFieldKey(makeFieldKey(field));
+    }
   }
 
   function handleSaveText(text) {
-    update(userRef, {
-      [currentField]: text
-    });
+    if(currentField === 'birthday') {
+      update(userRef, {
+        'birthdayMonth': text[0],
+        'birthdayDay': text[1],
+        'birthdayYear': text[2]
+      });
+    } else {
+      update(userRef, {
+        [currentFieldKey]: text
+      });
+    }
+
     setCurrentField(null);
+    setCurrentFieldKey(null);
     setCurrentVal(null);
     setIsModalVisible(false);
   }
 
   function handleCancel() {
     setCurrentField(null);
+    setCurrentFieldKey(null);
     setCurrentVal(null);
     setIsModalVisible(false);
   }
@@ -75,39 +110,40 @@ function AccountScreen(props) {
   }
 
   function deleteAccount() {
-    const userRef = ref(db, 'users/' + auth.currentUser.uid);
+    alert('work in progress')
+    // const userRef = ref(db, 'users/' + auth.currentUser.uid);
 
-    // const credential = promptForCredentials();
-    reauthenticateWithCredential(auth.currentUser, credential).then(() => {
-      deleteUser(auth.currentUser)
-        .then(() => {
-          remove(userRef);
-          console.log('Successfully deleted user');
-          props.navigation.navigate('Landing');
-        })
-        .catch((error) => {
-          alert('Verify account before deleting')
-          props.navigation.navigate('SignIn', {previousScreen: 'Account'});
-        });
-    }).catch((error) => {
-      alert(error)
-    });
+    // // const credential = promptForCredentials();
+    // reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+    //   deleteUser(auth.currentUser)
+    //     .then(() => {
+    //       remove(userRef);
+    //       console.log('Successfully deleted user');
+    //       props.navigation.navigate('Landing');
+    //     })
+    //     .catch((error) => {
+    //       alert('Verify account before deleting')
+    //       props.navigation.navigate('SignIn', {previousScreen: 'Account'});
+    //     });
+    // }).catch((error) => {
+    //   alert(error)
+    // });
   }
 
   return (<>
     {currentUser && <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
       {isModalVisible &&
-          <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
+          <EditProfile currentField={currentField} currentValue={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 
       {!isModalVisible && (
-        <View style={[Styles.containerPadding, , Styles.lightBackground, {marginTop: 20}]}>
+        <View style={[Styles.containerPadding, Styles.lightBackground]}>
           <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
           <View style={Styles.accountInfoLine}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('firstName', currentUser.firstName)}>
+              onPress={() => handleEditClick('first name', currentUser.firstName)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
@@ -116,7 +152,7 @@ function AccountScreen(props) {
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.lastName}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('lastName', currentUser.lastName)}>
+              onPress={() => handleEditClick('last name', currentUser.lastName)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
@@ -130,20 +166,20 @@ function AccountScreen(props) {
               </Pressable>
           </View>
 
-          {/* <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{phone}</Text>
+          <View style={Styles.accountInfoLine}>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.phoneNumber}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('phone', phone)}>
+              onPress={() => handleEditClick('phone number', currentUser.phoneNumber)}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
-          </View> */}
+          </View>
 
           <View style={Styles.accountInfoLine}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.birthdayMonth} / {currentUser.birthdayDay} / {currentUser.birthdayYear}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('birthday', currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear)}>
+              onPress={() => handleEditClick('birthday', [currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear])}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>
@@ -172,11 +208,11 @@ function AccountScreen(props) {
                 <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Logout</Text>
           </Pressable>
 
-          {/* <Pressable
+          <Pressable
             style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
             onPress={() => deleteAccount()}>
               <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_400Regular'}]}>Delete account</Text>
-          </Pressable> */}
+          </Pressable>
         </View>
     )}
 

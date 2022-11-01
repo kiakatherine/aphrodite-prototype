@@ -363,8 +363,8 @@ module.exports = StyleSheet.create({
       accountInfoLine: {
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 25,
-        paddingBottom: 25,
+        paddingTop: 17,
+        paddingBottom: 17,
         borderBottomWidth: 1,
         borderBottomColor: '#C3C4CE'
       },
