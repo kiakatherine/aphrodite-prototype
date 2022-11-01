@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Styles from "../style.js";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -53,9 +53,10 @@ function PhoneNumber(props) {
                   />
                   <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
                   <View style={{position: 'relative'}}>
-                    <Text style={[{fontSize: 26, position: 'absolute', bottom: 45, fontFamily: 'Poppins_500Medium'}]}>+1</Text>
+                    <Image source={require('../assets/images/flag_emoji.jpg')} style={{width: 20, height: 15, position: 'absolute', bottom: 57}} />
+                    <Text style={[{fontSize: 26, position: 'absolute', left: 30, bottom: 45, fontFamily: 'Poppins_500Medium'}]}> +1</Text>
                     <TextInput
-                      style={[Styles.textInput, {paddingLeft: 40, fontFamily: 'Poppins_500Medium'}]}
+                      style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
                       autoFocus={true}
                       value={phoneNumber}
                       autoCompleteType="tel"
