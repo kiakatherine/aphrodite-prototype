@@ -11,7 +11,8 @@ module.exports = StyleSheet.create({
     },
     containerPadding: {
       padding: 30,
-      paddingTop: 0
+      // paddingTop: 0,
+      paddingTop: 45
     },
     containerWithoutHeader: {
       paddingTop: 35,
@@ -68,6 +69,13 @@ module.exports = StyleSheet.create({
       fontSize: 16,
       marginBottom: 10
     },
+    inputLabel: {
+      color: '#2E2F36',
+      textTransform: 'uppercase',
+      letterSpacing: 2,
+      fontSize: 16,
+      marginBottom: 15
+    },
     inner: {
       padding: 24,
       flex: 1
@@ -99,12 +107,13 @@ module.exports = StyleSheet.create({
         fontSize: 18,
         marginBottom: 40
     },
+    paragraph: {
+      marginBottom: 20
+    },
     textWhite: {
       color: 'white'
     },
     message: {
-      textAlign: 'center',
-      // marginTop: 25,
       marginBottom: 25,
       fontSize: 16
     },
@@ -126,7 +135,7 @@ module.exports = StyleSheet.create({
     },
     button: {
         backgroundColor: '#2E2F36',
-        padding: 23,
+        padding: 25,
         borderRadius: 100
     },
     buttonText: {
@@ -142,6 +151,9 @@ module.exports = StyleSheet.create({
         padding: 23,
         borderRadius: 100,
         marginBottom: 12
+    },
+    buttonInvertedSelected: {
+      backgroundColor: '#F2EDE4'
     },
     buttonInvertedText: {
       color: '#2E2F36',
@@ -294,6 +306,20 @@ module.exports = StyleSheet.create({
         lineHeight: 44,
         textAlign: 'center',
         color: 'white'
+      },
+      ProgressBar: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        height: 5,
+        backgroundColor: 'black'
+      },
+      ProgressBarStep: {
+        flex: 1,
+        height: 5
+      },
+      ProgressBarStepIncomplete: {
+        backgroundColor: '#EDEDED'
       },
       progressDotBar: {
         display: 'flex',

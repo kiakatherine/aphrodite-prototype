@@ -173,7 +173,7 @@ function App(props) {
           <Stack.Navigator initialRouteName={getInitialRoute()}>
             <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
-            <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+            <Stack.Screen name="PhoneNumber" options={{ headerShown: false, animation: 'none' }}>
               {props => <PhoneNumberScreen {...props} />}
             </Stack.Screen>
             <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />

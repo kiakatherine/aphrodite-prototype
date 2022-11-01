@@ -122,6 +122,7 @@ function VisionCustomizer({ navigation }) {
 
   function handleCancel() {
     setIsModalVisible(false);
+    setSelectedCard(null);
   }
 
   function handleSaveText(card, newInput) {

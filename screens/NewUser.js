@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
-import { getDatabase, ref, update } from 'firebase/database';
+import { getDatabase, ref, set, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getAuth } from 'firebase/auth';
 import { getApp } from 'firebase/app';
 import {app, auth, db, storage } from '../firebase.js';
+import ProgressBar from '../components/ProgressBar.js';
 
 function NewUser(props) {
-    const [screen, setScreen] = useState('FirstName');
+    // const [screen, setScreen] = useState('FirstName');
     const [firstName, onChangeFirstName] = useState(null);
     const [lastName, onChangeLastName] = useState(null);
     const [birthdayMonth, onChangeBirthdayMonth] = useState(null);
@@ -17,33 +18,28 @@ function NewUser(props) {
     const [email, onChangeEmail] = useState(null);
     const [pronouns, onChangePronouns] = useState(null);
     const [identity, onChangeIdentity] = useState(null);
+    const [currentStep, setCurrentStep] = useState(3);
 
     function handleNextClick() {
-        if(screen == 'FirstName') {
-            if(firstName && firstName.length) {
-                setScreen('LastName');
-            }
-        } else if(screen == 'LastName') {
-            if(lastName && lastName.length) {
-                setScreen('Birthday');
-            }
-        } else if(screen == 'Birthday') {
-            if(birthdayMonth && birthdayDay && birthdayYear) {
-                setScreen('Email');
-            }
-        } else if(screen == 'Email') {
+        if(currentStep === 6) {
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
             if(reg.test(email) === false) {
                 onChangeEmail(email);
                 return false;
             } else {
                 onChangeEmail(email);
-                setScreen('Pronouns');
+                setCurrentStep(7);
             }
-        } else if(screen == 'Pronouns') {
-            setScreen('Identity');
-        } else if(screen == 'Identity') {
-            setScreen('Terms');
+        } else {
+            setCurrentStep(currentStep + 1);
+        }
+    }
+
+    function handleBackClick() {
+        if(currentStep === 3) {
+            props.navigation.navigate('PhoneNumber', {currentStep: 2});
+        } else {
+            setCurrentStep(currentStep - 1);
         }
     }
     
@@ -68,214 +64,218 @@ function NewUser(props) {
     }
 
     return (
-        <View style={[Styles.centerContainer, Styles.fullScreen, {paddingBottom: 40}]}>
-            <Pressable
-                style={Styles.topRightCloseButton}
-                onPress={() => props.navigation.navigate('Landing')}>
-                  <Ionicons name="close-outline" size={48}></Ionicons>
-            </Pressable>
+        <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
+            <View style={[Styles.customHeader, {borderBottomWidth: 0}]}>
+                <Pressable
+                    style={[Styles.textAlignRight, Styles.flexOne]}
+                    onPress={handleBackClick}>
+                        <Ionicons name='arrow-back-outline' size={24} />
+                </Pressable>
 
-            {screen === 'FirstName' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>First name</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        autoFocus={true}
-                        onChangeText={(text) => {
-                            onChangeFirstName(text);
-                        }} />
-                    <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={handleNextClick}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </View>}
-            
-            {screen === 'LastName' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>Last name</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        autoFocus={true}
-                        onChangeText={(text) => {
-                            onChangeLastName(text);
-                        }} />
-                    <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={handleNextClick}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </View>}
-            
-            {screen === 'Birthday' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>Birthday</Text>
-                    <View style={Styles.displayFlex}>
+                <Pressable
+                    onPress={() => props.navigation.navigate('Landing')}>
+                        <Ionicons name="close-outline" size={32}></Ionicons>
+                </Pressable>
+            </View>
+
+            <ProgressBar currentStep={currentStep} />
+                
+            <View style={[currentStep > 6 ? Styles.containerPadding : Styles.centerContainer, {paddingBottom: currentStep === 9 ? 100 : 155}]}>
+
+                {currentStep === 3 &&
+                    <View>
+                        <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>First name</Text>
                         <TextInput
-                            style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
+                            style={Styles.textInput}
                             autoFocus={true}
-                            keyboardType='numeric'
-                            placeholder="MM"
-                            value={birthdayMonth}
-                            maxLength={2}
+                            value={firstName}
                             onChangeText={(text) => {
-                                onChangeBirthdayMonth(text);
-                            }}/>
+                                onChangeFirstName(text);
+                            }} />
+                        <Pressable
+                            style={[Styles.button, Styles.modalBottomButton]}
+                            onPress={handleNextClick}>
+                            <Text style={Styles.buttonText}>Next</Text>
+                        </Pressable>
+                    </View>}
+                
+                {currentStep === 4 &&
+                    <View>
+                        <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>Last name</Text>
                         <TextInput
-                            style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
-                            keyboardType='numeric'
-                            placeholder="DD"
-                            maxLength={2}
-                            value={birthdayDay}
+                            style={Styles.textInput}
+                            autoFocus={true}
+                            value={lastName}
                             onChangeText={(text) => {
-                                onChangeBirthdayDay(text);
-                            }}/>
+                                onChangeLastName(text);
+                            }} />
+                        <Pressable
+                            style={[Styles.button, Styles.modalBottomButton]}
+                            onPress={handleNextClick}>
+                            <Text style={Styles.buttonText}>Next</Text>
+                        </Pressable>
+                    </View>}
+                
+                {currentStep === 5 &&
+                    <View>
+                        <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>Birthday</Text>
+                        <View style={Styles.displayFlex}>
+                            <TextInput
+                                style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
+                                autoFocus={true}
+                                keyboardType='numeric'
+                                placeholder="MM"
+                                value={birthdayMonth}
+                                maxLength={2}
+                                onChangeText={(text) => {
+                                    onChangeBirthdayMonth(text);
+                                }}/>
+                            <TextInput
+                                style={[Styles.textInput, Styles.flexOne, Styles.validationCodeInput]}
+                                keyboardType='numeric'
+                                placeholder="DD"
+                                maxLength={2}
+                                value={birthdayDay}
+                                onChangeText={(text) => {
+                                    onChangeBirthdayDay(text);
+                                }}/>
+                            <TextInput
+                                style={[Styles.textInput, Styles.validationCodeInput, { flex: 2 }]}
+                                keyboardType='numeric'
+                                placeholder="YYYY"
+                                maxLength={4}
+                                value={birthdayYear}
+                                onChangeText={(text) => {
+                                    onChangeBirthdayYear(text);
+                                }}/>
+                        </View>
+                        <Pressable
+                            style={[Styles.button, Styles.modalBottomButton]}
+                            onPress={handleNextClick}>
+                            <Text style={Styles.buttonText}>Next</Text>
+                        </Pressable>
+                    </View>}
+                
+                {currentStep === 6 &&
+                    <View>
+                        <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>Email</Text>
                         <TextInput
-                            style={[Styles.textInput, Styles.validationCodeInput, { flex: 2 }]}
-                            keyboardType='numeric'
-                            placeholder="YYYY"
-                            maxLength={4}
-                            value={birthdayYear}
+                            style={Styles.textInput}
+                            autoFocus={true}
+                            value={email}
                             onChangeText={(text) => {
-                                onChangeBirthdayYear(text);
-                            }}/>
-                    </View>
-                    <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={handleNextClick}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </View>}
-            
-            {screen === 'Email' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>Email</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        autoFocus={true}
-                        value={email}
-                        onChangeText={(text) => {
-                            onChangeEmail(text);
-                        }} />
-                    <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={handleNextClick}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </View>}
-            
-            {screen === 'Pronouns' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>What pronouns do you use?</Text>
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('she/her/hers');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>she/her/hers</Text>
-                    </Pressable>
+                                onChangeEmail(text);
+                            }} />
+                        <Pressable
+                            style={[Styles.button, Styles.modalBottomButton]}
+                            onPress={handleNextClick}>
+                            <Text style={Styles.buttonText}>Next</Text>
+                        </Pressable>
+                    </View>}
+                
+                {currentStep === 7 &&
+                    <View>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>What pronouns do you use?</Text>
+                        <Pressable
+                            style={[Styles.buttonInverted, pronouns === 'she/her/hers' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangePronouns('she/her/hers');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>she/her/hers</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('he/him/his');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>he/him/his</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, pronouns === 'he/him/his' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangePronouns('he/him/his');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>he/him/his</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('they/them/theirs');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>they/them/theirs</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, pronouns === 'they/them/theirs' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangePronouns('they/them/theirs');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>they/them/theirs</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('ze/hir/hirs');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>ze/hir/hirs</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, pronouns === 'ze/hir/hirs' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangePronouns('ze/hir/hirs');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>ze/hir/hirs</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangePronouns('preferNotToSay');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Prefer not to say</Text>
-                    </Pressable>
-                </View>}
-            
-            {screen === 'Identity' &&
-                <View>
-                    <Text style={Styles.leftHeading1}>I identify as</Text>
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangeIdentity('heterosexual');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Heterosexual</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, pronouns === 'preferNotToSay' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangePronouns('preferNotToSay');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>Prefer not to say</Text>
+                        </Pressable>
+                    </View>}
+                
+                {currentStep === 8 &&
+                    <View>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>I identify as</Text>
+                        <Pressable
+                            style={[Styles.buttonInverted, identity === 'heterosexual' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangeIdentity('heterosexual');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>Heterosexual</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangeIdentity('gayOrLesbian');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Gay or lesbian</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, identity === 'gayOrLesbian' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangeIdentity('gayOrLesbian');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>Gay or lesbian</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangeIdentity('bisexual');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Bisexual</Text>
-                    </Pressable>
+                        <Pressable
+                            style={[Styles.buttonInverted, identity === 'bisexual' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangeIdentity('bisexual');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>Bisexual</Text>
+                        </Pressable>
 
-                    <Pressable
-                        style={Styles.buttonInverted}
-                        onPress={() => {
-                            onChangeIdentity('preferNotToAnswer');
-                            handleNextClick();
-                        }}>
-                        <Text style={Styles.buttonInvertedText}>Prefer not to answer</Text>
-                    </Pressable>
-                </View>}
+                        <Pressable
+                            style={[Styles.buttonInverted, identity === 'preferNotToAnswer' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => {
+                                onChangeIdentity('preferNotToAnswer');
+                                handleNextClick();
+                            }}>
+                            <Text style={Styles.buttonInvertedText}>Prefer not to answer</Text>
+                        </Pressable>
+                    </View>}
 
-            {screen === 'Terms' &&
-                <View style={{flex: 1}}>
-                    <View style={Styles.centerContainer}>
-                        <Text style={Styles.leftHeading1}>Terms & Conditions</Text>
-                        <Text style={Styles.bodyText}>Text here</Text>
-                    </View>
+                {currentStep === 9 &&
+                    <><ScrollView showsVerticalScrollIndicator={false}>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>Terms and conditions</Text>
+                        <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Jelly-o candy jelly caramels carrot cake apple pie bear claw. Pudding chocolate cake shortbread lemon drops danish cake. Biscuit ice cream sugar plum donut lollipop. Pie marzipan cotton candy jujubes tootsie roll biscuit pie. Cupcake gummi bears brownie marshmallow gummi bears. Lollipop cake oat cake gummies gummies cheesecake tart. Toffee donut tiramisu muffin biscuit dessert cake chupa chups brownie.</Text>
+                        <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Lollipop toffee tart lollipop donut muffin cake. Croissant lollipop jujubes cookie carrot cake cheesecake icing cake topping. Cheesecake cookie sweet tootsie roll tootsie roll chocolate cookie halvah. Cotton candy chocolate bar cotton candy bear claw soufflé cupcake chocolate bar gummies dessert. Sweet roll lemon drops marzipan muffin tart chocolate dessert. Pie pudding brownie jujubes dessert. Chupa chups cotton candy shortbread marshmallow bonbon sesame snaps croissant dragée. Cake sesame snaps halvah marshmallow jujubes danish.</Text>
+                        <Text style={[Styles.bodyText, Styles.paragraph, {marginBottom: 110, fontFamily: 'Poppins_400Regular'}]}>Chocolate cake bear claw soufflé chocolate bar chupa chups cheesecake pastry jelly gummi bears. Pie shortbread sugar plum jelly beans jelly dessert. Wafer toffee icing croissant pudding cake icing sweet roll ice cream. Jujubes cake halvah cookie cheesecake croissant icing cake. Macaroon lollipop pastry liquorice icing. Sweet soufflé gummi bears candy candy brownie carrot cake. Jelly-o jelly beans jujubes candy icing. Soufflé cotton candy chocolate bar donut halvah croissant. Gummies lollipop icing chocolate cake apple pie lollipop jelly carrot cake jelly beans.</Text>
+                    </ScrollView>
                     <Pressable
-                        style={[Styles.button, Styles.modalBottomButton, {justifyContent: 'flex-end'}]}
+                        style={[Styles.button, {position: 'absolute', bottom: 110, left: 30, right: 30, justifyContent: 'flex-end'}]}
                         onPress={saveUser}>
-                        <Text style={Styles.buttonText}>I agree</Text>
-                    </Pressable>
-                </View>}
-            
-            {/* {screen === 'Creating' &&
-                <View>
-                    <Text style={[Styles.allCapsHeading, Styles.textAlignCenter, {marginBottom: 25}]}>Creating account</Text>
-                    <Pressable
-                        style={[Styles.button, Styles.modalBottomButton]}
-                        onPress={saveUser}>
-                        <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
-                </View>} */}
-         </View>
+                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>I agree</Text>
+                    </Pressable></>}
+            </View>
+        </View>
     );
 };
 
