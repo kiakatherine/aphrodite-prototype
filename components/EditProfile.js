@@ -40,16 +40,18 @@ function EditProfile(props) {
                 </Pressable>
             </View>
                 
-            <View style={[Styles.centerContainer, {paddingBottom: 155}]}>
-                <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>{props.currentField}</Text>
+            <View style={[Styles.centerContainer]}>
+                {(props.currentField !== 'pronouns' && props.currentField !== 'identity') &&
+                    <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>{props.currentField}</Text>}
                 
-                {(props.currentField !== 'birthday' || props.currentField !== 'phone number') && <TextInput
-                    style={Styles.textInput}
-                    autoFocus={true}
-                    value={newText}
-                    keyboardType={props.currentField === 'phone number' ? 'numeric' : null}
-                    onChangeText={onChangeText}
-                />}
+                {(props.currentField !== 'birthday' && props.currentField !== 'phone number' && props.currentField !== 'pronouns' && props.currentField !== 'identity') &&
+                    <TextInput
+                        style={Styles.textInput}
+                        autoFocus={true}
+                        value={newText}
+                        keyboardType={props.currentField === 'phone number' ? 'numeric' : null}
+                        onChangeText={onChangeText}
+                    />}
 
                 {props.currentField === 'birthday' &&
                     <View style={Styles.displayFlex}>
@@ -75,6 +77,68 @@ function EditProfile(props) {
                             maxLength={4}
                             value={birthdayYear}
                             onChangeText={onChangeBirthdayYear} />
+                    </View>}
+
+                {props.currentField === 'pronouns' &&
+                    <View>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>What pronouns do you use?</Text>
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'she/her/hers' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('she/her/hers')}>
+                            <Text style={Styles.buttonInvertedText}>she/her/hers</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'he/him/his' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('he/him/his')}>
+                            <Text style={Styles.buttonInvertedText}>he/him/his</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'they/them/theirs' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('they/them/theirs')}>
+                            <Text style={Styles.buttonInvertedText}>they/them/theirs</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'ze/hir/hirs' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('ze/hir/hirs')}>
+                            <Text style={Styles.buttonInvertedText}>ze/hir/hirs</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'preferNotToSay' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('preferNotToSay')}>
+                            <Text style={Styles.buttonInvertedText}>Prefer not to say</Text>
+                        </Pressable>
+                    </View>}
+                
+                {props.currentField === 'identity' &&
+                    <View>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>I identify as</Text>
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'heterosexual' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('heterosexual')}>
+                            <Text style={Styles.buttonInvertedText}>Heterosexual</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'gayOrLesbian' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('gayOrLesbian')}>
+                            <Text style={Styles.buttonInvertedText}>Gay or lesbian</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'bisexual' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('bisexual')}>
+                            <Text style={Styles.buttonInvertedText}>Bisexual</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[Styles.buttonInverted, newText === 'preferNotToAnswer' ? Styles.buttonInvertedSelected : null]}
+                            onPress={() => onChangeText('preferNotToAnswer')}>
+                            <Text style={Styles.buttonInvertedText}>Prefer not to answer</Text>
+                        </Pressable>
                     </View>}
             </View>
         </View>

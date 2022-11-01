@@ -87,6 +87,20 @@ function AccountScreen(props) {
     }
   }
 
+  function displayIdentityText(text) {
+    let displayText = null;
+    
+    if(text === 'heterosexual') {
+      return displayText = 'Heterosexual';
+    } else if(text === 'gayOrLesbian') {
+      return displayText = 'Gay or lesbian';
+    } else if(text === 'bisexual') {
+      return displayText = 'Bisexual';
+    } else if(text === 'preferNotToAnswer') {
+      return displayText = 'Prefer not to answer';
+    }
+  }
+
   function handleSaveText(text) {
     if(currentField === 'birthday') {
       update(userRef, {
@@ -203,7 +217,7 @@ function AccountScreen(props) {
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.identity}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{displayIdentityText(currentUser.identity)}</Text>
             <Pressable
               style={Styles.accountInfoButton}
               onPress={() => handleEditClick('identity', currentUser.identity)}>

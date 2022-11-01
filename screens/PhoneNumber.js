@@ -34,7 +34,6 @@ function PhoneNumber(props) {
     }
 
     function handleSavePhoneNumber() {
-      debugger
       update(userRef, {phoneNumber: '+1' + phoneNumber});
       props.navigation.navigate('Account');
     }
