@@ -25,6 +25,10 @@ function PhoneNumber(props) {
     const [currentStep, setCurrentStep] = useState(props.route.params ? props.route.params.currentStep : 1);
     const attemptInvisibleVerification = false;
 
+    function removePhoneFormatting(input) {
+      return input.replace(/[^a-z0-9]/gi, '');
+    }
+
     return (
       <>
         <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
@@ -43,7 +47,7 @@ function PhoneNumber(props) {
 
           <ProgressBar currentStep={currentStep} />
 
-          <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 115 : 170}]}>
+          <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 170}]}>
               <View>
                 {currentStep === 1 &&
                   <><FirebaseRecaptchaVerifierModal
@@ -59,15 +63,14 @@ function PhoneNumber(props) {
                       style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
                       autoFocus={true}
                       value={phoneNumber}
-                      autoCompleteType="tel"
                       keyboardType='numeric'
                       textContentType="telephoneNumber"
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
                     />
                   </View>
                   <Pressable
-                    style={[Styles.button, Styles.modalBottomButton]}
-                    disabled={!phoneNumber}
+                    style={[Styles.button, Styles.modalBottomButton, (!phoneNumber || phoneNumber.length < 10) ? Styles.buttonDisabled : null]}
+                    disabled={(phoneNumber && phoneNumber.length < 10) ? true : false}
                     onPress={async () => {
                       // The FirebaseRecaptchaVerifierModal ref implements the
                       // FirebaseAuthApplicationVerifier interface and can be
@@ -76,7 +79,7 @@ function PhoneNumber(props) {
                         const phoneProvider = new PhoneAuthProvider(auth);
                         const verificationId = await phoneProvider.verifyPhoneNumber(
                           // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
-                          '+1' + phoneNumber,
+                          '+1' + removePhoneFormatting(phoneNumber),
                           recaptchaVerifier.current
                         );
                         setVerificationId(verificationId);
@@ -107,7 +110,7 @@ function PhoneNumber(props) {
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
                     <Pressable
-                      style={[Styles.button, Styles.modalBottomButton]}
+                      style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
                         try {

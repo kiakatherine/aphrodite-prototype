@@ -93,7 +93,7 @@ function NewUser(props) {
                                 onChangeFirstName(text);
                             }} />
                         <Pressable
-                            style={[Styles.button, Styles.modalBottomButton]}
+                            style={[Styles.button, Styles.modalBottomButton, (!firstName) ? Styles.buttonDisabled : null]}
                             onPress={handleNextClick}>
                             <Text style={Styles.buttonText}>Next</Text>
                         </Pressable>
@@ -110,7 +110,7 @@ function NewUser(props) {
                                 onChangeLastName(text);
                             }} />
                         <Pressable
-                            style={[Styles.button, Styles.modalBottomButton]}
+                            style={[Styles.button, Styles.modalBottomButton, (!lastName) ? Styles.buttonDisabled : null]}
                             onPress={handleNextClick}>
                             <Text style={Styles.buttonText}>Next</Text>
                         </Pressable>
@@ -150,7 +150,7 @@ function NewUser(props) {
                                 }}/>
                         </View>
                         <Pressable
-                            style={[Styles.button, Styles.modalBottomButton]}
+                            style={[Styles.button, Styles.modalBottomButton, (!birthdayMonth || !birthdayDay || !birthdayYear || birthdayYear.length < 4) ? Styles.buttonDisabled : null]}
                             onPress={handleNextClick}>
                             <Text style={Styles.buttonText}>Next</Text>
                         </Pressable>
@@ -167,7 +167,7 @@ function NewUser(props) {
                                 onChangeEmail(text);
                             }} />
                         <Pressable
-                            style={[Styles.button, Styles.modalBottomButton]}
+                            style={[Styles.button, Styles.modalBottomButton, (!email) ? Styles.buttonDisabled : null]}
                             onPress={handleNextClick}>
                             <Text style={Styles.buttonText}>Next</Text>
                         </Pressable>

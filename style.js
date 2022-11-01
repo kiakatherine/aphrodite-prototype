@@ -133,6 +133,14 @@ module.exports = StyleSheet.create({
     flexOne: {
         flex: 1
     },
+    modalBottomButton: {
+      backgroundColor: '#2E2F36',
+      padding: 25,
+      borderRadius: 0,
+      marginLeft: -30,
+      marginRight: -30,
+      // justifyContent: 'flex-end'
+    },
     button: {
         backgroundColor: '#2E2F36',
         padding: 25,
@@ -216,14 +224,6 @@ module.exports = StyleSheet.create({
       marginTop: 120,
       marginBottom: 30,
       padding: 20
-    },
-    modalBottomButton: {
-      backgroundColor: '#2E2F36',
-      padding: 25,
-      borderRadius: 0,
-      marginLeft: -30,
-      marginRight: -30,
-      // justifyContent: 'flex-end'
     },
     bottomDrawer: {
         padding: 25
