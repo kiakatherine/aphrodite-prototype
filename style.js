@@ -245,7 +245,7 @@ module.exports = StyleSheet.create({
     },
     Card: {
         width: '47%',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'space-around', // vertically centers content
         height: 215,
         marginBottom: 20,
