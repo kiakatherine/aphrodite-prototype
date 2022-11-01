@@ -18,36 +18,62 @@ import ProgressBar from '../components/ProgressBar.js';
 function PhoneNumber(props) {    
     // Ref or state management hooks
     const recaptchaVerifier = useRef(null);
-    const [phoneNumber, setPhoneNumber] = useState();
+    const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : false);
+    const [phoneNumber, setPhoneNumber] = useState(props.route.params ? props.route.params.phoneNumber : null);
     const [verificationId, setVerificationId] = useState();
     const [verificationCode, setVerificationCode] = useState();
     const [message, showMessage] = useState();
     const [currentStep, setCurrentStep] = useState(props.route.params ? props.route.params.currentStep : 1);
     const attemptInvisibleVerification = false;
 
+    const userRef = ref(db, 'users/' + auth.currentUser.uid);
+
     function removePhoneFormatting(input) {
-      return input.replace(/[^a-z0-9]/gi, '');
+      const cleanNumber = input.replace('+1', '');
+      return cleanNumber.replace('-', '');
+    }
+
+    function handleSavePhoneNumber() {
+      debugger
+      update(userRef, {phoneNumber: '+1' + phoneNumber});
+      props.navigation.navigate('Account');
     }
 
     return (
       <>
         <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
-          <View style={[Styles.customHeader, {borderBottomWidth: 0}]}>
-              <Pressable
-                  style={[Styles.textAlignRight, Styles.flexOne]}
-                  onPress={() => currentStep === 1 ? props.navigation.navigate('Landing') : setCurrentStep(1)}>
-                      <Ionicons name='arrow-back-outline' size={24} />
-              </Pressable>
+          {isNewUser && <View style={[Styles.customHeader, {borderBottomWidth: 0}]}>
+                <Pressable
+                    style={[Styles.textAlignRight, Styles.flexOne]}
+                    onPress={() => currentStep === 1 ? props.navigation.navigate('Landing') : setCurrentStep(1)}>
+                        <Ionicons name='arrow-back-outline' size={24} />
+                </Pressable>
 
-              <Pressable
-                  onPress={() => props.navigation.navigate('Landing')}>
-                    <Ionicons name="close-outline" size={32}></Ionicons>
-              </Pressable>
-          </View>
+                <Pressable
+                    onPress={() => props.navigation.navigate('Landing')}>
+                      <Ionicons name="close-outline" size={32}></Ionicons>
+                </Pressable>
+            </View>}
 
-          <ProgressBar currentStep={currentStep} />
+          {isNewUser && <ProgressBar currentStep={currentStep} />}
 
-          <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 170}]}>
+          {!isNewUser &&
+            <View style={Styles.customHeader}>
+                <Pressable
+                    style={[Styles.textAlignRight, Styles.flexOne]}
+                    onPress={() => props.navigation.navigate('Account')}>
+                      <Ionicons name="close-outline" size={32}></Ionicons>
+                </Pressable>
+
+                {currentStep === 2 &&
+                  <Pressable
+                      style={[Styles.button, Styles.buttonSmall, (!verificationCode || verificationCode.length < 6) ? Styles.buttonDisabled : null]}
+                      onPress={() => handleSavePhoneNumber()}>
+                          <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
+                  </Pressable>}
+            </View>}
+
+            <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 170}]}>
               <View>
                 {currentStep === 1 &&
                   <><FirebaseRecaptchaVerifierModal
@@ -62,7 +88,7 @@ function PhoneNumber(props) {
                     <TextInput
                       style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
                       autoFocus={true}
-                      value={phoneNumber}
+                      value={removePhoneFormatting(phoneNumber)}
                       keyboardType='numeric'
                       textContentType="telephoneNumber"
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
@@ -109,7 +135,7 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
-                    <Pressable
+                    {isNewUser && <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
@@ -125,7 +151,8 @@ function PhoneNumber(props) {
                         }
                       }}>
                         <Text style={Styles.buttonText}>Next</Text>
-                    </Pressable>
+                    </Pressable>}
+
                     {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
                   </>}
               </View>

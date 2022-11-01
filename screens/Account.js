@@ -66,6 +66,15 @@ function AccountScreen(props) {
     }
   }
 
+  function formatPhoneNumber(phoneNumber) {
+    const cleanNumber = phoneNumber.replace('+1', '');
+    return addDashes(cleanNumber);
+  }
+
+  function addDashes(f) {
+    return f.slice(0,3)+"-"+f.slice(3,6)+"-"+f.slice(6);
+}
+
   function handleEditClick(field, fieldData) {
     setCurrentField(field);
     setCurrentVal(fieldData);
@@ -123,7 +132,7 @@ function AccountScreen(props) {
     //     })
     //     .catch((error) => {
     //       alert('Verify account before deleting')
-    //       props.navigation.navigate('SignIn', {previousScreen: 'Account'});
+    //       props.navigation.navigate('PhoneNumber', {previousScreen: 'Account'});
     //     });
     // }).catch((error) => {
     //   alert(error)
@@ -167,10 +176,10 @@ function AccountScreen(props) {
           </View>
 
           <View style={Styles.accountInfoLine}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.phoneNumber}</Text>
+            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{formatPhoneNumber(currentUser.phoneNumber)}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('phone number', currentUser.phoneNumber)}>
+              onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>

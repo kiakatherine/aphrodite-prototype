@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -43,10 +43,11 @@ function EditProfile(props) {
             <View style={[Styles.centerContainer, {paddingBottom: 155}]}>
                 <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>{props.currentField}</Text>
                 
-                {props.currentField !== 'birthday' && <TextInput
+                {(props.currentField !== 'birthday' || props.currentField !== 'phone number') && <TextInput
                     style={Styles.textInput}
                     autoFocus={true}
                     value={newText}
+                    keyboardType={props.currentField === 'phone number' ? 'numeric' : null}
                     onChangeText={onChangeText}
                 />}
 

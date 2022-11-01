@@ -12,7 +12,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DashboardScreen from "./screens/Dashboard";
 import LandingScreen from "./screens/Landing";
 import PhoneNumberScreen from "./screens/PhoneNumber";
-import SignInScreen from "./screens/SignIn";
 import NewUserScreen from "./screens/NewUser";
 import VisionBuilderScreen from "./screens/VisionBuilder";
 import VisionCustomizerScreen from "./screens/VisionCustomizer";
@@ -173,11 +172,10 @@ function App(props) {
           <Stack.Navigator initialRouteName={getInitialRoute()}>
             <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
-            <Stack.Screen name="PhoneNumber" options={{ headerShown: false, animation: 'none' }}>
+            <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
               {props => <PhoneNumberScreen {...props} />}
             </Stack.Screen>
             <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
 
             <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
               {props => <VisionBuilderScreen {...props} />}

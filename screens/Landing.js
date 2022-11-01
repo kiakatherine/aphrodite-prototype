@@ -36,7 +36,7 @@ function Landing({navigation}) {
                 </Pressable>
                 <Pressable
                     style={Styles.buttonInverted}
-                    onPress={() => navigation.navigate('SignIn')}>
+                    onPress={() => navigation.navigate('PhoneNumber')}>
                         <Text style={[Styles.buttonInvertedText, {fontFamily: 'Poppins_600SemiBold'}]}>Sign in</Text>
                 </Pressable>
 
