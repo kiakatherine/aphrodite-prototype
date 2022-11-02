@@ -19,6 +19,7 @@ function PhoneNumber(props) {
     // Ref or state management hooks
     const recaptchaVerifier = useRef(null);
     const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : true);
+    const [isSigningIn, setIsSigningIn] = useState(props.route.params ? props.route.params.isSigningIn : false);
     const [phoneNumber, setPhoneNumber] = useState(props.route.params ? props.route.params.phoneNumber : null);
     const [verificationId, setVerificationId] = useState();
     const [verificationCode, setVerificationCode] = useState();
@@ -55,7 +56,7 @@ function PhoneNumber(props) {
 
           {isNewUser && <ProgressBar currentStep={currentStep} />}
 
-          {!isNewUser &&
+          {!isNewUser && !isSigningIn &&
             <View style={Styles.customHeader}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
@@ -71,7 +72,14 @@ function PhoneNumber(props) {
                   </Pressable>}
             </View>}
 
-            <View style={[Styles.centerContainer, {paddingBottom: currentStep === 2 ? 205 : 165}]}>
+          {isSigningIn &&
+              <Pressable
+                  style={[Styles.topRightCloseButton, Styles.flexOne, {zIndex: 2}]}
+                  onPress={() => props.navigation.navigate('Landing')}>
+                    <Ionicons name="close-outline" size={36}></Ionicons>
+              </Pressable>}
+
+            <View style={[Styles.centerContainer, {paddingBottom: (currentStep === 2 && !isSigningIn) ? 205 : (currentStep === 2 && isNewUser && !isSigningIn) ? 165 : 150}]}>
               <View>
                 {currentStep === 1 &&
                   <><FirebaseRecaptchaVerifierModal
@@ -86,7 +94,7 @@ function PhoneNumber(props) {
                     <TextInput
                       style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
                       autoFocus={true}
-                      value={isNewUser ? phoneNumber : removePhoneFormatting(phoneNumber)}
+                      value={(isNewUser || isSigningIn) ? phoneNumber : removePhoneFormatting(phoneNumber)}
                       keyboardType='numeric'
                       textContentType="telephoneNumber"
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
@@ -133,7 +141,7 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
-                    {isNewUser && <Pressable
+                    {(isNewUser || isSigningIn) && <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
@@ -143,12 +151,17 @@ function PhoneNumber(props) {
                           showMessage({ text: 'Phone authentication successful 👍' });
                           const db = getDatabase();
                           const reference = ref(db, 'users/' + userData.user.uid);
-                          props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
+
+                          if(isNewUser) {
+                            props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
+                          } else if(isSigningIn) {
+                            props.navigation.navigate('Dashboard');
+                          }
                         } catch (err) {
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
                         }
                       }}>
-                        <Text style={Styles.buttonText}>Next</Text>
+                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>{isSigningIn ? 'Sign in' : 'Next'}</Text>
                     </Pressable>}
 
                     {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}

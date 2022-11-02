@@ -19,6 +19,7 @@ function NewUser(props) {
     const [pronouns, onChangePronouns] = useState(null);
     const [identity, onChangeIdentity] = useState(null);
     const [currentStep, setCurrentStep] = useState(3);
+    const [phoneNumber, setPhoneNumber] = useState(props.route.params ? props.route.params.phoneNumber : null);
 
     function handleNextClick() {
         if(currentStep === 6) {
