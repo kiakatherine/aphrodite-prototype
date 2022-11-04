@@ -25,13 +25,13 @@ function Sending(props) {
       });
 
     useEffect(() => {
-        // props.navigation.navigate('Dashboard', {hasCards: true});
-        setTimeout(function() { props.navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'}) }, 1000)
+      setTimeout(function() { props.navigation.navigate('Home', { hasCards: true }) }, 2000);
+      // setTimeout(function() { props.navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'}) }, 1000)
     }, [])
 
     return (
       <View style={[Styles.centerContainer, Styles.lightBackground]}>
-          <Text style={[Styles.heading3, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Saving</Text>
+          <Text style={[Styles.heading3, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>{props.route.params.text}</Text>
           {/* <Image source={require('../assets/images/spinning.png')} resizeMode='contain' style={{alignSelf: 'center', height: '55%'}}  /> */}
           {/* <Text style={[Styles.heading3, Styles.textWhite, Styles.textAlignCenter, {fontFamily: 'Poppins_600SemiBold'}]}>Sending to the universe</Text> */}
       </View>

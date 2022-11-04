@@ -11,8 +11,8 @@ module.exports = StyleSheet.create({
     },
     containerPadding: {
       padding: 30,
-      // paddingTop: 0,
-      paddingTop: 45
+      paddingTop: 0,
+      // paddingTop: 45
     },
     containerWithoutHeader: {
       paddingTop: 35,

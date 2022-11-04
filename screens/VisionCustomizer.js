@@ -172,7 +172,7 @@ function VisionCustomizer({ navigation }) {
           <Pressable
             style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
             onPress={() => refRBSheet.current.open()}>
-              <Text style={{ color: '#4F505A' }}><Ionicons name='add' size={44} /></Text>
+              <Text style={{ color: '#4F505A', textAlign: 'center' }}><Ionicons name='add' size={44} /></Text>
           </Pressable>
           {myVisionCards.map(card => 
             <RemovableCard card={card} onCardPress={card => clickCardToEdit(card)} onRemoveCard={card => confirmRemovableCardPress(card)}></RemovableCard>)}
@@ -230,7 +230,7 @@ function VisionCustomizer({ navigation }) {
               ref={refRBSheet}
               closeOnDragDown={true}
               closeOnPressMask={true}
-              height={295}
+              height={235}
               customStyles={{
                 wrapper: {
                   backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -249,7 +249,7 @@ function VisionCustomizer({ navigation }) {
                     </Pressable>
                   </View>
                     
-                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
+                  {/* <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text> */}
                   
                   <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
 

@@ -148,14 +148,14 @@ function PhoneNumber(props) {
                         try {
                           const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
                           let userData = await signInWithCredential(auth, credential);
-                          showMessage({ text: 'Phone authentication successful 👍' });
+                          // showMessage({ text: 'Phone authentication successful 👍' });
                           const db = getDatabase();
                           const reference = ref(db, 'users/' + userData.user.uid);
 
                           if(isNewUser) {
                             props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                           } else if(isSigningIn) {
-                            props.navigation.navigate('Home');
+                            props.navigation.navigate('Sending', {text: 'Signing in'});
                           }
                         } catch (err) {
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
