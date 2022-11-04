@@ -25,8 +25,7 @@ function Sending(props) {
       });
 
     useEffect(() => {
-      setTimeout(function() { props.navigation.navigate('Home', { hasCards: true }) }, 2000);
-      // setTimeout(function() { props.navigation.navigate('PreviewTiles', {previousScreen: 'VisionViewCustomizer'}) }, 1000)
+      setTimeout(function() { props.navigation.navigate('Home', { hasCards: props.route.params.hasCards }) }, 2000);
     }, [])
 
     return (

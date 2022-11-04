@@ -182,7 +182,7 @@ function VisionCustomizer({ navigation }) {
         <Pressable
           style={[Styles.Card, {borderWidth: 1, borderColor: 'black', backgroundColor: 'transparent'}]}
           onPress={() => refRBSheet.current.open()}>
-            <Text style={Styles.CardText}><Ionicons name='add' size={32} /></Text>
+            <Text style={Styles.textAlignCenter}><Ionicons name='add' size={44} /></Text>
         </Pressable>);
     }
   };
@@ -208,8 +208,8 @@ function VisionCustomizer({ navigation }) {
 
             <Pressable
                 style={[Styles.button, Styles.buttonSmall]}
-                disabled={myVisionCards.length === 0}
-                onPress={() => navigation.navigate("Sending")}>
+                // disabled={myVisionCards.length === 0}
+                onPress={() => navigation.navigate("Sending", {text: 'Saving'})}>
                   <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
             </Pressable>
           </View>

@@ -59,7 +59,7 @@ function NewUser(props) {
         const db = getDatabase();
         const reference = ref(db, 'users/' + auth.currentUser.uid);
         update(reference, userData).then(() => {
-            props.navigation.navigate('Dashboard', {hasCards: false});
+            props.navigation.navigate('Sending', {text: 'Creating account', hasCards: false});
         }).catch((error) => {
             alert('Error');
         });
@@ -67,7 +67,7 @@ function NewUser(props) {
 
     return (
         <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
-            <View style={[Styles.customHeader, {borderBottomWidth: 0}]}>
+            <View style={[Styles.customHeader, {borderBottomWidth: 0 }]}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
                     onPress={handleBackClick}>
@@ -189,7 +189,7 @@ function NewUser(props) {
                     </View>}
                 
                 {currentStep === 7 &&
-                    <View>
+                    <View style={{ paddingTop: 45 }}>
                         <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>What pronouns do you use?</Text>
                         <Pressable
                             style={[Styles.buttonInverted, pronouns === 'she/her/hers' ? Styles.buttonInvertedSelected : null]}
@@ -238,7 +238,7 @@ function NewUser(props) {
                     </View>}
                 
                 {currentStep === 8 &&
-                    <View>
+                    <View style={{ paddingTop: 45 }}>
                         <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>I identify as</Text>
                         <Pressable
                             style={[Styles.buttonInverted, identity === 'heterosexual' ? Styles.buttonInvertedSelected : null]}
@@ -278,11 +278,11 @@ function NewUser(props) {
                     </View>}
 
                 {currentStep === 9 &&
-                    <><ScrollView showsVerticalScrollIndicator={false}>
+                    <><ScrollView showsVerticalScrollIndicator={false} style={{ paddingTop: 45 }}>
                         <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>Terms and conditions</Text>
                         <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Jelly-o candy jelly caramels carrot cake apple pie bear claw. Pudding chocolate cake shortbread lemon drops danish cake. Biscuit ice cream sugar plum donut lollipop. Pie marzipan cotton candy jujubes tootsie roll biscuit pie. Cupcake gummi bears brownie marshmallow gummi bears. Lollipop cake oat cake gummies gummies cheesecake tart. Toffee donut tiramisu muffin biscuit dessert cake chupa chups brownie.</Text>
                         <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Lollipop toffee tart lollipop donut muffin cake. Croissant lollipop jujubes cookie carrot cake cheesecake icing cake topping. Cheesecake cookie sweet tootsie roll tootsie roll chocolate cookie halvah. Cotton candy chocolate bar cotton candy bear claw soufflé cupcake chocolate bar gummies dessert. Sweet roll lemon drops marzipan muffin tart chocolate dessert. Pie pudding brownie jujubes dessert. Chupa chups cotton candy shortbread marshmallow bonbon sesame snaps croissant dragée. Cake sesame snaps halvah marshmallow jujubes danish.</Text>
-                        <Text style={[Styles.bodyText, Styles.paragraph, {marginBottom: 110, fontFamily: 'Poppins_400Regular'}]}>Chocolate cake bear claw soufflé chocolate bar chupa chups cheesecake pastry jelly gummi bears. Pie shortbread sugar plum jelly beans jelly dessert. Wafer toffee icing croissant pudding cake icing sweet roll ice cream. Jujubes cake halvah cookie cheesecake croissant icing cake. Macaroon lollipop pastry liquorice icing. Sweet soufflé gummi bears candy candy brownie carrot cake. Jelly-o jelly beans jujubes candy icing. Soufflé cotton candy chocolate bar donut halvah croissant. Gummies lollipop icing chocolate cake apple pie lollipop jelly carrot cake jelly beans.</Text>
+                        <Text style={[Styles.bodyText, Styles.paragraph, {marginBottom: 150, fontFamily: 'Poppins_400Regular'}]}>Chocolate cake bear claw soufflé chocolate bar chupa chups cheesecake pastry jelly gummi bears. Pie shortbread sugar plum jelly beans jelly dessert. Wafer toffee icing croissant pudding cake icing sweet roll ice cream. Jujubes cake halvah cookie cheesecake croissant icing cake. Macaroon lollipop pastry liquorice icing. Sweet soufflé gummi bears candy candy brownie carrot cake. Jelly-o jelly beans jujubes candy icing. Soufflé cotton candy chocolate bar donut halvah croissant. Gummies lollipop icing chocolate cake apple pie lollipop jelly carrot cake jelly beans.</Text>
                     </ScrollView>
                     <Pressable
                         style={[Styles.button, {position: 'absolute', bottom: 110, left: 30, right: 30, justifyContent: 'flex-end'}]}
