@@ -155,7 +155,7 @@ function PhoneNumber(props) {
                           if(isNewUser) {
                             props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                           } else if(isSigningIn) {
-                            props.navigation.navigate('Dashboard');
+                            props.navigation.navigate('Home');
                           }
                         } catch (err) {
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
