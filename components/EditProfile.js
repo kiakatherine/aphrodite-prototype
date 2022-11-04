@@ -25,7 +25,7 @@ function EditProfile(props) {
     const [birthdayYear, onChangeBirthdayYear] = useState(props.currentValue[2]);
 
     return (
-        <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
+        <View style={[Styles.lightBackground, { height: '100%' }]}>
             <View style={Styles.customHeader}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
@@ -40,7 +40,7 @@ function EditProfile(props) {
                 </Pressable>
             </View>
                 
-            <View style={[Styles.centerContainer]}>
+            <View style={[(props.currentField !== 'pronouns' && props.currentField !== 'identity') ? Styles.centerContainer : Styles.containerPadding]}>
                 {(props.currentField !== 'pronouns' && props.currentField !== 'identity') &&
                     <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>{props.currentField}</Text>}
                 

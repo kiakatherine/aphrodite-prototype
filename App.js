@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AppLoading from 'expo-app-loading';
+// import AppLoading from 'expo-app-loading';
 
 // navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,6 +20,7 @@ import PreviewFullScreen from "./screens/PreviewFullScreen";
 import SendingScreen from "./screens/Sending";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
+import * as SplashScreen from 'expo-splash-screen';
 
 // firebase
 import { initializeApp, getApp } from 'firebase/app';
@@ -34,6 +35,9 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 function App(props) {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -42,6 +46,7 @@ function App(props) {
     Poppins_700Bold,
   })
 
+  const [appIsReady, setAppIsReady] = useState(false);
   const [noCards, setNoCards] = useState(true);
   const [cards, setCards] = useState([]);
   const isLoggedIn = auth.currentUser ? true : false;
@@ -55,9 +60,45 @@ function App(props) {
   }
 
   useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        // await Font.loadAsync(Entypo.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
     const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+  // useEffect(() => {
+  //   const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber; // unsubscribe on unmount
+  // }, []);
 
   // useEffect(() => {
   //   function setUser() {
@@ -163,38 +204,34 @@ function App(props) {
     },
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <>      
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName={getInitialRoute()}>
-            <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
-            <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
-              {props => <PhoneNumberScreen {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+  return (
+    <>      
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={getInitialRoute()}>
+          <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Dashboard" component={HomeTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="PhoneNumber" options={{ headerShown: false }}>
+            {props => <PhoneNumberScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
 
-            <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
-              {props => <VisionBuilderScreen {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="VisionCustomizer" options={{ headerShown: false, animation: 'none' }}>
-              {props => <VisionCustomizerScreen {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="PreviewTiles" options={{ headerShown: false, animation: 'fade' }}>
-              {props => <PreviewTiles {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
-              {props => <PreviewFullScreen {...props} />}
-            </Stack.Screen>
-            <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'fade' }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </>
-    )
-  }
+          <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
+            {props => <VisionBuilderScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="VisionCustomizer" options={{ headerShown: false, animation: 'none' }}>
+            {props => <VisionCustomizerScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="PreviewTiles" options={{ headerShown: false, animation: 'fade' }}>
+            {props => <PreviewTiles {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
+            {props => <PreviewFullScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'fade' }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  )
 }
 
 export default App;
