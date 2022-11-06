@@ -25,7 +25,11 @@ function Sending(props) {
       });
 
     useEffect(() => {
-      setTimeout(function() { props.navigation.navigate('Home', { hasCards: props.route.params.hasCards }) }, 2000);
+      if(props.route.params.isDeletingAccount) {
+        setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
+      } else {
+        setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: props.route.params.hasCards }) }, 2000);
+      }
     }, [])
 
     return (
