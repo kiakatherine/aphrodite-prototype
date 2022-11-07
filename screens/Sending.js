@@ -27,8 +27,10 @@ function Sending(props) {
     useEffect(() => {
       if(props.route.params.isDeletingAccount) {
         setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
-      } else {
+      } else if(props.route.params.isSigningIn) {
         setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: props.route.params.hasCards }) }, 2000);
+      } else if(props.route.params.isUpdatingInfo) {
+        setTimeout(function() { props.navigation.navigate('Account') }, 2000);
       }
     }, [])
 

@@ -219,7 +219,7 @@ function AccountScreen(props) {
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{formatPhoneNumber(currentUser.phoneNumber)}</Text>
             <Pressable
               style={Styles.accountInfoButton}
-              onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
+              onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, isSigningin: false, isUpdatingInfo: true, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
                 <Ionicons name='create-outline' size={24} />
               </Pressable>
           </View>

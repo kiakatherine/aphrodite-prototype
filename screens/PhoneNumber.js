@@ -20,6 +20,7 @@ function PhoneNumber(props) {
     const recaptchaVerifier = useRef(null);
     const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : true);
     const [isSigningIn, setIsSigningIn] = useState(props.route.params ? props.route.params.isSigningIn : false);
+    const [isUpdatingInfo, setIsUpdatingInfo] = useState(props.route.params ? props.route.params.isUpdatingInfo : false);
     const [phoneNumber, setPhoneNumber] = useState(props.route.params ? props.route.params.phoneNumber : null);
     const [verificationId, setVerificationId] = useState();
     const [verificationCode, setVerificationCode] = useState();
@@ -42,16 +43,16 @@ function PhoneNumber(props) {
       <>
         <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
           {isNewUser && <View style={[Styles.customHeader, {borderBottomWidth: 0}]}>
-                <Pressable
-                    style={[Styles.textAlignRight, Styles.flexOne]}
-                    onPress={() => currentStep === 1 ? props.navigation.navigate('Landing') : setCurrentStep(1)}>
-                        <Ionicons name='arrow-back-outline' size={24} />
-                </Pressable>
+              <Pressable
+                  style={[Styles.textAlignRight, Styles.flexOne]}
+                  onPress={() => currentStep === 1 ? props.navigation.navigate('Landing') : setCurrentStep(1)}>
+                      <Ionicons name='arrow-back-outline' size={24} />
+              </Pressable>
 
-                <Pressable
-                    onPress={() => props.navigation.navigate('Landing')}>
-                      <Ionicons name="close-outline" size={32}></Ionicons>
-                </Pressable>
+              <Pressable
+                  onPress={() => props.navigation.navigate('Landing')}>
+                    <Ionicons name="close-outline" size={32}></Ionicons>
+              </Pressable>
             </View>}
 
           {isNewUser && <ProgressBar currentStep={currentStep} />}
@@ -141,7 +142,7 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
-                    {(isNewUser || isSigningIn) && <Pressable
+                    <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
@@ -156,13 +157,15 @@ function PhoneNumber(props) {
                             props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                           } else if(isSigningIn) {
                             props.navigation.navigate('Sending', {text: 'Signing in'});
+                          } else if(isUpdatingInfo) {
+                            props.navigation.navigate('Sending', {text: 'Saving', isUpdatingInfo: true});
                           }
                         } catch (err) {
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
                         }
                       }}>
                         <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>{isSigningIn ? 'Sign in' : 'Next'}</Text>
-                    </Pressable>}
+                    </Pressable>
 
                     {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
                   </>}
