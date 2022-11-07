@@ -79,7 +79,7 @@ function PhoneNumber(props) {
                     <Ionicons name="close-outline" size={36}></Ionicons>
               </Pressable>}
 
-            <View style={[Styles.centerContainer, {paddingBottom: (currentStep === 2 && !isSigningIn) ? 205 : (currentStep === 2 && isNewUser && !isSigningIn) ? 165 : 150}]}>
+            <View style={[Styles.centerContainer, {paddingBottom: (currentStep === 2 && !isSigningIn) ? 205 : (currentStep === 2 && isNewUser && !isSigningIn) ? 165 : 170}]}>
               <View>
                 {currentStep === 1 &&
                   <><FirebaseRecaptchaVerifierModal
