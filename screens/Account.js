@@ -92,13 +92,14 @@ function AccountScreen(props) {
   function handleEditClick(field, fieldData) {
     setCurrentField(field);
     setCurrentVal(fieldData);
-    setIsModalVisible(true);
+    // setIsModalVisible(true);
 
     if(field === 'birthday') {
       setCurrentFieldKey(['birthdayMonth', 'birthdayDay', 'birthdayYear']);
     } else {
       setCurrentFieldKey(makeFieldKey(field));
     }
+    props.navigation.navigate('EditProfile', {currentField: field, currentValue: fieldData, userRef: userRef});
   }
 
   function displayIdentityText(text) {
@@ -115,24 +116,24 @@ function AccountScreen(props) {
     }
   }
 
-  function handleSaveText(text) {
-    if(currentField === 'birthday') {
-      update(userRef, {
-        'birthdayMonth': text[0],
-        'birthdayDay': text[1],
-        'birthdayYear': text[2]
-      });
-    } else {
-      update(userRef, {
-        [currentFieldKey]: text
-      });
-    }
+  // function handleSaveText(text) {
+  //   if(currentField === 'birthday') {
+  //     update(userRef, {
+  //       'birthdayMonth': text[0],
+  //       'birthdayDay': text[1],
+  //       'birthdayYear': text[2]
+  //     });
+  //   } else {
+  //     update(userRef, {
+  //       [currentFieldKey]: text
+  //     });
+  //   }
 
-    setCurrentField(null);
-    setCurrentFieldKey(null);
-    setCurrentVal(null);
-    setIsModalVisible(false);
-  }
+  //   setCurrentField(null);
+  //   setCurrentFieldKey(null);
+  //   setCurrentVal(null);
+  //   setIsModalVisible(false);
+  // }
 
   function handleCancel() {
     setCurrentField(null);
@@ -180,10 +181,10 @@ function AccountScreen(props) {
 
   return (<>
     {currentUser && <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
-      {isModalVisible &&
-          <EditProfile currentField={currentField} currentValue={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
+      {/* {isModalVisible &&
+          <EditProfile currentField={currentField} currentValue={currentVal} onSave={handleSaveText} onCancel={handleCancel} />} */}
 
-      {!isModalVisible && (
+      {/* {!isModalVisible && ( */}
         <View style={[Styles.containerPadding, Styles.lightBackground]}>
           <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
@@ -387,7 +388,7 @@ function AccountScreen(props) {
                 </View>
               </RBSheet>
         </View>
-    )}
+    {/* )} */}
 
     </View>
     }</>);

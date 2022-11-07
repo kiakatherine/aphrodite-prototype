@@ -20,6 +20,7 @@ import PreviewFullScreen from "./screens/PreviewFullScreen";
 import SendingScreen from "./screens/Sending";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
+import EditProfileScreen from "./screens/EditProfile";
 import * as SplashScreen from 'expo-splash-screen';
 
 // firebase
@@ -208,6 +209,8 @@ function App(props) {
             {props => <PhoneNumberScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="NewUser" component={NewUserScreen} options={{ headerShown: false }} />
+
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ headerShown: false }} />
 
           <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
             {props => <VisionBuilderScreen {...props} />}
