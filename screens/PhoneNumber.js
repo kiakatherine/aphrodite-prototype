@@ -36,7 +36,7 @@ function PhoneNumber(props) {
     function handleSavePhoneNumber() {
       const userRef = ref(db, 'users/' + auth.currentUser.uid);
       update(userRef, {phoneNumber: '+1' + phoneNumber});
-      props.navigation.navigate('Account');
+      // props.navigation.navigate('Account');
     }
 
     return (
@@ -57,7 +57,7 @@ function PhoneNumber(props) {
 
           {isNewUser && <ProgressBar currentStep={currentStep} />}
 
-          {!isNewUser && !isSigningIn &&
+          {isUpdatingInfo &&
             <View style={Styles.customHeader}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
@@ -65,10 +65,30 @@ function PhoneNumber(props) {
                       <Ionicons name="close-outline" size={32}></Ionicons>
                 </Pressable>
 
-                {currentStep === 2 &&
+                {currentStep === 1 &&
                   <Pressable
-                      style={[Styles.button, Styles.buttonSmall, (!verificationCode || verificationCode.length < 6) ? Styles.buttonDisabled : null]}
-                      onPress={() => handleSavePhoneNumber()}>
+                      style={[Styles.button, Styles.buttonSmall]}
+                      onPress={async () => {
+                        // The FirebaseRecaptchaVerifierModal ref implements the
+                        // FirebaseAuthApplicationVerifier interface and can be
+                        // passed directly to `verifyPhoneNumber`.
+                        try {
+                          const phoneProvider = new PhoneAuthProvider(auth);
+                          const verificationId = await phoneProvider.verifyPhoneNumber(
+                            // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
+                            '+1' + removePhoneFormatting(phoneNumber),
+                            recaptchaVerifier.current
+                          );
+                          setVerificationId(verificationId);
+                          showMessage({
+                            text: 'Verification has been sent.',
+                          });
+                          setCurrentStep(2);
+                          handleSavePhoneNumber();
+                        } catch (err) {
+                          showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                        }
+                      }}>
                           <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
                   </Pressable>}
             </View>}
@@ -101,7 +121,7 @@ function PhoneNumber(props) {
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
                     />
                   </View>
-                  <Pressable
+                  {!isUpdatingInfo && <Pressable
                     style={[Styles.button, Styles.modalBottomButton, (!phoneNumber || phoneNumber.length < 10) ? Styles.buttonDisabled : null]}
                     disabled={(phoneNumber && phoneNumber.length < 10) ? true : false}
                     onPress={async () => {
@@ -125,7 +145,7 @@ function PhoneNumber(props) {
                       }
                     }}>
                       <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Send verification code</Text>
-                  </Pressable>
+                  </Pressable>}
                   </>}
                 
                 {currentStep === 2 &&
@@ -164,7 +184,7 @@ function PhoneNumber(props) {
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
                         }
                       }}>
-                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>{isSigningIn ? 'Sign in' : 'Next'}</Text>
+                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>{isSigningIn ? 'Sign in' : isUpdatingInfo ? 'Submit' : 'Next'}</Text>
                     </Pressable>
 
                     {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
