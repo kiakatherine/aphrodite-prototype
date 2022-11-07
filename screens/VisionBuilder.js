@@ -34,8 +34,8 @@ function VisionBuilder(props) {
     const [selectedCards, setSelectedCards] = useState([]);
     const [exampleCards, setExampleCards] = useState([
       { id: 1, text: "My partner is kind.", type: "text", category: "qualities" },
-      { id: 2, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample1.jpg?alt=media&token=7675714d-7806-44af-b396-289944ebaae6', type: "image" },
-      { id: 3, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample2.jpg?alt=media&token=7b349f73-f3da-4d6b-ac24-a415b6bfac3d', type: "image" },
+      // { id: 2, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample1.jpg?alt=media&token=7675714d-7806-44af-b396-289944ebaae6', type: "image" },
+      // { id: 3, uri: 'https://firebasestorage.googleapis.com/v0/b/aphrodite-prototype-59a3b.appspot.com/o/images%2Fexamples%2Fexample2.jpg?alt=media&token=7b349f73-f3da-4d6b-ac24-a415b6bfac3d', type: "image" },
       { id: 4, text: "We are a power couple.", type: "text", category: "career" },
       { id: 5, text: "We support each other.", type: "text", category: "qualities" },
       { id: 6, text: "My partner is patient.", type: "text", category: "qualities" },
