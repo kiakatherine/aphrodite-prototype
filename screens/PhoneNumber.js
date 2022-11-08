@@ -96,7 +96,7 @@ function PhoneNumber(props) {
           {isSigningIn &&
               <Pressable
                   style={[Styles.topRightCloseButton, Styles.flexOne, {zIndex: 2}]}
-                  onPress={() => props.navigation.navigate('Landing')}>
+                  onPress={() => isUpdatingInfo ? props.navigation.navigate('Account') : props.navigation.navigate('Landing')}>
                     <Ionicons name="close-outline" size={36}></Ionicons>
               </Pressable>}
 

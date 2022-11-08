@@ -188,68 +188,40 @@ function AccountScreen(props) {
         <View style={[Styles.containerPadding, Styles.lightBackground]}>
           <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
           
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('first name', currentUser.firstName)}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('first name', currentUser.firstName)}>
-                <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+              <Ionicons name='create-outline' size={24} />
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('last name', currentUser.lastName)}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.lastName}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('last name', currentUser.lastName)}>
-                <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+              <Ionicons name='create-outline' size={24} />
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('email', currentUser.email)}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.email}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('email', currentUser.email)}>
-                <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+              <Ionicons name='create-outline' size={24} />
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, isSigningin: false, isUpdatingInfo: true, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{formatPhoneNumber(currentUser.phoneNumber)}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, isSigningin: false, isUpdatingInfo: true, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
                 <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('birthday', [currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear])}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.birthdayMonth} / {currentUser.birthdayDay} / {currentUser.birthdayYear}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('birthday', [currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear])}>
                 <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('pronouns', currentUser.pronouns)}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.pronouns}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('pronouns', currentUser.pronouns)}>
-                <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+              <Ionicons name='create-outline' size={24} />
+          </Pressable>
 
-          <View style={Styles.accountInfoLine}>
+          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('identity', currentUser.identity)}>
             <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{displayIdentityText(currentUser.identity)}</Text>
-            <Pressable
-              style={Styles.accountInfoButton}
-              onPress={() => handleEditClick('identity', currentUser.identity)}>
-                <Ionicons name='create-outline' size={24} />
-              </Pressable>
-          </View>
+              <Ionicons name='create-outline' size={24} />
+          </Pressable>
 
           <Pressable
               style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
