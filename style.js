@@ -254,7 +254,8 @@ module.exports = StyleSheet.create({
         backgroundColor: '#F2EDE4',
         borderWidth: 3,
         borderRadius: 10,
-        borderColor: '#F4ECDF'
+        borderColor: '#F4ECDF',
+        aspectRatio: 3/4
       },
       CardText: {
         fontSize: 18,
