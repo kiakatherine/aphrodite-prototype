@@ -3,7 +3,6 @@ import { Image, Pressable, SafeAreaView, Text, TextInput, View } from 'react-nat
 import Styles from "../style.js";
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import EditProfile from '../components/EditProfile.js';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, deleteUser, reauthenticateWithCredential, PhoneAuthProvider, signInWithCredential, signOut } from 'firebase/auth';
 import {app, auth, db, storage } from '../firebase.js';
@@ -99,7 +98,7 @@ function AccountScreen(props) {
     } else {
       setCurrentFieldKey(makeFieldKey(field));
     }
-    props.navigation.navigate('EditProfile', {currentField: field, currentValue: fieldData, userRef: userRef});
+    props.navigation.navigate('EditProfile', {currentField: field, currentFieldKey: makeFieldKey(field), currentValue: fieldData, userRef: userRef});
   }
 
   function displayIdentityText(text) {
@@ -115,25 +114,6 @@ function AccountScreen(props) {
       return displayText = 'Prefer not to answer';
     }
   }
-
-  // function handleSaveText(text) {
-  //   if(currentField === 'birthday') {
-  //     update(userRef, {
-  //       'birthdayMonth': text[0],
-  //       'birthdayDay': text[1],
-  //       'birthdayYear': text[2]
-  //     });
-  //   } else {
-  //     update(userRef, {
-  //       [currentFieldKey]: text
-  //     });
-  //   }
-
-  //   setCurrentField(null);
-  //   setCurrentFieldKey(null);
-  //   setCurrentVal(null);
-  //   setIsModalVisible(false);
-  // }
 
   function handleCancel() {
     setCurrentField(null);
@@ -165,18 +145,15 @@ function AccountScreen(props) {
     setConfirmValidationCode(false);
     // const credential = promptForCredentials();
     // reauthenticateWithCredential(auth.currentUser, credential).then(() => {
-      auth.currentUser.delete()
-        .then(() => {
-          // remove(userRef);
-          props.navigation.navigate('Sending', {text: 'Deleting account', isDeletingAccount: true});
-          console.log('Successfully deleted user');
-        })
-        .catch((error) => {
-          console.log(error)
-        });
-    // }).catch((error) => {
-    //   alert(error)
-    // });
+    auth.currentUser.delete()
+      .then(() => {
+        // remove(userRef);
+        props.navigation.navigate('Sending', {text: 'Deleting account', isDeletingAccount: true});
+        console.log('Successfully deleted user');
+      })
+      .catch((error) => {
+        console.log(error)
+      });
   }
 
   return (<>

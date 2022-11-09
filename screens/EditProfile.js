@@ -25,7 +25,7 @@ function EditProfile(props) {
     const [birthdayDay, onChangeBirthdayDay] = useState(props.route.params.currentValue[1]);
     const [birthdayYear, onChangeBirthdayYear] = useState(props.route.params.currentValue[2]);
 
-    function handleSaveText(text) {
+    function clickSave(text) {
         if(props.route.params.currentField === 'birthday') {
           update(props.route.params.userRef, {
             'birthdayMonth': text[0],
@@ -34,11 +34,14 @@ function EditProfile(props) {
           });
         } else {
           update(props.route.params.userRef, {
-            [props.route.params.currentField]: text
+            [props.route.params.currentFieldKey]: text
+          }).then(resp => {
+            console.log('successfully updated user');
+            props.navigation.navigate('Sending', { text: 'Saving', isUpdatingInfo: true });
+          }).catch(err => {
+            console.log('error: ', err);
           });
         }
-
-        props.navigation.navigate('Account');
     }
 
     return (
@@ -52,13 +55,13 @@ function EditProfile(props) {
 
                 <Pressable
                     style={[Styles.button, Styles.buttonSmall]}
-                    onPress={() => handleSaveText(props.route.params.currentField === 'birthday' ? [birthdayMonth, birthdayDay, birthdayYear] : newText)}>
+                    onPress={() => clickSave(props.route.params.currentField === 'birthday' ? [birthdayMonth, birthdayDay, birthdayYear] : newText)}>
                         <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
                 </Pressable>
             </View>
                 
             <View style={[(props.route.params.currentField !== 'pronouns' && props.route.params.currentField !== 'identity') ? Styles.centerContainer : Styles.containerPadding,
-                            (props.route.params.currentField !== 'pronouns' && props.route.params.currentField !== 'identity') ? null : {paddingTop: 45}]}>
+                            (props.route.params.currentField !== 'pronouns' && props.route.params.currentField !== 'identity') ? '' : {paddingTop: 45}]}>
                 {(props.route.params.currentField !== 'pronouns' && props.route.params.currentField !== 'identity') &&
                     <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_500Medium'}]}>{props.route.params.currentField}</Text>}
                 
