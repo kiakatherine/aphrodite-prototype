@@ -215,7 +215,7 @@ module.exports = StyleSheet.create({
     },
     topRightCloseButton: {
       position: 'absolute',
-      top: 50,
+      top: 25,
       right: 30
     },
     modalTextInput: {

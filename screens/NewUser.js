@@ -182,8 +182,9 @@ function NewUser(props) {
                         <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>We promise we won't spam you.</Text>
 
                         <Pressable
-                            style={[Styles.button, Styles.modalBottomButton, (!email) ? Styles.buttonDisabled : null]}
-                            onPress={handleNextClick}>
+                            style={[Styles.button, Styles.modalBottomButton, (email && email.indexOf('@') > -1 && email.indexOf('.') > -1) ? '' : Styles.buttonDisabled]}
+                            onPress={handleNextClick}
+                            disabled={(email && email.indexOf('@') > -1 && email.indexOf('.') > -1) ? false : true}>
                             <Text style={Styles.buttonText}>Next</Text>
                         </Pressable>
                     </View>}
