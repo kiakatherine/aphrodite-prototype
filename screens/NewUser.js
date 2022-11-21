@@ -7,6 +7,7 @@ import { getAuth } from 'firebase/auth';
 import { getApp } from 'firebase/app';
 import {app, auth, db, storage } from '../firebase.js';
 import ProgressBar from '../components/ProgressBar.js';
+import termsAndConditionsText from './termsAndConditions.js';
 
 function NewUser(props) {
     // const [screen, setScreen] = useState('FirstName');
@@ -280,10 +281,8 @@ function NewUser(props) {
 
                 {currentStep === 9 &&
                     <><ScrollView showsVerticalScrollIndicator={false} style={{ paddingTop: 45 }}>
-                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>Terms and conditions</Text>
-                        <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Jelly-o candy jelly caramels carrot cake apple pie bear claw. Pudding chocolate cake shortbread lemon drops danish cake. Biscuit ice cream sugar plum donut lollipop. Pie marzipan cotton candy jujubes tootsie roll biscuit pie. Cupcake gummi bears brownie marshmallow gummi bears. Lollipop cake oat cake gummies gummies cheesecake tart. Toffee donut tiramisu muffin biscuit dessert cake chupa chups brownie.</Text>
-                        <Text style={[Styles.bodyText, Styles.paragraph, {fontFamily: 'Poppins_400Regular'}]}>Lollipop toffee tart lollipop donut muffin cake. Croissant lollipop jujubes cookie carrot cake cheesecake icing cake topping. Cheesecake cookie sweet tootsie roll tootsie roll chocolate cookie halvah. Cotton candy chocolate bar cotton candy bear claw soufflé cupcake chocolate bar gummies dessert. Sweet roll lemon drops marzipan muffin tart chocolate dessert. Pie pudding brownie jujubes dessert. Chupa chups cotton candy shortbread marshmallow bonbon sesame snaps croissant dragée. Cake sesame snaps halvah marshmallow jujubes danish.</Text>
-                        <Text style={[Styles.bodyText, Styles.paragraph, {marginBottom: 150, fontFamily: 'Poppins_400Regular'}]}>Chocolate cake bear claw soufflé chocolate bar chupa chups cheesecake pastry jelly gummi bears. Pie shortbread sugar plum jelly beans jelly dessert. Wafer toffee icing croissant pudding cake icing sweet roll ice cream. Jujubes cake halvah cookie cheesecake croissant icing cake. Macaroon lollipop pastry liquorice icing. Sweet soufflé gummi bears candy candy brownie carrot cake. Jelly-o jelly beans jujubes candy icing. Soufflé cotton candy chocolate bar donut halvah croissant. Gummies lollipop icing chocolate cake apple pie lollipop jelly carrot cake jelly beans.</Text>
+                        <Text style={[Styles.heading1, {marginBottom: 25, fontFamily: 'Poppins_500Medium'}]}>Terms and Conditions of Service</Text>
+                        <Text style={[Styles.bodyText, Styles.paragraph, {paddingBottom: 125, fontFamily: 'Poppins_400Regular'}]}>{termsAndConditionsText}</Text>
                     </ScrollView>
                     <Pressable
                         style={[Styles.button, {position: 'absolute', bottom: 110, left: 30, right: 30, justifyContent: 'flex-end'}]}
