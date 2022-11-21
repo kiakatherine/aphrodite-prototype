@@ -25,12 +25,15 @@ function Sending(props) {
       });
 
     useEffect(() => {
+      debugger
       if(props.route.params.isDeletingAccount) {
         setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
       } else if(props.route.params.isSigningIn) {
         setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: props.route.params.hasCards }) }, 2000);
       } else if(props.route.params.isUpdatingInfo) {
         setTimeout(function() { props.navigation.navigate('Account') }, 2000);
+      } else if(props.route.params.isCreatingAccount) {
+        setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: false }) }, 2000);
       }
     }, [])
 

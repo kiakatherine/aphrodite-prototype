@@ -59,7 +59,7 @@ function NewUser(props) {
         const db = getDatabase();
         const reference = ref(db, 'users/' + auth.currentUser.uid);
         update(reference, userData).then(() => {
-            props.navigation.navigate('Sending', {text: 'Creating account', hasCards: false});
+            props.navigation.navigate('Sending', {text: 'Creating account', isCreatingAccount: true});
         }).catch((error) => {
             alert('Error');
         });

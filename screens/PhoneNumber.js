@@ -176,7 +176,7 @@ function PhoneNumber(props) {
                           if(isNewUser) {
                             props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                           } else if(isSigningIn) {
-                            props.navigation.navigate('Sending', {text: 'Signing in'});
+                            props.navigation.navigate('Sending', {text: 'Signing in', isSigningIn: true});
                           } else if(isUpdatingInfo) {
                             props.navigation.navigate('Sending', {text: 'Saving', isUpdatingInfo: true});
                           }
