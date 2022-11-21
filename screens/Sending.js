@@ -25,7 +25,6 @@ function Sending(props) {
       });
 
     useEffect(() => {
-      debugger
       if(props.route.params.isDeletingAccount) {
         setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
       } else if(props.route.params.isSigningIn) {

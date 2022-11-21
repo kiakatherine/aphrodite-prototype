@@ -32,6 +32,7 @@ function EditProfile(props) {
             'birthdayDay': text[1],
             'birthdayYear': text[2]
           });
+          props.navigation.navigate('Sending', { text: 'Saving', isUpdatingInfo: true });
         } else {
           update(props.route.params.userRef, {
             [props.route.params.currentFieldKey]: text
