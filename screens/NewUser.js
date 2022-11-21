@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 import { getApp } from 'firebase/app';
 import {app, auth, db, storage } from '../firebase.js';
 import ProgressBar from '../components/ProgressBar.js';
-import termsAndConditionsText from './termsAndConditions.js';
+import termsAndConditionsText from '../termsAndConditions.js';
 
 function NewUser(props) {
     // const [screen, setScreen] = useState('FirstName');

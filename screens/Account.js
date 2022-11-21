@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Image, Pressable, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import Styles from "../style.js";
 import { getDatabase, ref, onValue, set, remove, push, update } from 'firebase/database';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,6 +8,9 @@ import { getAuth, deleteUser, reauthenticateWithCredential, PhoneAuthProvider, s
 import {app, auth, db, storage } from '../firebase.js';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import termsAndConditionsText from '../termsAndConditions.js';
+import privacyPolicyText from '../privacyPolicy.js';
+import InfoModal from '../components/InfoModal';
 
 import {
   useFonts,
@@ -35,6 +38,8 @@ function AccountScreen(props) {
   });
   const [currentUser, setCurrentUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [infoModalHeading, setInfoModalHeading] = useState(false);
+  const [infoModalText, setInfoModalText] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [currentFieldKey, setCurrentFieldKey] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
@@ -91,7 +96,6 @@ function AccountScreen(props) {
   function handleEditClick(field, fieldData) {
     setCurrentField(field);
     setCurrentVal(fieldData);
-    // setIsModalVisible(true);
 
     if(field === 'birthday') {
       setCurrentFieldKey(['birthdayMonth', 'birthdayDay', 'birthdayYear']);
@@ -136,6 +140,18 @@ function AccountScreen(props) {
     refRBSheet.current.open();
   }
 
+  function clickTermsAndConditions() {
+    setInfoModalHeading('Terms and Conditions of Service')
+    setInfoModalText(termsAndConditionsText);
+    setIsModalVisible(true);
+  }
+
+  function clickPrivacyPolicy() {
+    setInfoModalHeading('Website Privacy Policy')
+    setInfoModalText(privacyPolicyText);
+    setIsModalVisible(true);
+  }
+
   function confirmDeleteAccount() {
     setConfirmPhoneNumber(true);
   }
@@ -157,190 +173,207 @@ function AccountScreen(props) {
   }
 
   return (<>
-    {currentUser && <View style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
-      {/* {isModalVisible &&
-          <EditProfile currentField={currentField} currentValue={currentVal} onSave={handleSaveText} onCancel={handleCancel} />} */}
+    {currentUser &&
+      <>
+        {isModalVisible &&
+          <InfoModal heading={infoModalHeading} text={infoModalText} onCancel={handleCancel} />}
 
-      {/* {!isModalVisible && ( */}
-        <View style={[Styles.containerPadding, Styles.lightBackground]}>
-          <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
-          
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('first name', currentUser.firstName)}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
-              <Ionicons name='create-outline' size={24} />
-          </Pressable>
+        {!isModalVisible && (<ScrollView style={[Styles.containerWithoutHeader, Styles.lightBackground]}
+            showsVerticalScrollIndicator={false}>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('last name', currentUser.lastName)}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.lastName}</Text>
-              <Ionicons name='create-outline' size={24} />
-          </Pressable>
+          {/* {!isModalVisible && ( */}
+            <View style={[Styles.containerPadding, Styles.lightBackground]}>
+              <Text style={[Styles.heading1, {marginTop: 25, fontFamily: 'Poppins_600SemiBold'}]}>Account</Text>
+              
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('first name', currentUser.firstName)}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.firstName}</Text>
+                  <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('email', currentUser.email)}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.email}</Text>
-              <Ionicons name='create-outline' size={24} />
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('last name', currentUser.lastName)}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.lastName}</Text>
+                  <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, isSigningin: false, isUpdatingInfo: true, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{formatPhoneNumber(currentUser.phoneNumber)}</Text>
-                <Ionicons name='create-outline' size={24} />
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('email', currentUser.email)}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.email}</Text>
+                  <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('birthday', [currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear])}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.birthdayMonth} / {currentUser.birthdayDay} / {currentUser.birthdayYear}</Text>
-                <Ionicons name='create-outline' size={24} />
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => props.navigation.navigate('PhoneNumber', {isNewUser: false, isSigningin: false, isUpdatingInfo: true, currentStep: 1, phoneNumber: currentUser.phoneNumber})}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{formatPhoneNumber(currentUser.phoneNumber)}</Text>
+                    <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('pronouns', currentUser.pronouns)}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.pronouns}</Text>
-              <Ionicons name='create-outline' size={24} />
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('birthday', [currentUser.birthdayMonth, currentUser.birthdayDay, currentUser.birthdayYear])}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.birthdayMonth} / {currentUser.birthdayDay} / {currentUser.birthdayYear}</Text>
+                    <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('identity', currentUser.identity)}>
-            <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{displayIdentityText(currentUser.identity)}</Text>
-              <Ionicons name='create-outline' size={24} />
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('pronouns', currentUser.pronouns)}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{currentUser.pronouns}</Text>
+                  <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable
-              style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
-              onPress={() => clickLogOut()}>
-                <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Logout</Text>
-          </Pressable>
+              <Pressable style={Styles.accountInfoLine} onPress={() => handleEditClick('identity', currentUser.identity)}>
+                <Text style={[Styles.accountInfoText, { fontFamily: 'Poppins_400Regular' }]}>{displayIdentityText(currentUser.identity)}</Text>
+                  <Ionicons name='create-outline' size={24} />
+              </Pressable>
 
-          <Pressable
-            style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
-            onPress={() => clickDeleteAccount()}>
-              <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_400Regular'}]}>Delete account</Text>
-          </Pressable>
+              <Pressable
+                  style={[Styles.button, Styles.textAlignCenter, {marginTop: 25}]}
+                  onPress={() => clickLogOut()}>
+                    <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Logout</Text>
+              </Pressable>
 
-          <RBSheet
-              ref={refRBSheet}
-              closeOnDragDown={true}
-              closeOnPressMask={true}
-              height={325}
-              customStyles={{
-                wrapper: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)'
-                },
-                draggableIcon: {
-                  backgroundColor: '#000'
-                }
-              }}>
-                <View style={Styles.bottomDrawer}>
-                    {!confirmPhoneNumber && !confirmValidationCode &&
-                      <View>
-                        <View style={Styles.displayFlex}>
-                          <Text style={[Styles.bottomDrawerHeader, Styles.flexOne, {marginTop: 15, fontFamily: 'Poppins_600SemiBold'}]}>Delete your account?</Text>
-                          <Pressable
-                            style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
-                            onPress={() => refRBSheet.current.close()}>
-                                <Ionicons name="close-outline" size={48}></Ionicons>
-                          </Pressable>
-                        </View>
-                          
-                        <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]}>You won't be able to recover your account.</Text>
-                        <Pressable style={Styles.button} onPress={() => confirmDeleteAccount()}>
-                          <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Delete account</Text>
-                        </Pressable>
-                      </View>}
+              <Pressable
+                style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25, marginBottom: 25}]}
+                onPress={() => clickDeleteAccount()}>
+                  <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_500Medium'}]}>Delete account</Text>
+              </Pressable>
 
-                    {confirmPhoneNumber &&
-                        <><View style={Styles.displayFlex}>
-                          <Pressable
-                            style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
-                            onPress={() => refRBSheet.current.close()}>
-                                <Ionicons name="close-outline" size={48}></Ionicons>
-                          </Pressable>
-                        </View>
-                        <FirebaseRecaptchaVerifierModal
-                          ref={recaptchaVerifier}
-                          firebaseConfig={app.options}
-                          attemptInvisibleVerification={true}
-                        />
-                        <View style={{marginTop: 75}}>
-                          <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
-                          <View style={{position: 'relative'}}>
-                            <Image source={require('../assets/images/flag_emoji.jpg')} style={{width: 20, height: 15, position: 'absolute', bottom: 57}} />
-                            <Text style={[{fontSize: 26, position: 'absolute', left: 30, bottom: 45, fontFamily: 'Poppins_500Medium'}]}> +1</Text>
-                            <TextInput
-                              style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
-                              autoFocus={true}
-                              keyboardType='numeric'
-                              textContentType="telephoneNumber"
-                              onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
-                            />
-                          </View>
-                          <Pressable
-                            style={[Styles.button, Styles.modalBottomButton, (!phoneNumber || phoneNumber.length < 10) ? Styles.buttonDisabled : null]}
-                            disabled={(phoneNumber && phoneNumber.length < 10) ? true : false}
-                            onPress={async () => {
-                              // The FirebaseRecaptchaVerifierModal ref implements the
-                              // FirebaseAuthApplicationVerifier interface and can be
-                              // passed directly to `verifyPhoneNumber`.
-                              try {
-                                const phoneProvider = new PhoneAuthProvider(auth);
-                                const verificationId = await phoneProvider.verifyPhoneNumber(
-                                  // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
-                                  '+1' + removePhoneFormatting(phoneNumber),
-                                  recaptchaVerifier.current
-                                );
-                                setVerificationId(verificationId);
-                                showMessage({
-                                  text: 'Verification has been sent.',
-                                });
-                                setConfirmPhoneNumber(false);
-                                setConfirmValidationCode(true);
-                              } catch (err) {
-                                showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                              }
-                            }}>
-                              <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Send verification code</Text>
-                          </Pressable>
-                        </View>
-                      </>}
+              <View style={Styles.fullWidthLine}></View>
 
-                      {confirmValidationCode && 
-                        <>
-                        <View style={{marginTop: 35}}>
-                          <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Validation code</Text>
-                          <TextInput
-                            autoFocus={true}
-                            keyboardType="phone-pad"
-                            style={Styles.textInput}
-                            editable={!!verificationId}
-                            placeholder="000000"
-                            onChangeText={setVerificationCode}
-                          />
-      
-                          {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
-      
-                          <Pressable
-                            style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
-                            disabled={!verificationId || !verificationCode}
-                            onPress={async () => {
-                              try {
-                                const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-                                let userData = await signInWithCredential(auth, credential);
-                                // showMessage({ text: 'Phone authentication successful 👍' });
-                                const db = getDatabase();
-                                const reference = ref(db, 'users/' + userData.user.uid);
-      
-                                deleteCurrentUser();
-                              } catch (err) {
-                                showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                              }
-                            }}>
+              <Pressable
+                style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
+                onPress={() => clickTermsAndConditions()}>
+                  <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_500Medium'}]}>Terms & conditions</Text>
+              </Pressable>
+
+              <Pressable
+                style={[Styles.buttonLink, Styles.textAlignCenter, {marginBottom: 30}]}
+                onPress={() => clickPrivacyPolicy()}>
+                  <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_500Medium'}]}>Privacy policy</Text>
+              </Pressable>
+
+              <RBSheet
+                  ref={refRBSheet}
+                  closeOnDragDown={true}
+                  closeOnPressMask={true}
+                  height={325}
+                  customStyles={{
+                    wrapper: {
+                      backgroundColor: 'rgba(0, 0, 0, 0.6)'
+                    },
+                    draggableIcon: {
+                      backgroundColor: '#000'
+                    }
+                  }}>
+                    <View style={Styles.bottomDrawer}>
+                        {!confirmPhoneNumber && !confirmValidationCode &&
+                          <View>
+                            <View style={Styles.displayFlex}>
+                              <Text style={[Styles.bottomDrawerHeader, Styles.flexOne, {marginTop: 15, fontFamily: 'Poppins_600SemiBold'}]}>Delete your account?</Text>
+                              <Pressable
+                                style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
+                                onPress={() => refRBSheet.current.close()}>
+                                    <Ionicons name="close-outline" size={48}></Ionicons>
+                              </Pressable>
+                            </View>
+                              
+                            <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]}>You won't be able to recover your account.</Text>
+                            <Pressable style={Styles.button} onPress={() => confirmDeleteAccount()}>
                               <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Delete account</Text>
-                          </Pressable>
-      
-                          {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
-                        </View></>}
-                </View>
-              </RBSheet>
-        </View>
-    {/* )} */}
+                            </Pressable>
+                          </View>}
 
-    </View>
-    }</>);
+                        {confirmPhoneNumber &&
+                            <><View style={Styles.displayFlex}>
+                              <Pressable
+                                style={[Styles.topRightCloseButton, {position: 'absolute', top: -5, right: 0}]}
+                                onPress={() => refRBSheet.current.close()}>
+                                    <Ionicons name="close-outline" size={48}></Ionicons>
+                              </Pressable>
+                            </View>
+                            <FirebaseRecaptchaVerifierModal
+                              ref={recaptchaVerifier}
+                              firebaseConfig={app.options}
+                              attemptInvisibleVerification={true}
+                            />
+                            <View style={{marginTop: 75}}>
+                              <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Phone number</Text>
+                              <View style={{position: 'relative'}}>
+                                <Image source={require('../assets/images/flag_emoji.jpg')} style={{width: 20, height: 15, position: 'absolute', bottom: 57}} />
+                                <Text style={[{fontSize: 26, position: 'absolute', left: 30, bottom: 45, fontFamily: 'Poppins_500Medium'}]}> +1</Text>
+                                <TextInput
+                                  style={[Styles.textInput, {paddingLeft: 80, fontFamily: 'Poppins_500Medium'}]}
+                                  autoFocus={true}
+                                  keyboardType='numeric'
+                                  textContentType="telephoneNumber"
+                                  onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
+                                />
+                              </View>
+                              <Pressable
+                                style={[Styles.button, Styles.modalBottomButton, (!phoneNumber || phoneNumber.length < 10) ? Styles.buttonDisabled : null]}
+                                disabled={(phoneNumber && phoneNumber.length < 10) ? true : false}
+                                onPress={async () => {
+                                  // The FirebaseRecaptchaVerifierModal ref implements the
+                                  // FirebaseAuthApplicationVerifier interface and can be
+                                  // passed directly to `verifyPhoneNumber`.
+                                  try {
+                                    const phoneProvider = new PhoneAuthProvider(auth);
+                                    const verificationId = await phoneProvider.verifyPhoneNumber(
+                                      // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
+                                      '+1' + removePhoneFormatting(phoneNumber),
+                                      recaptchaVerifier.current
+                                    );
+                                    setVerificationId(verificationId);
+                                    showMessage({
+                                      text: 'Verification has been sent.',
+                                    });
+                                    setConfirmPhoneNumber(false);
+                                    setConfirmValidationCode(true);
+                                  } catch (err) {
+                                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                                  }
+                                }}>
+                                  <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Send verification code</Text>
+                              </Pressable>
+                            </View>
+                          </>}
+
+                          {confirmValidationCode && 
+                            <>
+                            <View style={{marginTop: 35}}>
+                              <Text style={[Styles.inputLabel, {fontFamily: 'Poppins_600SemiBold', marginBottom: 20}]}>Validation code</Text>
+                              <TextInput
+                                autoFocus={true}
+                                keyboardType="phone-pad"
+                                style={Styles.textInput}
+                                editable={!!verificationId}
+                                placeholder="000000"
+                                onChangeText={setVerificationCode}
+                              />
+          
+                              {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
+          
+                              <Pressable
+                                style={[Styles.button, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
+                                disabled={!verificationId || !verificationCode}
+                                onPress={async () => {
+                                  try {
+                                    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+                                    let userData = await signInWithCredential(auth, credential);
+                                    // showMessage({ text: 'Phone authentication successful 👍' });
+                                    const db = getDatabase();
+                                    const reference = ref(db, 'users/' + userData.user.uid);
+          
+                                    deleteCurrentUser();
+                                  } catch (err) {
+                                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                                  }
+                                }}>
+                                  <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}>Delete account</Text>
+                              </Pressable>
+          
+                              {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+                            </View></>}
+                    </View>
+                  </RBSheet>
+            </View>
+        </ScrollView>)}
+      </>}
+    </>);
 };
 
 export default AccountScreen;

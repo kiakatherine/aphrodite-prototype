@@ -120,7 +120,6 @@ A statement, made under penalty of perjury, that the above information is accura
 18. Revision Date.
 This Agreement was last revised on November 21st, 2022.
 COPYRIGHT NOTICE:
-Copyright © 2022 Aphrodite Love Corp. All Rights Reserved. Aphrodite and other marks, colors, and images are registered and common law trademarks of Aphrodite, Inc. Other trademarks and brands are the property of their respective owners.
-`;
+Copyright © 2022 Aphrodite Love Corp. All Rights Reserved. Aphrodite and other marks, colors, and images are registered and common law trademarks of Aphrodite, Inc. Other trademarks and brands are the property of their respective owners.`;
 
-export default termsAndConditionsText ;
+export default termsAndConditionsText;

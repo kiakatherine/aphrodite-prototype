@@ -45,6 +45,12 @@ module.exports = StyleSheet.create({
     darkBackground: {
       backgroundColor: '#2E2F36'
     },
+    fullWidthLine: {
+      borderTopWidth: 1,
+      borderTopColor: '#C3C4CE',
+      width: '200%',
+      marginLeft: -30
+    },
     heading: {
       color: '#2E2F36',
       fontSize: 24,
