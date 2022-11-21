@@ -33,6 +33,8 @@ function Sending(props) {
         setTimeout(function() { props.navigation.navigate('Account') }, 2000);
       } else if(props.route.params.isCreatingAccount) {
         setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: false }) }, 2000);
+      } else if(props.route.params.isSavingText) {
+        setTimeout(function() { props.navigation.navigate('PreviewTiles') }, 2000);
       }
     }, [])
 

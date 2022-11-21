@@ -1,8 +1,6 @@
-import React, { Component, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Text, View } from 'react-native';
 import Styles from "../style.js";
-import Ionicons from '@expo/vector-icons/Ionicons';
-import AddTextModal from '../components/AddTextModal.js';
 
 function NotificationsScreen({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,7 +25,12 @@ function NotificationsScreen({ navigation }) {
 
   return (
     <View style={[Styles.centerContainer, Styles.textAlignCenter, Styles.lightBackground]}>
-      <Text style={{ fontSize: 20, fontFamily: 'Poppins_500Medium' }}>Working on it (:</Text>
+      <Image source={require('../assets/images/yinyang.png')} style={{width: 200, height: 200, marginBottom: 20, alignSelf: 'center'}} />
+      <Text style={[Styles.heading1, Styles.textAlignCenter, { fontFamily: 'Poppins_600SemiBold' }]}>Notifications</Text>
+      <Text style={[Styles.bodyText, Styles.textAlignCenter, { fontFamily: 'Poppins_400Regular' }]}>Set your alarm once a day, morning or evening, and visualize your dream relationship for 7 minutes.</Text>
+
+
+
       {/* {isModalVisible &&
           <AddTextModal value={currentVal} onSave={handleSaveText} onCancel={handleCancel} />}
 

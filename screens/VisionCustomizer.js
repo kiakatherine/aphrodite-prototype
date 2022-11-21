@@ -209,7 +209,7 @@ function VisionCustomizer({ navigation }) {
             <Pressable
                 style={[Styles.button, Styles.buttonSmall]}
                 // disabled={myVisionCards.length === 0}
-                onPress={() => navigation.navigate("Sending", {text: 'Saving'})}>
+                onPress={() => navigation.navigate("Sending", {text: 'Saving', isSavingText: true})}>
                   <Text style={[Styles.buttonSmallText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
             </Pressable>
           </View>

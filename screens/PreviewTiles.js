@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import Styles from "../style.js";
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Card from '../components/Card.js';
-import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
-import { initializeApp, getApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue } from 'firebase/database';
 import {app, auth, db, storage } from '../firebase.js';
 
@@ -24,7 +21,6 @@ function PreviewTiles(props) {
         Poppins_600SemiBold,
         Poppins_700Bold,
       });
-    const previousScreen = props.route.params.previousScreen;
     let [cards, setCards] = useState([]);
 
     useEffect(() => {
@@ -49,26 +45,6 @@ function PreviewTiles(props) {
         props.navigation.navigate('PreviewFullScreen', {cards, currentCard: card});
     }
 
-    // const ListItem = ({ item, onPress, isSelected, backgroundColor, textColor }) => (
-    //     // <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    //     //   <Text style={[styles.title, textColor]}>{item.title}</Text>
-    //     // </TouchableOpacity>
-        
-    //     <Pressable
-    //       style={[Styles.Card, isSelected ? Styles.CardSelected : '']}
-    //       selected={isSelected}
-    //       onPress={onPress}>
-    //         {/* <Text style={Styles.CardText}>{item.text}</Text> */}
-    //         <Text style={[Styles.CardText, {fontFamily: 'Poppins_600SemiBold'}]}>{item.text}</Text>
-    //       </Pressable>
-    //   );
-  
-    // const renderItem = ({ item }) => {  
-    //     return (
-    //         <Card key={item.text} card={item} darkTheme={true} onCardPress={clickCard} />
-    //     );
-    // };
-
     return (
         <View style={[Styles.containerWithoutHeader, Styles.darkBackground, {flex: 1}]}>
             <StatusBar barStyle="light-content" />
@@ -79,40 +55,15 @@ function PreviewTiles(props) {
                         <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                 </Pressable>
 
-                {/* {(previousScreen === 'Dashboard' || previousScreen === 'PreviewFullScreen') &&  */}
-                    <Pressable
-                        style={[Styles.buttonLink]}
-                        onPress={() => props.navigation.navigate("VisionCustomizer")}>
-                            <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
-                    </Pressable>
-                {/* } */}
-
-                {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length === 0) && <Pressable
-                    style={[Styles.buttonWhite, Styles.buttonSmall]}
-                    onPress={() => props.navigation.navigate("Sending", {text: 'Saving'})}>
-                        <Text style={Styles.buttonWhiteText}>Create</Text>
-                </Pressable>}
-
-                {/* {(previousScreen === 'PreviewTiles' || previousScreen === 'VisionViewCustomizer') && (cards.length > 0) &&
-                    <Pressable
-                        style={[Styles.buttonWhite, Styles.buttonSmall]}
-                        onPress={() => props.navigation.navigate("Sending")}>
-                            <Text style={[Styles.buttonWhiteText, {fontFamily: 'Poppins_600SemiBold'}]}>Save</Text>
-                    </Pressable>
-                } */}
+                <Pressable
+                    style={[Styles.buttonLink]}
+                    onPress={() => props.navigation.navigate("VisionCustomizer")}>
+                        <Ionicons style={{color: 'white'}} name='create-outline' size={24} />
+                </Pressable>
             </View>
             
             <View style={{paddingLeft: 25, paddingRight: 25}}>
-                {/* {cards.length > 0 &&  <Pressable
-                    style={[Styles.buttonOutline, {marginBottom: 40}]}
-                    onPress={() => props.navigation.navigate("PreviewFullScreen")}>
-                        <Text style={[Styles.buttonText, {fontFamily: 'Poppins_600SemiBold'}]}><Ionicons style={{color: 'white'}} name='play' size={18} /> Fullscreen</Text>
-                </Pressable>} */}
-
                 <ScrollView style={{height: '86%'}} showsVerticalScrollIndicator={false}>
-                    {/* {previousScreen === 'VisionViewCustomizer' &&
-                        <Text style={[Styles.heading3, Styles.textAlignCenter, Styles.textWhite, {fontFamily: 'Poppins_600SemiBold'}]}>Preview</Text>} */}
-
                     <View>
                         <Text style={[Styles.heading1, Styles.textAlignCenter, Styles.textWhite, {marginTop: 10, marginBottom: 15, fontFamily: 'Poppins_600SemiBold'}]}>Relationship Vision</Text>
                         <Text style={[Styles.heading2, Styles.textAlignCenter, Styles.textWhite, {marginBottom: 30, fontFamily: 'Poppins_500Medium'}]}>Feel the feelings of this being true</Text>
