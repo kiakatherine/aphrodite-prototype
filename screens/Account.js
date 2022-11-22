@@ -147,7 +147,7 @@ function AccountScreen(props) {
   }
 
   function clickPrivacyPolicy() {
-    setInfoModalHeading('Website Privacy Policy')
+    setInfoModalHeading('Privacy Policy')
     setInfoModalText(privacyPolicyText);
     setIsModalVisible(true);
   }

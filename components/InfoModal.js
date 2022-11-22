@@ -24,7 +24,7 @@ function InfoModal(props) {
     useScrollToTop(ref);
 
     return (
-        <ScrollView ref={ref} style={Styles.containerWithoutHeader}>
+        <ScrollView ref={ref} style={[Styles.containerWithoutHeader, Styles.lightBackground]}>
             <Pressable
                 style={[Styles.topRightCloseButton, {zIndex: 2}]}
                 onPress={() => props.onCancel()}>

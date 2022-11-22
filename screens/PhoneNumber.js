@@ -18,6 +18,7 @@ import ProgressBar from '../components/ProgressBar.js';
 function PhoneNumber(props) {    
     // Ref or state management hooks
     const recaptchaVerifier = useRef(null);
+    const [userAlreadyExists, setUserAlreadyExists] = useState(false);
     const [isNewUser, setIsNewUser] = useState(props.route.params ? props.route.params.isNewUser : true);
     const [isSigningIn, setIsSigningIn] = useState(props.route.params ? props.route.params.isSigningIn : false);
     const [isUpdatingInfo, setIsUpdatingInfo] = useState(props.route.params ? props.route.params.isUpdatingInfo : false);
@@ -136,10 +137,28 @@ function PhoneNumber(props) {
                           recaptchaVerifier.current
                         );
                         setVerificationId(verificationId);
-                        showMessage({
-                          text: 'Verification has been sent.',
+                        const usersRef = ref(db, 'users/');
+                        onValue(usersRef, snapshot => {
+                          const users = snapshot.val();
+                          let usersArr = [];
+                          for (var key in users) {
+                            usersArr.push(users[key])
+                          }
+                          let userAlreadyExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
+                          console.log('userAlreadyExists', userAlreadyExists);
+                          setUserAlreadyExists(userAlreadyExists);
+                          if(userAlreadyExists > 0) {
+                            showMessage({
+                              text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
+                            });
+                          } else {
+                            showMessage({
+                              text: 'Verification has been sent.',
+                            });
+                          }
+                          setCurrentStep(2);
                         });
-                        setCurrentStep(2);
+
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                       }
@@ -162,6 +181,8 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
+                    {userAlreadyExists && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}></Text>}
+
                     <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
                       disabled={!verificationId || !verificationCode}
@@ -172,8 +193,10 @@ function PhoneNumber(props) {
                           // showMessage({ text: 'Phone authentication successful 👍' });
                           const db = getDatabase();
                           const reference = ref(db, 'users/' + userData.user.uid);
-
-                          if(isNewUser) {
+                          
+                          if(userAlreadyExists) {
+                            props.navigation.navigate('Sending', {text: 'Signing in', isSigningIn: true});
+                          } else if(isNewUser) {
                             props.navigation.navigate('NewUser', {user: userData.user.uid, phoneNumber: userData.user.phoneNumber});
                           } else if(isSigningIn) {
                             props.navigation.navigate('Sending', {text: 'Signing in', isSigningIn: true});
