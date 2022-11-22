@@ -181,7 +181,7 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
-                    {userAlreadyExists && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}></Text>}
+                    {userAlreadyExists && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
                     <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
