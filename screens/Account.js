@@ -11,6 +11,8 @@ import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-fi
 import termsAndConditionsText from '../termsAndConditions.js';
 import privacyPolicyText from '../privacyPolicy.js';
 import InfoModal from '../components/InfoModal';
+import { ref as sRef } from 'firebase/storage';
+import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 
 import {
   useFonts,
@@ -59,7 +61,9 @@ function AccountScreen(props) {
     if(isMounted) {
       onValue(userRef, (snapshot) => {
         setCurrentUser(snapshot.val());
-        setPhoneNumber(snapshot.val().phoneNumber);
+        if(snapshot.val()) {
+          setPhoneNumber(snapshot.val().phoneNumber);
+        }
       });
     }
 
@@ -157,13 +161,15 @@ function AccountScreen(props) {
   }
 
   function deleteCurrentUser() {
+    const userRef = ref(db, 'users/' + auth.currentUser.uid);
+    const authId = auth.currentUser.uid;
+
     refRBSheet.current.close();
     setConfirmValidationCode(false);
-    // const credential = promptForCredentials();
-    // reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+    // deleteObject(sRef(storage, `users/${authId}`));
+    remove(userRef);
     auth.currentUser.delete()
       .then(() => {
-        // remove(userRef);
         props.navigation.navigate('Sending', {text: 'Deleting account', isDeletingAccount: true});
         console.log('Successfully deleted user');
       })

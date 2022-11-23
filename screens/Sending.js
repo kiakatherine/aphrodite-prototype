@@ -24,19 +24,25 @@ function Sending(props) {
         Poppins_700Bold,
       });
 
-    useEffect(() => {
-      if(props.route.params.isDeletingAccount) {
-        setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
-      } else if(props.route.params.isSigningIn) {
-        setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: props.route.params.hasCards }) }, 2000);
-      } else if(props.route.params.isUpdatingInfo) {
-        setTimeout(function() { props.navigation.navigate('Account') }, 2000);
-      } else if(props.route.params.isCreatingAccount) {
-        setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: false }) }, 2000);
-      } else if(props.route.params.isSavingText) {
-        setTimeout(function() { props.navigation.navigate('PreviewTiles') }, 2000);
-      }
-    }, [])
+    // useEffect(() => {
+    //   let isMounted = true;
+  
+    //   if(isMounted) {
+        if(props.route.params.isDeletingAccount) {
+          setTimeout(function() { props.navigation.navigate('Landing') }, 2000);
+        } else if(props.route.params.isSigningIn) {
+          setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: props.route.params.hasCards }) }, 2000);
+        } else if(props.route.params.isUpdatingInfo) {
+          setTimeout(function() { props.navigation.navigate('Account') }, 2000);
+        } else if(props.route.params.isCreatingAccount) {
+          setTimeout(function() { props.navigation.navigate('Dashboard', { hasCards: false }) }, 2000);
+        } else if(props.route.params.isSavingText) {
+          setTimeout(function() { props.navigation.navigate('PreviewTiles') }, 2000);
+        }
+      // }
+
+    //   return () => { isMounted = false };
+    // }, [])
 
     return (
       <View style={[Styles.centerContainer, Styles.lightBackground]}>

@@ -144,10 +144,10 @@ function PhoneNumber(props) {
                           for (var key in users) {
                             usersArr.push(users[key])
                           }
-                          let userAlreadyExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
-                          console.log('userAlreadyExists', userAlreadyExists);
-                          setUserAlreadyExists(userAlreadyExists);
-                          if(userAlreadyExists > 0) {
+                          let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
+                          console.log('checkIfUserExists', checkIfUserExists > 0);
+                          setUserAlreadyExists(checkIfUserExists > 0);
+                          if(checkIfUserExists > 0) {
                             showMessage({
                               text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
                             });
@@ -181,7 +181,7 @@ function PhoneNumber(props) {
 
                     {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
-                    {userAlreadyExists && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
+                    {userAlreadyExists.length && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
 
                     <Pressable
                       style={[Styles.button, Styles.modalBottomButton, (!verificationId || !verificationCode) ? Styles.buttonDisabled : null]}
