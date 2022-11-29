@@ -230,7 +230,7 @@ function VisionCustomizer({ navigation }) {
               ref={refRBSheet}
               closeOnDragDown={true}
               closeOnPressMask={true}
-              height={235}
+              height={290}
               customStyles={{
                 wrapper: {
                   backgroundColor: 'rgba(0, 0, 0, 0.6)'
@@ -249,7 +249,7 @@ function VisionCustomizer({ navigation }) {
                     </Pressable>
                   </View>
                     
-                  {/* <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text> */}
+                  <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={pickImage}><Ionicons name='camera' size={20} />  Upload photo</Text>
                   
                   <Text style={[Styles.bottomDrawerText, {fontFamily: 'Poppins_400Regular'}]} onPress={openAddTextModal}><Ionicons name='create-outline' size={20} />  Write text</Text>
 
