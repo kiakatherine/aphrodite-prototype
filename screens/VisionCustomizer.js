@@ -72,30 +72,25 @@ function VisionCustomizer({ navigation }) {
 
     // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+
     uploadBytes(imageRef, blob).then((snapshot) => {
-      // alert('Uploaded photo!');
+      alert('Uploaded photo');
       getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
         .then(uri => {
-          update(newCard, {uri})
+          update(newCard, {uri});
+          alert('Got image URL');
+          refRBSheet.current.close();
         })
         .catch(err => {
           alert('uh oh!', err);
           setAlertMessage(err);
+          refRBSheet.current.close();
         });
     }).catch(err => {
       alert('yikes!', err);
       setAlertMessage(err);
+      refRBSheet.current.close();
     });
-
-    refRBSheet.current.close();
-    
-    // const updatedCard = {
-    //   'type': 'image',
-    //   'id': uid,
-    //   'image': blob
-    // }
-
-    // setMyVisionCards(rest => [...rest, updatedCard]);
   }
 
   const pickImage = async () => {

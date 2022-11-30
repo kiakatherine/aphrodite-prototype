@@ -25,7 +25,11 @@ function Card(props) {
         props.darkTheme ? Styles.darkCard : '']}
       onPress={() => props.onCardPress(props.card)}>
         {props.card.text && <Text style={[Styles.CardText, props.darkTheme ? Styles.textWhite : '', {fontFamily: 'Poppins_600SemiBold'}]}>{props.card.text}</Text>}
-        {props.card.type === 'image' && <Image source={{ uri: props.card.uri }} style={{borderRadius: 7, flex:1 , width: '100%', height: undefined}} />}
+        {props.card.type === 'image' && <>
+            <Image source={{ uri: props.card.uri }} style={{borderRadius: 7, flex:1 , width: '100%', height: undefined}} />
+            <Text>card uri: {props.card.uri}</Text>
+          </>
+        }
     </Pressable>
   );
 }
