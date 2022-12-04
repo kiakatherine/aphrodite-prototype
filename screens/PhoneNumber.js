@@ -147,7 +147,7 @@ function PhoneNumber(props) {
                           let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
                           console.log('checkIfUserExists', checkIfUserExists > 0);
                           setUserAlreadyExists(checkIfUserExists > 0);
-                          if(checkIfUserExists > 0) {
+                          if(isNewUser && checkIfUserExists > 0) {
                             showMessage({
                               text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
                             });

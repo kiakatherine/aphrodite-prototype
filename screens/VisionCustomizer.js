@@ -73,12 +73,10 @@ function VisionCustomizer({ navigation }) {
     // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
 
-    uploadBytes(imageRef, blob).then((snapshot) => {
-      alert('Uploaded photo');
+    uploadBytes(imageRef, blob).then(snapshot => {
       getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
         .then(uri => {
           update(newCard, {uri});
-          alert('Got image URL');
           refRBSheet.current.close();
         })
         .catch(err => {

@@ -215,13 +215,13 @@ function App(props) {
           <Stack.Screen name="VisionBuilder" options={{ headerShown: false }}>
             {props => <VisionBuilderScreen {...props} />}
           </Stack.Screen>
-          <Stack.Screen name="VisionCustomizer" options={{ headerShown: false, animation: 'none' }}>
+          <Stack.Screen name="VisionCustomizer" options={{ headerShown: false, animation: 'fade' }}>
             {props => <VisionCustomizerScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="PreviewTiles" options={{ headerShown: false, animation: 'fade' }}>
             {props => <PreviewTiles {...props} />}
           </Stack.Screen>
-          <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false }}>
+          <Stack.Screen name="PreviewFullScreen" options={{ headerShown: false, animation: 'fade' }}>
             {props => <PreviewFullScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'fade' }} />
