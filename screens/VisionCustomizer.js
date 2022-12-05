@@ -92,20 +92,30 @@ function VisionCustomizer({ navigation }) {
   }
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let file = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
-    });
+    let reachedMaxPhotos = myVisionCards.filter(card => {return card.type === 'image'}).length === 15;
+    if(reachedMaxPhotos) {
+      alert('You have reached the maximum number of 15 photos.');
+      refRBSheet.current.close();
+    } else {
+      // No permissions request is necessary for launching the image library
+      let file = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 4],
+        quality: 1,
+      });
 
-    if (!file.cancelled) {
-      setImage(file.uri);
-      setMyVisionCards(rest => [...rest, file]);
+      if (!file.cancelled) {
+        setImage(file.uri);
+        setMyVisionCards(rest => [...rest, file]);
+      }
+
+      uploadImage(file.uri).then(resp => {
+        alert('UPLOADED');
+      }).catch(err => {
+        alert('ERROR UPLOADING IMAGE')
+      });     
     }
-
-    uploadImage(file.uri);     
   }
 
   function openAddTextModal() {
