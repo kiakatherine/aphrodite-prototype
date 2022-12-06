@@ -18,7 +18,7 @@ function RemovableCard(props) {
       Poppins_600SemiBold,
       Poppins_700Bold,
   });
-
+  
   return (
       <Pressable
           key={props.card.id}

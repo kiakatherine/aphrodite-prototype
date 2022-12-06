@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getDatabase, ref, onValue, set, remove, push, put, update } from 'firebase/database';
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
-import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
+import { deleteObject, getStorage, getDownloadURL, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { ref as sRef } from 'firebase/storage';
 import {app, auth, db, storage } from '../firebase.js';
 
@@ -55,9 +55,72 @@ function VisionCustomizer({ navigation }) {
   const refRBSheet = useRef(); // bottom drawer
   const [image, setImage] = useState(null);
 
-  const uploadImage = async(uri) => {
+  const handleImagePicked = async(pickerResult) => {
+    try {
+      if (!pickerResult.cancelled) {
+        const uploadUrl = await uploadImageAsync(pickerResult.uri);
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  const pickImage = async () => {
+    let reachedMaxPhotos = myVisionCards.filter(card => {return card.type === 'image'}).length === 15;
+    
+    if(reachedMaxPhotos) {
+      alert('You have reached the maximum number of 15 photos.');
+      refRBSheet.current.close();
+    } else {
+      // No permissions request is necessary for launching the image library
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        // mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [3, 4],
+        // quality: 1,
+      });
+
+      if (!pickerResult.cancelled) {
+        setImage(pickerResult.uri);
+        setMyVisionCards(rest => [...rest, pickerResult]);
+      }
+
+      // alert(pickerResult.uri);
+
+      handleImagePicked(pickerResult);
+    }
+  }
+
+  async function uploadImageAsync(uri) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    // const blob = await new Promise((resolve, reject) => {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.onload = function () {
+    //     resolve(xhr.response);
+    //   };
+    //   xhr.onerror = function (e) {
+    //     console.log(e);
+    //     reject(new TypeError("Network request failed"));
+    //   };
+    //   xhr.responseType = "blob";
+    //   xhr.open("GET", uri, true);
+    //   xhr.send(null);
+    // });
+  
+    // // const fileRef = ref(getStorage(), uuid.v4());
+    // const fileRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+    // const result = await uploadBytes(fileRef, blob);
+  
+    // // We're done with the blob, close and release it
+    // blob.close();
+  
+    // return await getDownloadURL(fileRef);
+
     const response = await fetch(uri);
-    const blob = await response.blob();
+    const blob = await response.blob((resolve, reject) => {
+      alert(reject);
+    });
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
@@ -72,50 +135,36 @@ function VisionCustomizer({ navigation }) {
 
     // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+    const result = await uploadBytes(imageRef, blob);
 
-    uploadBytes(imageRef, blob).then(snapshot => {
-      getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
-        .then(uri => {
-          update(newCard, {uri});
-          refRBSheet.current.close();
-        })
-        .catch(err => {
-          alert('uh oh!', err);
-          setAlertMessage(err);
-          refRBSheet.current.close();
-        });
-    }).catch(err => {
-      alert('yikes!', err);
-      setAlertMessage(err);
-      refRBSheet.current.close();
-    });
-  }
+    // We're done with the blob, close and release it
+    blob.close();
 
-  const pickImage = async () => {
-    let reachedMaxPhotos = myVisionCards.filter(card => {return card.type === 'image'}).length === 15;
-    if(reachedMaxPhotos) {
-      alert('You have reached the maximum number of 15 photos.');
-      refRBSheet.current.close();
-    } else {
-      // No permissions request is necessary for launching the image library
-      let file = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [3, 4],
-        quality: 1,
-      });
-
-      if (!file.cancelled) {
-        setImage(file.uri);
-        setMyVisionCards(rest => [...rest, file]);
-      }
-
-      uploadImage(file.uri).then(resp => {
-        alert('UPLOADED');
+    refRBSheet.current.close();
+    return await getDownloadURL(imageRef).then(uri => {
+        update(newCard, {uri});
+        refRBSheet.current.close();
       }).catch(err => {
-        alert('ERROR UPLOADING IMAGE')
-      });     
-    }
+        alert(err);
+        refRBSheet.current.close();
+      });;
+
+    // uploadBytesResumable(imageRef, blob).then(snapshot => {
+    //   getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
+    //     .then(uri => {
+    //       update(newCard, {uri});
+    //       refRBSheet.current.close();
+    //     })
+    //     .catch(err => {
+    //       alert('uh oh!', err);
+    //       setAlertMessage(err);
+    //       refRBSheet.current.close();
+    //     });
+    // }).catch(err => {
+    //   alert('yikes!', err);
+    //   setAlertMessage(err);
+    //   refRBSheet.current.close();
+    // });
   }
 
   function openAddTextModal() {
@@ -178,7 +227,7 @@ function VisionCustomizer({ navigation }) {
               <Text style={{ color: '#4F505A', textAlign: 'center' }}><Ionicons name='add' size={44} /></Text>
           </Pressable>
           {myVisionCards.map(card => 
-            <RemovableCard card={card} onCardPress={card => clickCardToEdit(card)} onRemoveCard={card => confirmRemovableCardPress(card)}></RemovableCard>)}
+            <RemovableCard key={card.id} card={card} onCardPress={card => clickCardToEdit(card)} onRemoveCard={card => confirmRemovableCardPress(card)}></RemovableCard>)}
         </>)
     } else {
       return (
