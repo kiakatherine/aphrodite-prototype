@@ -21,6 +21,8 @@ import SendingScreen from "./screens/Sending";
 import NotificationsScreen from "./screens/Notifications";
 import AccountScreen from "./screens/Account";
 import EditProfileScreen from "./screens/EditProfile";
+import TermsScreen from "./screens/Terms";
+import PrivacyScreen from "./screens/Privacy";
 import * as SplashScreen from 'expo-splash-screen';
 
 // firebase
@@ -225,6 +227,9 @@ function App(props) {
             {props => <PreviewFullScreen {...props} />}
           </Stack.Screen>
           <Stack.Screen name="Sending" component={SendingScreen} options={{ headerShown: false, animation: 'fade' }} />
+
+          <Stack.Screen name="Terms" component={TermsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Privacy" component={PrivacyScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

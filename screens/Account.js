@@ -10,7 +10,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import termsAndConditionsText from '../termsAndConditions.js';
 import privacyPolicyText from '../privacyPolicy.js';
-import InfoModal from '../components/InfoModal';
 import { ref as sRef } from 'firebase/storage';
 import { deleteObject, getStorage, getDownloadURL, uploadBytes } from "firebase/storage";
 
@@ -40,8 +39,6 @@ function AccountScreen(props) {
   });
   const [currentUser, setCurrentUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [infoModalHeading, setInfoModalHeading] = useState(false);
-  const [infoModalText, setInfoModalText] = useState(false);
   const [currentField, setCurrentField] = useState(null);
   const [currentFieldKey, setCurrentFieldKey] = useState(null);
   const [currentVal, setCurrentVal] = useState(null);
@@ -144,18 +141,6 @@ function AccountScreen(props) {
     refRBSheet.current.open();
   }
 
-  function clickTermsAndConditions() {
-    setInfoModalHeading('Terms and Conditions of Service')
-    setInfoModalText(termsAndConditionsText);
-    setIsModalVisible(true);
-  }
-
-  function clickPrivacyPolicy() {
-    setInfoModalHeading('Privacy Policy')
-    setInfoModalText(privacyPolicyText);
-    setIsModalVisible(true);
-  }
-
   function confirmDeleteAccount() {
     setConfirmPhoneNumber(true);
   }
@@ -181,9 +166,6 @@ function AccountScreen(props) {
   return (<>
     {currentUser &&
       <>
-        {isModalVisible &&
-          <InfoModal heading={infoModalHeading} text={infoModalText} onCancel={handleCancel} />}
-
         {!isModalVisible && (<ScrollView style={[Styles.containerWithoutHeader, Styles.lightBackground]}
             showsVerticalScrollIndicator={false}>
 
@@ -242,13 +224,13 @@ function AccountScreen(props) {
 
               <Pressable
                 style={[Styles.buttonLink, Styles.textAlignCenter, {marginTop: 25}]}
-                onPress={() => clickTermsAndConditions()}>
+                onPress={() => props.navigation.navigate('Terms')}>
                   <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_500Medium'}]}>Terms & conditions</Text>
               </Pressable>
 
               <Pressable
                 style={[Styles.buttonLink, Styles.textAlignCenter, {marginBottom: 30}]}
-                onPress={() => clickPrivacyPolicy()}>
+                onPress={() => props.navigation.navigate('Privacy')}>
                   <Text style={[Styles.buttonLinkText, {fontFamily: 'Poppins_500Medium'}]}>Privacy policy</Text>
               </Pressable>
 

@@ -118,9 +118,7 @@ function VisionCustomizer({ navigation }) {
     // return await getDownloadURL(fileRef);
 
     const response = await fetch(uri);
-    const blob = await response.blob((resolve, reject) => {
-      alert(reject);
-    });
+    const blob = await response.blob();
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
@@ -145,6 +143,7 @@ function VisionCustomizer({ navigation }) {
         update(newCard, {uri});
         refRBSheet.current.close();
       }).catch(err => {
+        // alert('getDownloadUrl error')
         alert(err);
         refRBSheet.current.close();
       });;
