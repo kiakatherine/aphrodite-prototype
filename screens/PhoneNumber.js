@@ -38,7 +38,6 @@ function PhoneNumber(props) {
     function handleSavePhoneNumber() {
       const userRef = ref(db, 'users/' + auth.currentUser.uid);
       update(userRef, {phoneNumber: '+1' + phoneNumber});
-      // props.navigation.navigate('Account');
     }
 
     return (
@@ -134,40 +133,42 @@ function PhoneNumber(props) {
                       // FirebaseAuthApplicationVerifier interface and can be
                       // passed directly to `verifyPhoneNumber`.
                       try {
+                        let successfullyVerified = false;
                         const phoneProvider = new PhoneAuthProvider(auth);
                         const verificationId = await phoneProvider.verifyPhoneNumber(
                           // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
                           '+1' + removePhoneFormatting(phoneNumber),
                           recaptchaVerifier.current
-                        ).then(resp => {
-                          console.log('User successfully verified');
-                          setVerificationId(verificationId);
-                          const usersRef = ref(db, 'users/');
-                          onValue(usersRef, snapshot => {
-                            const users = snapshot.val();
-                            let usersArr = [];
-                            for (var key in users) {
-                              usersArr.push(users[key])
-                            }
-                            let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
-                            console.log('checkIfUserExists', checkIfUserExists > 0);
-                            setUserAlreadyExists(checkIfUserExists > 0);
-                            setIsSigningIn(checkIfUserExists > 0 ? true : false); // don't let new user sign in
-                            if(isNewUser && checkIfUserExists > 0) {
-                              showMessage({
-                                text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
-                              });
-                            } else {
-                              showMessage({
-                                text: 'Verification has been sent.',
-                              });
-                            }
-                            setCurrentStep(2);
-                          });
-                        }).catch(err => {
+                        );
+
+                        if(!verificationId) {
                           showMessage({
                             text: "We can't find an account linked to that phone number.",
                           });
+                        }
+
+                        setVerificationId(verificationId);
+                        const usersRef = ref(db, 'users/');
+                        onValue(usersRef, snapshot => {
+                          const users = snapshot.val();
+                          let usersArr = [];
+                          for (var key in users) {
+                            usersArr.push(users[key])
+                          }
+                          let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
+                          console.log('checkIfUserExists', checkIfUserExists > 0);
+                          setUserAlreadyExists(checkIfUserExists > 0);
+                          setIsSigningIn(checkIfUserExists > 0 ? true : false); // don't let new user sign in
+                          if(isNewUser && checkIfUserExists > 0) {
+                            showMessage({
+                              text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
+                            });
+                          } else {
+                            showMessage({
+                              text: 'Verification has been sent.',
+                            });
+                          }
+                          setCurrentStep(2);
                         });
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
@@ -198,8 +199,8 @@ function PhoneNumber(props) {
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
                         try {
-                          // const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-                          // let userData = await signInWithCredential(auth, credential);
+                          const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+                          let userData = await signInWithCredential(auth, credential);
                           // showMessage({ text: 'Phone authentication successful 👍' });
                           const db = getDatabase();
                           const reference = ref(db, 'users/' + userData.user.uid);
@@ -214,6 +215,7 @@ function PhoneNumber(props) {
                             props.navigation.navigate('Sending', {text: 'Saving', isUpdatingInfo: true});
                           }
                         } catch (err) {
+                          console.log('error', err);
                           showMessage({ text: `Error: ${err.message}`, color: 'red' });
                         }
                       }}>
