@@ -28,6 +28,7 @@ function PhoneNumber(props) {
     const [message, showMessage] = useState();
     const [currentStep, setCurrentStep] = useState(props.route.params ? props.route.params.currentStep : 1);
     const attemptInvisibleVerification = false;
+    const [errorMessage, showErrorMessage] = useState();
 
     function removePhoneFormatting(input) {
       const cleanNumber = input.replace('+1', '');
@@ -122,6 +123,9 @@ function PhoneNumber(props) {
                       onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
                     />
                   </View>
+
+                  {message && <Text style={[Styles.message, {fontFamily: 'Poppins_400Regular'}]}>{message.text}</Text>}
+
                   {!isUpdatingInfo && <Pressable
                     style={[Styles.button, Styles.modalBottomButton, (!phoneNumber || phoneNumber.length < 10) ? Styles.buttonDisabled : null]}
                     disabled={(phoneNumber && phoneNumber.length < 10) ? true : false}
@@ -135,30 +139,36 @@ function PhoneNumber(props) {
                           // phoneNumber.indexOf('+') > -1 ? phoneNumber : '+' + phoneNumber,
                           '+1' + removePhoneFormatting(phoneNumber),
                           recaptchaVerifier.current
-                        );
-                        setVerificationId(verificationId);
-                        const usersRef = ref(db, 'users/');
-                        onValue(usersRef, snapshot => {
-                          const users = snapshot.val();
-                          let usersArr = [];
-                          for (var key in users) {
-                            usersArr.push(users[key])
-                          }
-                          let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
-                          console.log('checkIfUserExists', checkIfUserExists > 0);
-                          setUserAlreadyExists(checkIfUserExists > 0);
-                          if(isNewUser && checkIfUserExists > 0) {
-                            showMessage({
-                              text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
-                            });
-                          } else {
-                            showMessage({
-                              text: 'Verification has been sent.',
-                            });
-                          }
-                          setCurrentStep(2);
+                        ).then(resp => {
+                          console.log('User successfully verified');
+                          setVerificationId(verificationId);
+                          const usersRef = ref(db, 'users/');
+                          onValue(usersRef, snapshot => {
+                            const users = snapshot.val();
+                            let usersArr = [];
+                            for (var key in users) {
+                              usersArr.push(users[key])
+                            }
+                            let checkIfUserExists = usersArr.filter(user => { return user.phoneNumber == '+1' + phoneNumber }).length;
+                            console.log('checkIfUserExists', checkIfUserExists > 0);
+                            setUserAlreadyExists(checkIfUserExists > 0);
+                            setIsSigningIn(checkIfUserExists > 0 ? true : false); // don't let new user sign in
+                            if(isNewUser && checkIfUserExists > 0) {
+                              showMessage({
+                                text: 'Looks like you already have an account. To sign in, enter the validation code sent to your phone.',
+                              });
+                            } else {
+                              showMessage({
+                                text: 'Verification has been sent.',
+                              });
+                            }
+                            setCurrentStep(2);
+                          });
+                        }).catch(err => {
+                          showMessage({
+                            text: "We can't find an account linked to that phone number.",
+                          });
                         });
-
                       } catch (err) {
                         showMessage({ text: `Error: ${err.message}`, color: 'red' });
                       }
@@ -188,8 +198,8 @@ function PhoneNumber(props) {
                       disabled={!verificationId || !verificationCode}
                       onPress={async () => {
                         try {
-                          const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
-                          let userData = await signInWithCredential(auth, credential);
+                          // const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
+                          // let userData = await signInWithCredential(auth, credential);
                           // showMessage({ text: 'Phone authentication successful 👍' });
                           const db = getDatabase();
                           const reference = ref(db, 'users/' + userData.user.uid);
