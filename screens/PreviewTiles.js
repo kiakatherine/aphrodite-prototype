@@ -51,7 +51,7 @@ function PreviewTiles(props) {
             <View style={[Styles.customHeader, {marginBottom: 30}]}>
                 <Pressable
                     style={[Styles.textAlignRight, Styles.flexOne]}
-                    onPress={() => props.navigation.navigate('VisionCustomizer')}>
+                    onPress={() => props.navigation.navigate('Dashboard')}>
                         <Ionicons style={{color: 'white'}} name='arrow-back-outline' size={24} />
                 </Pressable>
 

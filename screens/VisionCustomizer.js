@@ -72,6 +72,12 @@ function VisionCustomizer({ navigation }) {
       alert('You have reached the maximum number of 15 photos.');
       refRBSheet.current.close();
     } else {
+      // if (Platform.OS !== "web") {
+      const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!status.granted) {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+      // }
       // No permissions request is necessary for launching the image library
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         // mediaTypes: ImagePicker.MediaTypeOptions.All,

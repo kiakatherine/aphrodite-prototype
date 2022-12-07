@@ -42,6 +42,12 @@
             "useFrameworks": "static"
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow access to your photos to add them to your vision board."
+        }
       ]
     ]
   }
