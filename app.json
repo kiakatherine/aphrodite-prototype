@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kia.aphrodite.my-app",
-      "buildNumber": "38",
+      "buildNumber": "45",
       "infoPlist": {
         "NSCameraUsageDescription": "To add your own photos, please allow access to your photo library."
       }

@@ -28,7 +28,6 @@ function PhoneNumber(props) {
     const [message, showMessage] = useState();
     const [currentStep, setCurrentStep] = useState(props.route.params ? props.route.params.currentStep : 1);
     const attemptInvisibleVerification = false;
-    const [errorMessage, showErrorMessage] = useState();
 
     function removePhoneFormatting(input) {
       const cleanNumber = input.replace('+1', '');
@@ -141,11 +140,11 @@ function PhoneNumber(props) {
                           recaptchaVerifier.current
                         );
 
-                        if(!verificationId) {
-                          showMessage({
-                            text: "We can't find an account linked to that phone number.",
-                          });
-                        }
+                        // if(!verificationId) {
+                        //   showMessage({
+                        //     text: "We can't find an account linked to that phone number.",
+                        //   });
+                        // }
 
                         setVerificationId(verificationId);
                         const usersRef = ref(db, 'users/');

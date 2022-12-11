@@ -58,10 +58,10 @@ function VisionCustomizer({ navigation }) {
   const handleImagePicked = async(pickerResult) => {
     try {
       if (!pickerResult.cancelled) {
-        const uploadUrl = await uploadImageAsync(pickerResult.uri);
+        return await uploadImageAsync(pickerResult.uri);
       }
-    } catch (e) {
-      alert(e);
+    } catch (err) {
+      alert('handleImagePicked:' + err);
     }
   }
 
@@ -92,84 +92,53 @@ function VisionCustomizer({ navigation }) {
       }
 
       // alert(pickerResult.uri);
-
+      
+      console.log('pickerResult', pickerResult);
       handleImagePicked(pickerResult);
     }
   }
 
   async function uploadImageAsync(uri) {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    // const blob = await new Promise((resolve, reject) => {
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.onload = function () {
-    //     resolve(xhr.response);
-    //   };
-    //   xhr.onerror = function (e) {
-    //     console.log(e);
-    //     reject(new TypeError("Network request failed"));
-    //   };
-    //   xhr.responseType = "blob";
-    //   xhr.open("GET", uri, true);
-    //   xhr.send(null);
-    // });
-  
-    // // const fileRef = ref(getStorage(), uuid.v4());
-    // const fileRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
-    // const result = await uploadBytes(fileRef, blob);
-  
-    // // We're done with the blob, close and release it
-    // blob.close();
-  
-    // return await getDownloadURL(fileRef);
-
-    const response = await fetch(uri);
-    const blob = await response.blob();
+    const response = await fetch(uri).catch(err => alert('fetch:' + err));
+    const blob = await response.blob().catch(err => alert('blob:' + err));
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const newCard = push(cardsRef, {
+    const newCard = await push(cardsRef, {
       name: blob.data.name,
       type: 'image',
       blob,
       dateAdded: Date.now()
-    });
+    }).catch(err => alert('push:' + err));
+
     const uid = newCard.key;
-    update(newCard, {id: uid});
-
-    // upload file to storage
     const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
-    const result = await uploadBytes(imageRef, blob);
 
-    // We're done with the blob, close and release it
-    blob.close();
-
-    refRBSheet.current.close();
-    return await getDownloadURL(imageRef).then(uri => {
-        update(newCard, {uri});
-        refRBSheet.current.close();
-      }).catch(err => {
-        // alert('getDownloadUrl error')
-        alert(err);
-        refRBSheet.current.close();
-      });;
-
-    // uploadBytesResumable(imageRef, blob).then(snapshot => {
-    //   getDownloadURL(sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`))
-    //     .then(uri => {
-    //       update(newCard, {uri});
-    //       refRBSheet.current.close();
-    //     })
-    //     .catch(err => {
-    //       alert('uh oh!', err);
-    //       setAlertMessage(err);
-    //       refRBSheet.current.close();
-    //     });
-    // }).catch(err => {
-    //   alert('yikes!', err);
-    //   setAlertMessage(err);
-    //   refRBSheet.current.close();
-    // });
+    return await update(newCard, {id: uid}).catch(err => {
+      alert('update:' + err);
+    }).then(resp => {
+      // upload file to storage
+      return uploadBytes(imageRef, blob);
+    }, err => {
+      alert('uploadBytes:' + err);
+    }).then(resp => {
+      return getDownloadURL(imageRef);
+    }, err => {
+      alert('getDownloadURL:' + err);
+    }).then(uri => {
+      if(uri == null) {
+        alert('uri null' + uri);
+      } else {
+        alert('uri:' + uri);
+        return update(newCard, {uri});
+      }
+    }, err => {
+      alert('update:' + err);
+    }).finally(() => {
+      // We're done with the blob, close and release it
+      blob.close();
+      refRBSheet.current.close();
+    });
   }
 
   function openAddTextModal() {
