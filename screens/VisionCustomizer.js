@@ -104,7 +104,9 @@ function VisionCustomizer({ navigation }) {
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
-    const newCard = await push(cardsRef, {
+    
+    // problem is prob here: card not getting pushed to db and not catching error; threading
+    const newCard = push(cardsRef, {
       name: blob.data.name,
       type: 'image',
       blob,
