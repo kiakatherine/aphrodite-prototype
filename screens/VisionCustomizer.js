@@ -10,7 +10,7 @@ import { getDatabase, ref, onValue, set, remove, push, put, update } from 'fireb
 import { getAuth, PhoneAuthProvider, signInWithCredential, updateProfile } from 'firebase/auth';
 import { initializeApp, getApp } from 'firebase/app';
 import { deleteObject, getStorage, getDownloadURL, uploadBytes, uploadBytesResumable } from "firebase/storage";
-import { ref as sRef } from 'firebase/storage';
+import { ref as storageRef } from 'firebase/storage';
 import {app, auth, db, storage } from '../firebase.js';
 
 import {
@@ -104,23 +104,37 @@ function VisionCustomizer({ navigation }) {
 
     // upload reference in the database
     const cardsRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    let cardRef = null;
     
     // problem is prob here: card not getting pushed to db and not catching error; threading
     const newCard = push(cardsRef, {
       name: blob.data.name,
       type: 'image',
-      blob,
+      // blob,
       dateAdded: Date.now()
-    }).catch(err => alert('push:' + err));
+    });
 
-    const uid = newCard.key;
-    const imageRef = sRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+    // add id to card
+    if(newCard) {
+      const uid = newCard.key;
+      cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + uid);
 
-    return await update(newCard, {id: uid}).catch(err => {
-      alert('update:' + err);
-    }).then(resp => {
-      // upload file to storage
-      return uploadBytes(imageRef, blob);
+      if(uid) {
+        update(newCard, {id: uid});
+      } else {
+        alert('no uid');
+        return;
+      }
+    } else {
+      alert('no new card');
+      return;
+    }
+
+    // upload to storage
+    const imageRef = storageRef(storage, `images/${auth.currentUser.uid}/${blob.data.name}`);
+
+    return await uploadBytes(imageRef, blob).then(resp => {
+      return getDownloadURL(imageRef);
     }, err => {
       alert('uploadBytes:' + err);
     }).then(resp => {
@@ -129,9 +143,8 @@ function VisionCustomizer({ navigation }) {
       alert('getDownloadURL:' + err);
     }).then(uri => {
       if(uri == null) {
-        alert('uri null' + uri);
+        alert('uri error' + uri);
       } else {
-        alert('uri:' + uri);
         return update(newCard, {uri});
       }
     }, err => {
@@ -176,10 +189,12 @@ function VisionCustomizer({ navigation }) {
 
     // delete from database
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
-    remove(cardRef);
+    if(cardRef) {
+      remove(cardRef);
+    }
 
     // delete from storage
-    deleteObject(sRef(storage, `images/${auth.currentUser.uid}/${card.name}`));
+    deleteObject(storageRef(storage, `images/${auth.currentUser.uid}/${card.name}`));
   }
 
   function clickCardToEdit(card) {
