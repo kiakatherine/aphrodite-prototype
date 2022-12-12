@@ -189,9 +189,7 @@ function VisionCustomizer({ navigation }) {
 
     // delete from database
     const cardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards/' + card.id);
-    if(cardRef) {
-      remove(cardRef);
-    }
+    remove(cardRef);
 
     // delete from storage
     deleteObject(storageRef(storage, `images/${auth.currentUser.uid}/${card.name}`));
